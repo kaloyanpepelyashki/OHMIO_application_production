@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../classes/supabase_service.dart';
+import '../components/elevated_button_component.dart';
 import '../components/top_bar_back_action.dart';
 
 class LogInPage extends StatefulWidget {
@@ -51,7 +52,8 @@ class _LogInComponentState extends State<LogInPage> {
   //UI represented by this widget
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: TopBarBackAction(),
+        appBar: const TopBarBackAction(),
+        backgroundColor: Theme.of(context).colorScheme.background,
         body: Center(
           child: FractionallySizedBox(
               widthFactor: 0.9,
@@ -82,19 +84,12 @@ class _LogInComponentState extends State<LogInPage> {
                       ])),
                   Container(
                       margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                      child: ElevatedButton(
+                      child: ElevatedButtonComponent(
                         onPressed: () {
                           _handleSignIn(context, _emailController.text.trim(),
                               _passwordController.text);
                         },
-                        style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.fromLTRB(70, 5, 70, 5)),
-                        child: const Text(
-                          "Ok",
-                          style: TextStyle(
-                            fontSize: 29,
-                          ),
-                        ),
+                        text: "Ok",
                       ))
                 ],
               )),

@@ -9,7 +9,7 @@ class TopBarBlank extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: const Color.fromARGB(0, 255, 255, 255),
+      backgroundColor: Theme.of(context).colorScheme.background,
       leadingWidth: 100,
       elevation: 0,
     );

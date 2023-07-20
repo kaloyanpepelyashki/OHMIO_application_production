@@ -19,8 +19,8 @@ class TopBarBackAction extends StatelessWidget implements PreferredSizeWidget {
             //Removes layer from the navigation stack
             Navigator.pop(context);
           }),
+      backgroundColor: Theme.of(context).colorScheme.background,
       leadingWidth: 100,
-      backgroundColor: Color.fromARGB(0, 255, 255, 255),
       elevation: 0,
     );
   }

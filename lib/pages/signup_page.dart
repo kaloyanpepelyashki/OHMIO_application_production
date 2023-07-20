@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pin_tunnel_application_production/components/elevated_button_component.dart';
 import 'package:pin_tunnel_application_production/components/top_bar_back_action.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -57,6 +58,7 @@ class _SignUpComponentState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: const TopBarBackAction(),
+        backgroundColor: Theme.of(context).colorScheme.background,
         body: Center(
           child: FractionallySizedBox(
               widthFactor: 0.9,
@@ -95,25 +97,12 @@ class _SignUpComponentState extends State<SignUpPage> {
                       ])),
                   Container(
                       margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          _handleSignUp(context, _emailController.text,
-                              _passwordController.text);
-                        },
-                        style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.fromLTRB(70, 5, 70, 5)),
-                        child: const Text(
-                          "Ok",
-                          style: TextStyle(
-                            fontSize: 29,
-                          ),
-                        ),
-                      )),
-                  ElevatedButton(
-                      onPressed: () {
-                        debugPrint("$user");
-                      },
-                      child: const Text("log user"))
+                      child: ElevatedButtonComponent(
+                          onPressed: () {
+                            _handleSignUp(context, _emailController.text,
+                                _passwordController.text);
+                          },
+                          text: "Ok")),
                 ],
               )),
         ));

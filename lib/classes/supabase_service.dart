@@ -81,10 +81,14 @@ class SupabaseManager {
   }
 
   //* Defining SIGN-OUT method
-  Future<void> signOutUser() async {
+  Future<Either<AuthException, void>> signOutUser() async {
     //TODO Figure out if the signOutUser method is doing everything it's supposed to
-    await supabaseClient.auth.signOut();
-    return;
+    try {
+      await supabaseClient.auth.signOut();
+      return const Either.right(null);
+    } on AuthException catch (e) {
+      return Either.left(AuthException("$e"));
+    }
   }
 }
 

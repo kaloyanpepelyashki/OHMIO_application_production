@@ -46,7 +46,9 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     return const Scaffold(
       appBar: TopBarBlank(),
-      body: Center(child: Column(children: [CircularProgressIndicator()])),
+      body: Center(
+          heightFactor: 1.0,
+          child: Column(children: [CircularProgressIndicator()])),
     );
   }
 }

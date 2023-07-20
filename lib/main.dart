@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pin_tunnel_application_production/Providers/global_data_provider.dart';
 import 'package:pin_tunnel_application_production/routes.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:pin_tunnel_application_production/themes/main_theme.dart';
 import "package:supabase_flutter/supabase_flutter.dart";
 import "package:provider/provider.dart";
 
@@ -37,6 +37,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       title: "Pin Tunnel",
       routerConfig: router,
+      theme: mainTheme,
     );
   }
 }
