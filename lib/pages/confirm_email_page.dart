@@ -36,18 +36,22 @@ class _ConfirmEmailPageState extends State<ConfirmEmailPage> {
 
   //Transfers to dashboard on click
   //! To be removed after the watchEmailConfirmationState() method is fixed
-  transferOnConfirmation() async {
-    final User? _user = supabaseManager.user;
+  // transferOnConfirmation() async {
+  //   final User? _user = supabaseManager.user;
 
-    debugPrint("$_user");
+  //   debugPrint("${_user?.email}");
 
-    if (_user?.emailConfirmedAt != null) {
-      debugPrint("email confirmed");
-      GoRouter.of(context).go("/dashboard");
-    } else {
-      const snackbar = SnackBar(content: Text("Please confirm your email"));
-      ScaffoldMessenger.of(context).showSnackBar(snackbar);
-    }
+  //   if (_user?.emailConfirmedAt != null) {
+  //     debugPrint("email confirmed");
+  //     GoRouter.of(context).go("/dashboard");
+  //   } else {
+  //     const snackbar = SnackBar(content: Text("Please confirm your email"));
+  //     ScaffoldMessenger.of(context).showSnackBar(snackbar);
+  //   }
+  // }
+
+  void navigateToLogIn() {
+    GoRouter.of(context).go("/signup/login-ghost");
   }
 
   @override
@@ -80,7 +84,7 @@ class _ConfirmEmailPageState extends State<ConfirmEmailPage> {
                       child: Column(children: [
                         ElevatedButtonComponent(
                             onPressed: () {
-                              transferOnConfirmation();
+                              navigateToLogIn();
                             },
                             text: "Ok")
                       ]))

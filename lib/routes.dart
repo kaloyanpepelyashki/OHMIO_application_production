@@ -5,9 +5,11 @@ import 'package:pin_tunnel_application_production/pages/confirm_email_page.dart'
 //Importing page components
 import 'package:pin_tunnel_application_production/pages/dashboard_page.dart';
 import 'package:pin_tunnel_application_production/pages/login_page.dart';
+import 'package:pin_tunnel_application_production/pages/login_page_ghost.dart';
 import 'package:pin_tunnel_application_production/pages/onboarding_page.dart';
 import 'package:pin_tunnel_application_production/pages/signup_page.dart';
 import 'package:pin_tunnel_application_production/pages/splash_page.dart';
+import 'package:pin_tunnel_application_production/pages/user_onboarding_personal.dart';
 
 GoRouter router = GoRouter(routes: <GoRoute>[
   GoRoute(
@@ -35,6 +37,16 @@ GoRouter router = GoRouter(routes: <GoRoute>[
             path: "confirm-email",
             builder: (BuildContext context, GoRouterState state) {
               return const ConfirmEmailPage();
+            }),
+        GoRoute(
+            path: "login-ghost",
+            builder: (BuildContext context, GoRouterState state) {
+              return const LogInPageGhost();
+            }),
+        GoRoute(
+            path: "onboarding-personal-data",
+            builder: (BuildContext context, GoRouterState state) {
+              return const OnBoardingPersonalDataPage();
             })
       ]),
   GoRoute(
@@ -45,7 +57,7 @@ GoRouter router = GoRouter(routes: <GoRoute>[
   GoRoute(
       path: "/binaryEncoderPage",
       builder: (BuildContext context, GoRouterState state) {
-        return BinaryEncoderPage();
+        return const BinaryEncoderPage();
       })
 ]);
 

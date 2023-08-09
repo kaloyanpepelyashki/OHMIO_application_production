@@ -24,23 +24,33 @@ class DrawerMenuComponent extends StatelessWidget {
       DrawerHeader(child: Text("header")),
       Expanded(
         child: ListView(padding: EdgeInsets.fromLTRB(45, 10, 0, 0), children: [
-          const Padding(
+          Padding(
               padding: EdgeInsets.fromLTRB(0, 20, 0, 50),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Test list item"),
-                    Text("Second test list item")
+                    ElevatedButton(
+                      child: Text("Go"),
+                      onPressed: () {
+                        GoRouter.of(context)
+                            .go("/signup/onboarding-personal-data");
+                      },
+                    ),
+                    Text("Test list item",
+                        style: TextStyle(
+                          fontSize: 20,
+                        )),
+                    Text("Second test list item",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ))
                   ])),
           InkWell(
             onTap: handleSignOut,
-            child: Text("Log out"),
-            overlayColor: null,
-            splashColor: null,
-            focusColor: null,
-            hoverColor: null,
-            onLongPress: null,
-            onDoubleTap: null,
+            child: const Text("Log out",
+                style: TextStyle(
+                  fontSize: 20,
+                )),
           )
         ]),
       )

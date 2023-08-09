@@ -1,19 +1,20 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
 import '../classes/supabase_service.dart';
 import '../components/elevated_button_component.dart';
+import '../components/inputField_with_heading.dart';
 import '../components/top_bar_back_action.dart';
 
-class LogInPage extends StatefulWidget {
-  const LogInPage({super.key});
+class LogInPageGhost extends StatefulWidget {
+  const LogInPageGhost({super.key});
 
   @override
-  State<LogInPage> createState() => _LogInComponentState();
+  State<LogInPageGhost> createState() => _LogInPageGhostState();
 }
 
-class _LogInComponentState extends State<LogInPage> {
+class _LogInPageGhostState extends State<LogInPageGhost> {
   final _supabaseManager = supabaseManager;
   final _passwordController = TextEditingController();
   final _emailController = TextEditingController();
@@ -21,7 +22,7 @@ class _LogInComponentState extends State<LogInPage> {
   @override
   void initState() {
     super.initState();
-    _emailController.text = _supabaseManager.user?.email ?? "kon";
+    _emailController.text = _supabaseManager.user?.email ?? "";
   }
 
   @override
@@ -37,7 +38,8 @@ class _LogInComponentState extends State<LogInPage> {
           email: email, password: password);
 
       signInSession.fold(
-          ifRight: (r) => {GoRouter.of(context).go("/dashboard")},
+          ifRight: (r) =>
+              {GoRouter.of(context).go("/signup/onboarding-personal-data")},
           ifLeft: (l) => {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(l.message),
@@ -55,7 +57,6 @@ class _LogInComponentState extends State<LogInPage> {
   }
 
   @override
-  //UI represented by this widget
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: const TopBarBackAction(),
@@ -66,20 +67,16 @@ class _LogInComponentState extends State<LogInPage> {
               heightFactor: 0.8,
               child: Column(
                 children: [
-                  Text(
-                    "Title",
-                    style: TextStyle(fontSize: 40, letterSpacing: 17),
-                  ),
                   Container(
                       margin: const EdgeInsets.fromLTRB(0, 70, 0, 10),
                       child: Column(children: [
                         Container(
                             margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                            child: TextField(
-                                controller: _emailController,
-                                decoration: const InputDecoration(
-                                    hintText: "Email",
-                                    enabledBorder: OutlineInputBorder()))),
+                            child: InputFieldWithHeading(
+                              controller: _emailController,
+                              heading: "Let's log you in",
+                              placeHolder: "Email",
+                            )),
                         Container(
                             margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                             child: TextField(
@@ -100,5 +97,6 @@ class _LogInComponentState extends State<LogInPage> {
                 ],
               )),
         ));
+    ;
   }
 }

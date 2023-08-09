@@ -4,12 +4,13 @@ import 'package:pin_tunnel_application_production/routes.dart';
 import 'package:pin_tunnel_application_production/themes/main_theme.dart';
 import "package:supabase_flutter/supabase_flutter.dart";
 import "package:provider/provider.dart";
+import "package:timezone/data/latest.dart" as tz;
 
 import 'classes/supabase_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  tz.initializeTimeZones();
   await Supabase.initialize(
     url: supabaseManager.supabaseUrl,
     anonKey: supabaseManager.token,

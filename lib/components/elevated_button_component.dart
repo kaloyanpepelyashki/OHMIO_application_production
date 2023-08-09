@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ElevatedButtonComponent extends StatelessWidget {
-  late Function()? onPressed;
-  late String text;
-  ElevatedButtonComponent(
+  final Function()? onPressed;
+  final String text;
+  const ElevatedButtonComponent(
       {super.key, required this.onPressed, required this.text});
 
   @override
