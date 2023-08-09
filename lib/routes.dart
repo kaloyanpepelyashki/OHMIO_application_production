@@ -7,6 +7,7 @@ import 'package:pin_tunnel_application_production/pages/dashboard_page.dart';
 import 'package:pin_tunnel_application_production/pages/login_page.dart';
 import 'package:pin_tunnel_application_production/pages/login_page_ghost.dart';
 import 'package:pin_tunnel_application_production/pages/onboarding_page.dart';
+import 'package:pin_tunnel_application_production/pages/retreive_tunnel_MAC_page.dart';
 import 'package:pin_tunnel_application_production/pages/signup_page.dart';
 import 'package:pin_tunnel_application_production/pages/splash_page.dart';
 import 'package:pin_tunnel_application_production/pages/user_onboarding_personal.dart';
@@ -47,6 +48,11 @@ GoRouter router = GoRouter(routes: <GoRoute>[
             path: "onboarding-personal-data",
             builder: (BuildContext context, GoRouterState state) {
               return const OnBoardingPersonalDataPage();
+            }),
+        GoRoute(
+            path: "onboarding-tunnel-mac",
+            builder: (BuildContext context, GoRouterState state) {
+              return const RetreiveTunnelMACPage();
             })
       ]),
   GoRoute(

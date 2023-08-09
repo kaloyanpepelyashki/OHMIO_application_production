@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pin_tunnel_application_production/classes/supabase_service.dart';
 import 'package:pin_tunnel_application_production/components/inputField_with_heading.dart';
 import 'package:pin_tunnel_application_production/components/top_bar_back_action.dart';
 import "package:timezone/standalone.dart" as tz;
 
+import '../classes/user_class.dart';
 import '../components/elevated_button_component.dart';
 
 class OnBoardingPersonalDataPage extends StatefulWidget {
@@ -20,6 +22,8 @@ class _OnBoardingPersonalDataPageState
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
 
+  final _userProfile = userProfile;
+
   void uploadToDatabase() async {
     debugPrint("id: ${supabaseManager.user?.id}");
     tz.Location utc = tz.getLocation('UTC');
@@ -29,6 +33,31 @@ class _OnBoardingPersonalDataPageState
       "last_name": _lastNameController.text.trim(),
       "updated_at": tz.TZDateTime.from(DateTime.now(), utc).toIso8601String(),
     }).eq("id", supabaseManager.user?.id);
+
+    await supabaseManager.supabaseClient.from("tunnels").insert([
+      {"owner_id": supabaseManager.user?.id}
+    ]);
+  }
+
+  void populateUserProfile() {
+    _userProfile.onboarding(
+        _nameController.text.trim(),
+        _lastNameController.text.trim(),
+        supabaseManager.user?.email,
+        DateTime.now(),
+        supabaseManager.user?.id);
+  }
+
+  void getPersonalData() async {
+    uploadToDatabase();
+    populateUserProfile();
+    GoRouter.of(context).go("/signup/onboarding-tunnel-mac");
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _userProfile.empty();
   }
 
   @override
@@ -74,10 +103,10 @@ class _OnBoardingPersonalDataPageState
                         margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                         child: ElevatedButtonComponent(
                           onPressed: () {
-                            uploadToDatabase();
+                            getPersonalData();
                           },
                           text: "Next",
-                        ))
+                        )),
                   ],
                 ))));
     ;

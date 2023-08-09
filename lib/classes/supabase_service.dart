@@ -1,6 +1,7 @@
 import 'package:dart_either/dart_either.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pin_tunnel_application_production/classes/user_class.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SupabaseManager {
@@ -85,6 +86,7 @@ class SupabaseManager {
     //TODO Figure out if the signOutUser method is doing everything it's supposed to
     try {
       await supabaseClient.auth.signOut();
+      userProfile.clearProfile();
       return const Either.right(null);
     } on AuthException catch (e) {
       return Either.left(AuthException("$e"));
