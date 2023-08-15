@@ -57,54 +57,69 @@ class _SignUpComponentState extends State<SignUpPage> {
   //UI represented by this widget
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const TopBarBackAction(),
-        backgroundColor: Theme.of(context).colorScheme.background,
-        body: Center(
-          child: FractionallySizedBox(
-              widthFactor: 0.9,
-              heightFactor: 0.8,
-              child: Column(
-                children: [
-                  const Text(
-                    "Title",
-                    style: TextStyle(fontSize: 40, letterSpacing: 17),
+      appBar: const TopBarBackAction(),
+      backgroundColor: Theme.of(context).colorScheme.background,
+      body: Center(
+        child: FractionallySizedBox(
+          widthFactor: 0.9,
+          heightFactor: 0.8,
+          child: Column(
+            children: [
+              const Text(
+                      "Title",
+                      style: TextStyle(fontSize: 40, letterSpacing: 17),
+                    ),
+              Expanded(
+                child: SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.fromLTRB(0, 70, 0, 10),
+                        child: Column(
+                          children: [
+                            //<=== | Text fields | ===>
+                            Container(
+                                margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                                child: TextField(
+                                    controller: _emailController,
+                                    decoration: const InputDecoration(
+                                        hintText: "Email",
+                                        enabledBorder: OutlineInputBorder()))),
+                
+                            Container(
+                                margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                                child: TextField(
+                                    controller: _passwordController,
+                                    decoration: const InputDecoration(
+                                        hintText: "Password",
+                                        enabledBorder: OutlineInputBorder()))),
+                            Container(
+                                margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                                child: const TextField(
+                                    decoration: InputDecoration(
+                                        hintText: "Repeat Password",
+                                        enabledBorder: OutlineInputBorder())))
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                        child: ElevatedButtonComponent(
+                            onPressed: () {
+                              _handleSignUp(context, _emailController.text,
+                                  _passwordController.text);
+                            },
+                            text: "Ok"),
+                      ),
+                    ],
                   ),
-                  Container(
-                      margin: EdgeInsets.fromLTRB(0, 70, 0, 10),
-                      child: Column(children: [
-                        //<=== | Text fields | ===>
-                        Container(
-                            margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                            child: TextField(
-                                controller: _emailController,
-                                decoration: const InputDecoration(
-                                    hintText: "Email",
-                                    enabledBorder: OutlineInputBorder()))),
-
-                        Container(
-                            margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                            child: TextField(
-                                controller: _passwordController,
-                                decoration: const InputDecoration(
-                                    hintText: "Password",
-                                    enabledBorder: OutlineInputBorder()))),
-                        Container(
-                            margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                            child: const TextField(
-                                decoration: InputDecoration(
-                                    hintText: "Repeat Password",
-                                    enabledBorder: OutlineInputBorder())))
-                      ])),
-                  Container(
-                      margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                      child: ElevatedButtonComponent(
-                          onPressed: () {
-                            _handleSignUp(context, _emailController.text,
-                                _passwordController.text);
-                          },
-                          text: "Ok")),
-                ],
-              )),
-        ));
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

@@ -58,6 +58,7 @@ class _LogInComponentState extends State<LogInPage> {
   //UI represented by this widget
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: const TopBarBackAction(),
         backgroundColor: Theme.of(context).colorScheme.background,
         body: Center(
