@@ -40,7 +40,7 @@ class OnBoardingPage extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.fromLTRB(30, 7, 30, 7)),
                         onPressed: () {
-                          context.push('/blinkerPage');
+                          context.push('/binaryEncoderPage');
                         },
                         child: const Text('Blinker',
                             style: TextStyle(fontSize: 30)),

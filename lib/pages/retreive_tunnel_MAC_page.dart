@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../components/elevated_button_component.dart';
 import '../components/inputField_with_heading.dart';
@@ -14,6 +15,10 @@ class RetreiveTunnelMACPage extends StatefulWidget {
 class _RetreiveTunnelMACPageState extends State<RetreiveTunnelMACPage> {
   final TextEditingController _macAddressController = TextEditingController();
 
+  void proceedProcess() {
+    GoRouter.of(context).go("/");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,10 +29,14 @@ class _RetreiveTunnelMACPageState extends State<RetreiveTunnelMACPage> {
                 heightFactor: 0.8,
                 child: Column(
                   children: [
-                    const Text(
-                      "Title",
-                      style: TextStyle(fontSize: 40, letterSpacing: 17),
-                    ),
+                    const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Connect a tunnel",
+                            style: TextStyle(fontSize: 25, letterSpacing: 4),
+                          )
+                        ]),
                     Container(
                         margin: const EdgeInsets.fromLTRB(0, 70, 0, 10),
                         child: Column(children: [
