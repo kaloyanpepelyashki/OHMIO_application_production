@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../classes/supabase_service.dart';
-import '../components/elevated_button_component.dart';
-import '../components/inputField_with_heading.dart';
-import '../components/top_bar_back_action.dart';
+import '../../data/data_sources/supabase_service.dart';
+import '../widgets/elevated_button_component.dart';
+import '../widgets/inputField_with_heading.dart';
+import '../widgets/top_bar_back_action.dart';
 
 class LogInPageGhost extends StatefulWidget {
   const LogInPageGhost({super.key});

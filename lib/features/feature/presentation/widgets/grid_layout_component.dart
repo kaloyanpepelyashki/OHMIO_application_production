@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pin_tunnel_application_production/components/grid_item_component.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/grid_item_component.dart';
 
 class GridLayout extends StatefulWidget {
   const GridLayout({super.key});

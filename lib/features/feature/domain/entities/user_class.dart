@@ -1,8 +1,9 @@
-import 'package:pin_tunnel_application_production/classes/tunnel_class.dart';
+
+import 'package:pin_tunnel_application_production/features/feature/domain/entities/tunnel_class.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 // ignore: camel_case_types
-class User_Profile {
+class User_Profile{
   late User? userRef;
   late String userId;
   late String email;
@@ -14,7 +15,20 @@ class User_Profile {
   late String tunnelMACAddress;
   late String tunnelState;
 
-  User_Profile();
+  //User_Profile();
+
+  User_Profile({
+    this.userRef,
+    required this.userId,
+    required this.email,
+    this.signUpDate,
+    required this.username,
+    required this.firstName,
+    required this.lastName,
+    required this.tunnelDevice,
+    required this.tunnelMACAddress,
+    required this.tunnelState
+  });
 
   //The onboarding method
   //Defines the first part of the userProfile object
@@ -58,4 +72,5 @@ class User_Profile {
 }
 
 //Initializing the userProfile object
-final userProfile = User_Profile();
+final userProfile = User_Profile(userId:"", email:"", signUpDate:null, username: "", firstName:"", lastName:"",
+  tunnelDevice:null, tunnelMACAddress: "", tunnelState: "");

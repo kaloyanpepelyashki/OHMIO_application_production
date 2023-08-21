@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pin_tunnel_application_production/pages/binary_encoder_page.dart';
-import 'package:pin_tunnel_application_production/pages/confirm_email_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/binary_encoder_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/confirm_email_page.dart';
 //Importing page components
-import 'package:pin_tunnel_application_production/pages/dashboard_page.dart';
-import 'package:pin_tunnel_application_production/pages/login_page.dart';
-import 'package:pin_tunnel_application_production/pages/login_page_ghost.dart';
-import 'package:pin_tunnel_application_production/pages/onboarding_page.dart';
-import 'package:pin_tunnel_application_production/pages/retreive_tunnel_MAC_page.dart';
-import 'package:pin_tunnel_application_production/pages/signup_page.dart';
-import 'package:pin_tunnel_application_production/pages/splash_page.dart';
-import 'package:pin_tunnel_application_production/pages/user_onboarding_personal.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/dashboard_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/login_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/login_page_ghost.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/onboarding_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/retreive_tunnel_MAC_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/signup_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/splash_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/user_onboarding_personal.dart';
 
 GoRouter router = GoRouter(routes: <GoRoute>[
   GoRoute(

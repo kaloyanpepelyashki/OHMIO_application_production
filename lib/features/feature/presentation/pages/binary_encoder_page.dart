@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../components/top_bar_back_action.dart';
+import '../widgets/top_bar_back_action.dart';
 
 class BlinkerInput extends StatefulWidget {
   const BlinkerInput({super.key});

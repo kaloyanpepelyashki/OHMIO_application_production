@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../classes/supabase_service.dart';
-import '../components/elevated_button_component.dart';
-import '../components/top_bar_back_action.dart';
+import '../../data/data_sources/supabase_service.dart';
+import '../widgets/elevated_button_component.dart';
+import '../widgets/top_bar_back_action.dart';
 
 class LogInPage extends StatefulWidget {
   const LogInPage({super.key});
@@ -77,6 +77,8 @@ class _LogInComponentState extends State<LogInPage> {
                         Container(
                             margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                             child: TextField(
+                              //key for testing purpose
+                                key: Key('emailField'),
                                 controller: _emailController,
                                 decoration: const InputDecoration(
                                     hintText: "Email",
@@ -84,6 +86,7 @@ class _LogInComponentState extends State<LogInPage> {
                         Container(
                             margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                             child: TextField(
+                                key: Key('passwordField'),
                                 controller: _passwordController,
                                 decoration: const InputDecoration(
                                     hintText: "Password",
@@ -92,6 +95,7 @@ class _LogInComponentState extends State<LogInPage> {
                   Container(
                       margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                       child: ElevatedButtonComponent(
+                        key: Key('loginButton'),
                         onPressed: () {
                           _handleSignIn(context, _emailController.text.trim(),
                               _passwordController.text);

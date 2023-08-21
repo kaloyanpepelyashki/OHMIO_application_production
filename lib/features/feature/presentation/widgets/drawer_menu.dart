@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../classes/supabase_service.dart';
+import '../../data/data_sources/supabase_service.dart';
+
 
 class DrawerMenuComponent extends StatelessWidget {
   const DrawerMenuComponent({super.key});

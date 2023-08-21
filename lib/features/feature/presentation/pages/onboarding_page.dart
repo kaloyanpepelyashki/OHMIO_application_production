@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pin_tunnel_application_production/components/elevated_button_component.dart';
-import 'package:pin_tunnel_application_production/components/top_bar_blank.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/elevated_button_component.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_blank.dart';
 
 class OnBoardingPage extends StatelessWidget {
   const OnBoardingPage({super.key});
