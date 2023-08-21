@@ -31,7 +31,7 @@ class BlinkerInputState extends State<BlinkerInput> {
     //Iterates through each of the characters of the binary value
     for (var i = 0; i < binaryValue.length; i++) {
       var char = binaryValue[i];
-      await Future.delayed(const Duration(milliseconds: 80));
+      await Future.delayed(const Duration(milliseconds: 20));
 
       //Sets the state of the widget
       setState(() {
