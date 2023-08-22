@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pin_tunnel_application_production/classes/supabase_service.dart';
-import 'package:pin_tunnel_application_production/components/inputField_with_heading.dart';
-import 'package:pin_tunnel_application_production/components/top_bar_back_action.dart';
+
+import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/inputField_with_heading.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_back_action.dart';
 import "package:timezone/standalone.dart" as tz;
 
-import '../classes/user_class.dart';
-import '../components/elevated_button_component.dart';
+import '../../data/data_sources/supabase_service.dart';
+import '../../domain/entities/user_class.dart';
+import '../widgets/elevated_button_component.dart';
 
 class OnBoardingPersonalDataPage extends StatefulWidget {
   const OnBoardingPersonalDataPage({super.key});

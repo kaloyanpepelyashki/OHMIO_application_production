@@ -1,7 +1,7 @@
 import 'package:dart_either/dart_either.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pin_tunnel_application_production/classes/user_class.dart';
+import 'package:pin_tunnel_application_production/features/feature/domain/entities/user_class.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SupabaseManager {
@@ -17,7 +17,24 @@ class SupabaseManager {
   SupabaseManager({
     required this.supabaseUrl,
     required this.token,
-  }) : supabaseClient = SupabaseClient(supabaseUrl, token);
+  }) {
+    _initialize();
+  }
+
+  _initialize() {
+    supabaseClient = SupabaseClient(supabaseUrl, token);
+    supabaseSession = supabaseClient.auth.currentSession;
+  }
+
+  subscribeToChannel(String channelName) {
+    supabaseClient.channel('*').on(
+      RealtimeListenTypes.postgresChanges,
+      ChannelFilter(event: '*', schema: '*'),
+      (payload, [ref]) {
+        print('Change received: ${payload.toString()}');
+      },
+    ).subscribe();
+  }
 
   //* Defining the SIGN-UP method
   Future<Either<AuthException, User?>> signUpUser(dynamic context,

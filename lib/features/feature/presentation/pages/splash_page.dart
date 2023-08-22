@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pin_tunnel_application_production/components/top_bar_blank.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_blank.dart';
 
-import '../classes/supabase_service.dart';
+import '../../data/data_sources/supabase_service.dart';
+
+
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
