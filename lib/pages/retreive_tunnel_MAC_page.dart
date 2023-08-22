@@ -16,7 +16,7 @@ class _RetreiveTunnelMACPageState extends State<RetreiveTunnelMACPage> {
   final TextEditingController _macAddressController = TextEditingController();
 
   void proceedProcess() {
-    GoRouter.of(context).go("/");
+    GoRouter.of(context).go("/signup/");
   }
 
   @override
