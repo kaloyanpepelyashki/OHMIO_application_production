@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/grid_item_component.dart';
+
+import '../bloc/PinTunnelBloc.dart';
+import '../bloc/PinTunnelState.dart';
 
 class GridLayout extends StatefulWidget {
   const GridLayout({super.key});
@@ -16,29 +20,41 @@ class Elements {
 }
 
 class _GridLayoutState extends State<GridLayout> {
-  static List<Elements> elements = [
-    Elements("Test item 1", 12),
-    Elements("Test item 2", 44),
-    Elements("Test item 3", 420),
-    Elements("Test item 4", 440)
-  ];
+  List<Elements> elements = [
+  Elements("Test item 1", 12),
+  Elements("Test item 2", 44),
+  Elements("Test item 3", 420),
+  //Elements("Test item 4", 440)
+];
 
   @override
-  Widget build(BuildContext context) {
-    return CustomScrollView(primary: false, slivers: [
-      SliverPadding(
-          padding: const EdgeInsets.all(20),
-          sliver: SliverGrid.count(
-              crossAxisCount: 2,
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10,
-              children: [
-                for (final el in elements)
-                  GridItem(
-                    title: el.title,
-                    randomIndex: el.randomIndex,
-                  )
-              ]))
-    ]);
+Widget build(BuildContext context) {
+  return BlocListener<PinTunnelBloc, PinTunnelState>(
+    listener: (context, state) {
+      if (state is PayloadReceivedState) {
+    print('Payload received in widget: ${state.payload.toString()}');
+    setState(() {
+      elements.add(Elements(state.payload.toString(), elements.length + 1));
+    });
   }
+    },
+    child: CustomScrollView(primary: false, slivers: [
+      SliverPadding(
+        padding: const EdgeInsets.all(20),
+        sliver: SliverGrid.count(
+          crossAxisCount: 2,
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 10,
+          children: [
+            for (final el in elements)
+              GridItem(
+                title: el.title,
+                randomIndex: el.randomIndex,
+              )
+          ],
+        ),
+      )
+    ]),
+  );
+}
 }
