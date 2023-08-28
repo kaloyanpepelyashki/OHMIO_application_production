@@ -12,6 +12,8 @@ import 'package:pin_tunnel_application_production/features/feature/presentation/
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/splash_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/user_onboarding_personal.dart';
 
+import '../../main.dart';
+
 GoRouter router = GoRouter(routes: <GoRoute>[
   GoRoute(
       path: "/",
@@ -58,7 +60,7 @@ GoRouter router = GoRouter(routes: <GoRoute>[
   GoRoute(
       path: "/dashboard",
       builder: (BuildContext context, GoRouterState state) {
-        return const DashBoardPage();
+        return DashBoardPage(notificationAppLaunchDetails);
       }),
   GoRoute(
       path: "/binaryEncoderPage",

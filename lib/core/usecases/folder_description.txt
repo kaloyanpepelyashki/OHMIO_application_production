@@ -1,0 +1,3 @@
+This folder is meant for application-specific
+business rules. These are the high-level actions 
+that can be initiated by the UI, such as "GetUserDetails" or "UpdateProfile".

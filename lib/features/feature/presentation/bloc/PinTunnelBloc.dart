@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,7 +9,7 @@ import 'PinTunnelState.dart';
 
 class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
   final SubscribeChannelLogic subscribeChannelLogic;
-  final _payloadController = StreamController<String>();
+  final _payloadController = StreamController<Map<String, dynamic>>();
 
   PinTunnelBloc({
     required this.subscribeChannelLogic,
@@ -25,6 +26,8 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
     Emitter<PinTunnelState> emit,
 ) async {
     subscribeChannelLogic.subscribeToChannel(event.channelName, (payload) {
+        
+//print("change received: ${jsonEncode(payload)}");
         _payloadController.sink.add(payload);
     });
 }
@@ -33,9 +36,7 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
     PayloadReceived event,
     Emitter<PinTunnelState> emit,
   ) {
-    // Handle the PayloadReceived event here.
-    // For example, you can emit a new state:
     emit(PayloadReceivedState(event.payload));
-    print('payloadReceived emmited ' + event.payload);
+    print('payloadReceived emmited $event.payload');
   }
 }

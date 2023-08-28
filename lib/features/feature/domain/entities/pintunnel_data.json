@@ -1,0 +1,15 @@
+{
+    "schema": "_timescaledb_internal",
+    "table": "_hyper_19_1_chunk",
+    "commit_timestamp": "2023-08-28T10:33:34.529Z",
+    "eventType": "INSERT",
+    "new": {
+        "cfg_code": 2,
+        "data": 63.0,
+        "id": "62340791-24ba-4274-b596-5e6900783a5d",
+        "pintunnel_id": "68d1809d-a1bf-4717-b1b3-ef6b4dc3b139",
+        "time": "2023-08-28T10:33:34.527934"
+    },
+    "old": {},
+    "errors": null
+}

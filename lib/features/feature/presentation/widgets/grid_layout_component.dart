@@ -29,32 +29,22 @@ class _GridLayoutState extends State<GridLayout> {
 
   @override
 Widget build(BuildContext context) {
-  return BlocListener<PinTunnelBloc, PinTunnelState>(
-    listener: (context, state) {
-      if (state is PayloadReceivedState) {
-    print('Payload received in widget: ${state.payload.toString()}');
-    setState(() {
-      elements.add(Elements(state.payload.toString(), elements.length + 1));
-    });
-  }
-    },
-    child: CustomScrollView(primary: false, slivers: [
-      SliverPadding(
-        padding: const EdgeInsets.all(20),
-        sliver: SliverGrid.count(
-          crossAxisCount: 2,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-          children: [
-            for (final el in elements)
-              GridItem(
-                title: el.title,
-                randomIndex: el.randomIndex,
-              )
-          ],
-        ),
-      )
-    ]),
-  );
+  return CustomScrollView(primary: false, slivers: [
+    SliverPadding(
+      padding: const EdgeInsets.all(20),
+      sliver: SliverGrid.count(
+        crossAxisCount: 2,
+        mainAxisSpacing: 10,
+        crossAxisSpacing: 10,
+        children: [
+          for (final el in elements)
+            GridItem(
+              title: el.title,
+              randomIndex: el.randomIndex,
+            )
+        ],
+      ),
+    )
+  ]);
 }
 }

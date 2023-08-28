@@ -18,4 +18,7 @@ class PayloadReceivedState extends PinTunnelState{
   final dynamic payload;
 
   PayloadReceivedState(this.payload);
+
+  @override
+  List<Object> get props =>[payload];
 }

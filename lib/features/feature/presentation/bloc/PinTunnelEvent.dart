@@ -17,7 +17,7 @@ class SubscribeChannel extends PinTunnelEvent{
 }
 
 class PayloadReceived extends PinTunnelEvent {
-  final String payload;
+  final Map<String, dynamic> payload;
 
   PayloadReceived({required this.payload});
 
