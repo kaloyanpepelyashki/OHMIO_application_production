@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:pin_tunnel_application_production/Providers/global_data_provider.dart';
 import 'package:pin_tunnel_application_production/config/routes/routes.dart';
 import 'package:pin_tunnel_application_production/config/themes/main_theme.dart';
@@ -23,7 +24,6 @@ import 'features/feature/data/data_sources/supabase_service.dart';
 
 import 'dependency_injection.dart' as di;
 import 'features/feature/presentation/pages/sensor_page.dart';
-
 
 @pragma('vm:entry-point')
 void notificationTapBackground(NotificationResponse notificationResponse) {
@@ -46,9 +46,14 @@ Future<void> main() async {
 
   await di.init();
 
+  //ONESIGNAL NOTIFICATIONS
+  OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+
+  OneSignal.initialize("714ca8e6-14af-4778-b0d7-02eb3331cffb");
+  OneSignal.Notifications.requestPermission(true);
+
   ///NOTIFICATION SETTINGS
-  notificationAppLaunchDetails = !kIsWeb &&
-          Platform.isLinux
+  notificationAppLaunchDetails = !kIsWeb && Platform.isLinux
       ? null
       : await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
   String initialRoute = DashBoardPage.routeName;

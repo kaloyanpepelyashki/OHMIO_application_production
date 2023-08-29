@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../data/data_sources/supabase_service.dart';
 import '../widgets/elevated_button_component.dart';
@@ -37,7 +38,11 @@ class _LogInComponentState extends State<LogInPage> {
           email: email, password: password);
 
       signInSession.fold(
-          ifRight: (r) => {GoRouter.of(context).go("/dashboard")},
+          ifRight: (r) => {
+            OneSignal.login(email),
+            OneSignal.User.addEmail(email),
+            GoRouter.of(context).go("/dashboard")
+            },
           ifLeft: (l) => {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(l.message),
