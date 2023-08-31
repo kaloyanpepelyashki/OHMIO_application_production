@@ -9,14 +9,15 @@ import 'PinTunnelState.dart';
 
 class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
   final SubscribeChannelLogic subscribeChannelLogic;
-  final _payloadController = StreamController<Map<String, dynamic>>();
+  final payloadController = StreamController<Map<String, dynamic>>();
 
   PinTunnelBloc({
     required this.subscribeChannelLogic,
   }) : super(InitialState()) {
-    _payloadController.stream.listen((payload) {
+    payloadController.stream.listen((payload) {
       add(PayloadReceived(payload: payload));
     });
+    
     on<SubscribeChannel>(_onSubscribeChannel);
     on<PayloadReceived>(_onPayloadReceived);
   }
@@ -28,7 +29,7 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
     subscribeChannelLogic.subscribeToChannel(event.channelName, (payload) {
         
 //print("change received: ${jsonEncode(payload)}");
-        _payloadController.sink.add(payload);
+        payloadController.sink.add(payload);
     });
 }
 
