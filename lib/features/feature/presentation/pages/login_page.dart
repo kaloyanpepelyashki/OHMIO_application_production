@@ -22,7 +22,7 @@ class _LogInComponentState extends State<LogInPage> {
   @override
   void initState() {
     super.initState();
-    _emailController.text = _supabaseManager.user?.email ?? "kon";
+    //_emailController.text = _supabaseManager.user?.email ?? "kon";
   }
 
   @override

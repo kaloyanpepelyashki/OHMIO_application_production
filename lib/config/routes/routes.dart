@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pin_tunnel_application_production/features/feature/domain/usecases/subscribe_channel_logic.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/binary_encoder_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/confirm_email_page.dart';
 //Importing page components
@@ -12,9 +14,11 @@ import 'package:pin_tunnel_application_production/features/feature/presentation/
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/splash_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/user_onboarding_personal.dart';
 
+import '../../features/feature/data/repository/pin_tunnel_repository.dart';
+import '../../features/feature/presentation/bloc/PinTunnelBloc.dart';
 import '../../main.dart';
 
-GoRouter router = GoRouter(routes: <GoRoute>[
+GoRouter router = GoRouter(initialLocation: "/login", routes: <GoRoute>[
   GoRoute(
       path: "/",
       builder: (BuildContext context, GoRouterState state) {
@@ -60,7 +64,13 @@ GoRouter router = GoRouter(routes: <GoRoute>[
   GoRoute(
       path: "/dashboard",
       builder: (BuildContext context, GoRouterState state) {
-        return DashBoardPage(notificationAppLaunchDetails);
+        final repository = PinTunnelRepository();
+      final logic = SubscribeChannelLogic(repository);
+        
+        return BlocProvider(
+        create: (context) => PinTunnelBloc(subscribeChannelLogic: logic),
+        child: DashBoardPage(notificationAppLaunchDetails),
+      );
       }),
   GoRoute(
       path: "/binaryEncoderPage",
