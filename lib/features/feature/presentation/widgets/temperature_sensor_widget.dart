@@ -25,6 +25,8 @@ class _TemperatureSensorWidgetState extends State<TemperatureSensorWidget> {
 
   double value = 35;
 
+  late double minuteValue;
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<PinTunnelBloc, PinTunnelState>(
@@ -33,6 +35,10 @@ class _TemperatureSensorWidgetState extends State<TemperatureSensorWidget> {
         double value = this.value;
         if (state is PayloadReceivedState) {
           value = state.payload['new']['data'];
+       }
+        if (state is MinutePayloadReceivedState){
+          print('payload in widget');
+            minuteValue = state.payload['new']['avg'];
         }
         return SizedBox(
           width: 500,

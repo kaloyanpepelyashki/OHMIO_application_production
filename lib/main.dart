@@ -48,7 +48,7 @@ Future<void> main() async {
 
   //ONESIGNAL NOTIFICATIONS
   OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
-
+  
   OneSignal.initialize("714ca8e6-14af-4778-b0d7-02eb3331cffb");
   OneSignal.Notifications.requestPermission(true);
 
@@ -60,7 +60,7 @@ Future<void> main() async {
   if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
     selectedNotificationPayload =
         notificationAppLaunchDetails!.notificationResponse?.payload;
-    initialRoute = SensorPage.routeName;
+    initialRoute = '/sensorPage';
   }
 
   /// Note: permissions aren't requested here just to demonstrate that can be
@@ -91,7 +91,8 @@ Future<void> main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => GlobalDataProvider()),
-        BlocProvider<PinTunnelBloc>(create: (context) => sl<PinTunnelBloc>()),
+        BlocProvider<PinTunnelBloc>(
+          create: (context) => sl<PinTunnelBloc>())
       ],
       child: const MyApp(),
     ),

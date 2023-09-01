@@ -10,6 +10,7 @@ import 'package:pin_tunnel_application_production/features/feature/presentation/
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/login_page_ghost.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/onboarding_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/retreive_tunnel_MAC_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/sensor_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/signup_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/splash_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/user_onboarding_personal.dart';
@@ -18,7 +19,7 @@ import '../../features/feature/data/repository/pin_tunnel_repository.dart';
 import '../../features/feature/presentation/bloc/PinTunnelBloc.dart';
 import '../../main.dart';
 
-GoRouter router = GoRouter( routes: <GoRoute>[
+GoRouter router = GoRouter(routes: <GoRoute>[
   GoRoute(
       path: "/",
       builder: (BuildContext context, GoRouterState state) {
@@ -65,12 +66,20 @@ GoRouter router = GoRouter( routes: <GoRoute>[
       path: "/dashboard",
       builder: (BuildContext context, GoRouterState state) {
         final repository = PinTunnelRepository();
-      final logic = SubscribeChannelLogic(repository);
-        
-        return BlocProvider(
-        create: (context) => PinTunnelBloc(subscribeChannelLogic: logic),
-        child: DashBoardPage(notificationAppLaunchDetails),
-      );
+        final logic = SubscribeChannelLogic(repository);
+
+        return BlocProvider.value(
+      value: BlocProvider.of<PinTunnelBloc>(context),
+      child:  DashBoardPage(notificationAppLaunchDetails),
+    );
+      }),
+  GoRoute(
+      path: "/sensorPage",
+      builder: (BuildContext context, GoRouterState state) {
+        return BlocProvider.value(
+          value: BlocProvider.of<PinTunnelBloc>(context),
+          child: const SensorPage(),
+        );
       }),
   GoRoute(
       path: "/binaryEncoderPage",

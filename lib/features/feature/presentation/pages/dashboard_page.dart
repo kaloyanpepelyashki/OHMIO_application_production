@@ -62,6 +62,8 @@ class _DashBoardPageState extends State<DashBoardPage> {
     configureDidReceiveLocalNotificationSubject(context);
     configureSelectNotificationSubject(context);
     BlocProvider.of<PinTunnelBloc>(context).add(SubscribeChannel(channelName: "*"));
+    BlocProvider.of<PinTunnelBloc>(context).add(SubscribeMinuteChannel(sensorId: 12345));
+    BlocProvider.of<PinTunnelBloc>(context).add(SubscribeHourlyChannel(sensorId: 12345));
   }
 
   Future<void> _checkNotificationPermissions() async {

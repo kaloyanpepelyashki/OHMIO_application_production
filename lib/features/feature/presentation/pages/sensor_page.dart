@@ -4,26 +4,21 @@ import 'package:pin_tunnel_application_production/features/feature/presentation/
 import '../widgets/top_bar_back_action.dart';
 
 class SensorPage extends StatefulWidget {
-  const SensorPage(
-    this.payload, {
+  const SensorPage( {
     Key? key,
   }) : super(key: key);
-
-  static const String routeName = '/secondPage';
-
-  final String? payload;
 
   @override
   State<SensorPage> createState() => _SensorPageState();
 }
 
 class _SensorPageState extends State<SensorPage> {
-  String? _payload;
+
 
   @override
   void initState() {
     super.initState();
-    _payload = widget.payload;
+
   }
 
   @override

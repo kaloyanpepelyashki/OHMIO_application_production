@@ -11,15 +11,36 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
   final SubscribeChannelLogic subscribeChannelLogic;
   final payloadController = StreamController<Map<String, dynamic>>();
 
+  final minutePayloadController = StreamController<Map<String, dynamic>>();
+  final hourlyPayloadController = StreamController<Map<String, dynamic>>();
+  final dailyPayloadController = StreamController<Map<String, dynamic>>();
+
   PinTunnelBloc({
     required this.subscribeChannelLogic,
   }) : super(InitialState()) {
     payloadController.stream.listen((payload) {
       add(PayloadReceived(payload: payload));
     });
+
+    minutePayloadController.stream.listen((payload) {
+      add(MinutePayloadReceived(payload: payload));
+    });
+
+    hourlyPayloadController.stream.listen((payload) {
+      add(HourlyPayloadReceived(payload: payload));
+    });
+
+    dailyPayloadController.stream.listen((payload) {
+      add(DailyPayloadReceived(payload: payload));
+    });
     
     on<SubscribeChannel>(_onSubscribeChannel);
+    on<SubscribeMinuteChannel>(_onSubscribeMinuteChannel);
+    on<SubscribeHourlyChannel>(_onSubscribeHourlyChannel);
+    on<SubscribeDailyChannel>(_onSubscribeDailyChannel);
     on<PayloadReceived>(_onPayloadReceived);
+    on<MinutePayloadReceived>(_onMinutePayloadReceived);
+    on<HourlyPayloadReceived>(_onHourlyPayloadReceived);
   }
 
   void _onSubscribeChannel(
@@ -33,6 +54,37 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
     });
 }
 
+void _onSubscribeMinuteChannel(
+    SubscribeMinuteChannel event,
+    Emitter<PinTunnelState> emit,
+) async {
+    subscribeChannelLogic.subscribeToMinuteData(event.sensorId, (payload) {
+        minutePayloadController.sink.add(payload);
+    });
+}
+
+void _onSubscribeHourlyChannel(
+    SubscribeHourlyChannel event,
+    Emitter<PinTunnelState> emit,
+) async {
+    subscribeChannelLogic.subscribeToHourlyData(event.sensorId, (payload) {
+        
+//print("change received: ${jsonEncode(payload)}");
+        hourlyPayloadController.sink.add(payload);
+    });
+}
+
+void _onSubscribeDailyChannel(
+    SubscribeDailyChannel event,
+    Emitter<PinTunnelState> emit,
+) async {
+    subscribeChannelLogic.subscribeToDailyData(event.sensorId, (payload) {
+        
+//print("change received: ${jsonEncode(payload)}");
+        dailyPayloadController.sink.add(payload);
+    });
+}
+
   void _onPayloadReceived(
     PayloadReceived event,
     Emitter<PinTunnelState> emit,
@@ -40,4 +92,38 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
     emit(PayloadReceivedState(event.payload));
     print('payloadReceived emmited $event.payload');
   }
+
+   void _onMinutePayloadReceived(
+    MinutePayloadReceived event,
+    Emitter<PinTunnelState> emit,
+  ) {
+    emit(MinutePayloadReceivedState(event.payload));
+    print('minutePayloadReceivedState emmited $event.payload');
+  }
+
+  void _onHourlyPayloadReceived(
+    HourlyPayloadReceived event,
+    Emitter<PinTunnelState> emit,
+  ) {
+    emit(HourlyPayloadReceivedState(event.payload));
+    print('hourlyPayloadReceivedState emmited $event.payload');
+  }
+
+  void _onDailyPayloadReceived(
+    DailyPayloadReceived event,
+    Emitter<PinTunnelState> emit,
+  ) {
+    emit(DailyPayloadReceivedState(event.payload));
+    print('dailyPayloadReceivedState emmited $event.payload');
+  }
+
+
+  @override
+Future<void> close() {
+  payloadController.close();
+  minutePayloadController.close();
+  hourlyPayloadController.close();
+  dailyPayloadController.close();
+  return super.close();
+}
 }
