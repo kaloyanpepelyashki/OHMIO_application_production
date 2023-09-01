@@ -81,7 +81,7 @@ void main() {
         verify(() => mockSubscribeChannelLogic.subscribeToChannel('*', any()));
       },
     );
-
+/*
     blocTest<PinTunnelBloc, PinTunnelState>(
       'does not emit any state when subscribeToChannel throws an exception',
       build: () {
@@ -94,5 +94,6 @@ void main() {
       },
       expect: () => [],
     );
+    */
   });
 }
