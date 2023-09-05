@@ -16,7 +16,7 @@ class SupabaseAuthFixture extends Equatable {
       createdAt: "",
       updatedAt: "",
     );
-    const session = Session(
+    final session = Session(
       accessToken: '',
       refreshToken: '',
       expiresIn: 0,

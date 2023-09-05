@@ -8,8 +8,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pin_tunnel_application_production/features/feature/domain/entities/pintunnel_data_class.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelBloc.dart';
 
-import '../../domain/entities/sensor_range.dart';
-import '../bloc/PinTunnelState.dart';
+import '../../../domain/entities/sensor_range.dart';
+import '../../bloc/PinTunnelState.dart';
 
 class TemperatureSensorWidget extends StatefulWidget {
   const TemperatureSensorWidget({super.key});
