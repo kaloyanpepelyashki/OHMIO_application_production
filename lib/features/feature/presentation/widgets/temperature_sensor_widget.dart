@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pin_tunnel_application_production/features/feature/domain/entities/pintunnel_data_class.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelBloc.dart';
 
+import '../../domain/entities/sensor_range.dart';
 import '../bloc/PinTunnelState.dart';
 
 class TemperatureSensorWidget extends StatefulWidget {
@@ -19,9 +20,9 @@ class TemperatureSensorWidget extends StatefulWidget {
 }
 
 class _TemperatureSensorWidgetState extends State<TemperatureSensorWidget> {
-  final double minValue = 5;
+   double minValue = 5;
 
-  final double maxValue = 30;
+   double maxValue = 30;
 
   double value = 35;
 
@@ -32,13 +33,17 @@ class _TemperatureSensorWidgetState extends State<TemperatureSensorWidget> {
     return BlocConsumer<PinTunnelBloc, PinTunnelState>(
       listener: (context, state) {},
       builder: (context, state) {
-        double value = this.value;
         if (state is PayloadReceivedState) {
           value = state.payload['new']['data'];
        }
         if (state is MinutePayloadReceivedState){
           print('payload in widget');
             minuteValue = state.payload['new']['avg'];
+        }
+        if(state is SensorRangeReceivedState){
+          SensorRange sensorRange = state.sensorRange;
+          minValue = double.parse(sensorRange.minValue);
+          maxValue = double.parse(sensorRange.maxValue);
         }
         return SizedBox(
           width: 500,

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pin_tunnel_application_production/features/feature/domain/entities/sensor_range.dart';
 
 abstract class PinTunnelState extends Equatable{
   const PinTunnelState();
@@ -48,4 +49,14 @@ class DailyPayloadReceivedState extends PinTunnelState{
 
   @override
   List<Object> get props =>[payload];
+}
+
+class SensorRangeReceivedState extends PinTunnelState{
+
+  final SensorRange sensorRange;
+
+  SensorRangeReceivedState(this.sensorRange);
+
+  @override
+  List<Object> get props =>[sensorRange];
 }

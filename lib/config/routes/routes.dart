@@ -19,7 +19,7 @@ import '../../features/feature/data/repository/pin_tunnel_repository.dart';
 import '../../features/feature/presentation/bloc/PinTunnelBloc.dart';
 import '../../main.dart';
 
-GoRouter router = GoRouter(routes: <GoRoute>[
+GoRouter router = GoRouter(initialLocation: "/",routes: <GoRoute>[
   GoRoute(
       path: "/",
       builder: (BuildContext context, GoRouterState state) {

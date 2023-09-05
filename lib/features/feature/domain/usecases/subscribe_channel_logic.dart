@@ -6,8 +6,8 @@ class SubscribeChannelLogic{
   SubscribeChannelLogic(this.repository);
 
   
-  void subscribeToChannel(String channelName, Function(dynamic) onReceived){
-    repository.subscribeToChannel(channelName, onReceived);
+  void subscribeToChannel(int sensorId, Function(dynamic) onReceived){
+    repository.subscribeToChannel(sensorId, onReceived);
   }
 
   void subscribeToMinuteData(int sensorId, Function(dynamic) onReceived){

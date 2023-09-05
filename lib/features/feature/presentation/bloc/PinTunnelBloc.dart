@@ -3,21 +3,23 @@ import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../domain/usecases/sensor_logic.dart';
 import '../../domain/usecases/subscribe_channel_logic.dart';
 import 'PinTunnelEvent.dart';
 import 'PinTunnelState.dart';
 
 class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
   final SubscribeChannelLogic subscribeChannelLogic;
+  final SensorLogic sensorLogic;
   final payloadController = StreamController<Map<String, dynamic>>();
 
   final minutePayloadController = StreamController<Map<String, dynamic>>();
   final hourlyPayloadController = StreamController<Map<String, dynamic>>();
   final dailyPayloadController = StreamController<Map<String, dynamic>>();
 
-  PinTunnelBloc({
-    required this.subscribeChannelLogic,
-  }) : super(InitialState()) {
+  PinTunnelBloc(
+      {required this.subscribeChannelLogic, required this.sensorLogic})
+      : super(InitialState()) {
     payloadController.stream.listen((payload) {
       add(PayloadReceived(payload: payload));
     });
@@ -33,7 +35,7 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
     dailyPayloadController.stream.listen((payload) {
       add(DailyPayloadReceived(payload: payload));
     });
-    
+
     on<SubscribeChannel>(_onSubscribeChannel);
     on<SubscribeMinuteChannel>(_onSubscribeMinuteChannel);
     on<SubscribeHourlyChannel>(_onSubscribeHourlyChannel);
@@ -41,49 +43,48 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
     on<PayloadReceived>(_onPayloadReceived);
     on<MinutePayloadReceived>(_onMinutePayloadReceived);
     on<HourlyPayloadReceived>(_onHourlyPayloadReceived);
+
+    on<GetSensorRange>(_onGetSensorRange);
   }
 
   void _onSubscribeChannel(
     SubscribeChannel event,
     Emitter<PinTunnelState> emit,
-) async {
-    subscribeChannelLogic.subscribeToChannel(event.channelName, (payload) {
-        
-//print("change received: ${jsonEncode(payload)}");
-        payloadController.sink.add(payload);
+  ) async {
+    subscribeChannelLogic.subscribeToChannel(event.sensorId, (payload) {
+print("change received: ${jsonEncode(payload)}");
+      payloadController.sink.add(payload);
     });
-}
+  }
 
-void _onSubscribeMinuteChannel(
+  void _onSubscribeMinuteChannel(
     SubscribeMinuteChannel event,
     Emitter<PinTunnelState> emit,
-) async {
+  ) async {
     subscribeChannelLogic.subscribeToMinuteData(event.sensorId, (payload) {
-        minutePayloadController.sink.add(payload);
+      minutePayloadController.sink.add(payload);
     });
-}
+  }
 
-void _onSubscribeHourlyChannel(
+  void _onSubscribeHourlyChannel(
     SubscribeHourlyChannel event,
     Emitter<PinTunnelState> emit,
-) async {
+  ) async {
     subscribeChannelLogic.subscribeToHourlyData(event.sensorId, (payload) {
-        
 //print("change received: ${jsonEncode(payload)}");
-        hourlyPayloadController.sink.add(payload);
+      hourlyPayloadController.sink.add(payload);
     });
-}
+  }
 
-void _onSubscribeDailyChannel(
+  void _onSubscribeDailyChannel(
     SubscribeDailyChannel event,
     Emitter<PinTunnelState> emit,
-) async {
+  ) async {
     subscribeChannelLogic.subscribeToDailyData(event.sensorId, (payload) {
-        
 //print("change received: ${jsonEncode(payload)}");
-        dailyPayloadController.sink.add(payload);
+      dailyPayloadController.sink.add(payload);
     });
-}
+  }
 
   void _onPayloadReceived(
     PayloadReceived event,
@@ -93,7 +94,7 @@ void _onSubscribeDailyChannel(
     print('payloadReceived emmited $event.payload');
   }
 
-   void _onMinutePayloadReceived(
+  void _onMinutePayloadReceived(
     MinutePayloadReceived event,
     Emitter<PinTunnelState> emit,
   ) {
@@ -117,13 +118,24 @@ void _onSubscribeDailyChannel(
     print('dailyPayloadReceivedState emmited $event.payload');
   }
 
+  void _onGetSensorRange(
+    GetSensorRange event,
+    Emitter<PinTunnelState> emit,
+  ) async {
+    final result = await sensorLogic.getRangeForSensor(12345);
+    result.fold(
+      ifLeft: (value) => print(value),
+      ifRight: (value) => {
+        emit(SensorRangeReceivedState(value))},
+    );
+  }
 
   @override
-Future<void> close() {
-  payloadController.close();
-  minutePayloadController.close();
-  hourlyPayloadController.close();
-  dailyPayloadController.close();
-  return super.close();
-}
+  Future<void> close() {
+    payloadController.close();
+    minutePayloadController.close();
+    hourlyPayloadController.close();
+    dailyPayloadController.close();
+    return super.close();
+  }
 }

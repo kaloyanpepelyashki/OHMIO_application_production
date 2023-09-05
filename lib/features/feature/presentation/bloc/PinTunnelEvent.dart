@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pin_tunnel_application_production/features/feature/domain/entities/sensor_range.dart';
 
 abstract class PinTunnelEvent extends Equatable{
   const PinTunnelEvent();
@@ -8,12 +9,12 @@ abstract class PinTunnelEvent extends Equatable{
 }
 
 class SubscribeChannel extends PinTunnelEvent{
-  final String channelName;
+  final int sensorId;
 
-  SubscribeChannel({required this.channelName});
+  SubscribeChannel({required this.sensorId});
 
   @override
-  List<Object> get props => [channelName];
+  List<Object> get props => [sensorId];
 }
 
 class SubscribeMinuteChannel extends PinTunnelEvent{
@@ -80,4 +81,14 @@ class DailyPayloadReceived extends PinTunnelEvent {
 
   @override
   List<Object> get props => [payload];
+}
+
+
+class GetSensorRange extends PinTunnelEvent{
+  final int sensorId;
+
+  GetSensorRange({required this.sensorId});
+
+  @override
+  List<Object> get props => [sensorId];
 }

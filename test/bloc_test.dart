@@ -1,21 +1,26 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:pin_tunnel_application_production/features/feature/domain/usecases/sensor_logic.dart';
 import 'package:pin_tunnel_application_production/features/feature/domain/usecases/subscribe_channel_logic.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelBloc.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelEvent.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelState.dart';
 
 class MockSubscribeChannelLogic extends Mock implements SubscribeChannelLogic {}
+class MockSensorLogic extends Mock implements SensorLogic{}
+
 
 void main() {
-  late MockSubscribeChannelLogic mockSubscribeChannelLogic;
+  late SubscribeChannelLogic mockSubscribeChannelLogic;
   late PinTunnelBloc pinTunnelBloc;
+  late SensorLogic mockSensorLogic;
 
   setUp(() {
     mockSubscribeChannelLogic = MockSubscribeChannelLogic();
+    mockSensorLogic = MockSensorLogic();
     pinTunnelBloc =
-        PinTunnelBloc(subscribeChannelLogic: mockSubscribeChannelLogic);
+        PinTunnelBloc(subscribeChannelLogic: mockSubscribeChannelLogic, sensorLogic: mockSensorLogic, );
   });
   group('PinTunnelBloc', () {
     test('initial state is InitialState', () {
@@ -24,7 +29,7 @@ void main() {
     blocTest(
       'emits [] when nothing is added',
       build: () =>
-          PinTunnelBloc(subscribeChannelLogic: MockSubscribeChannelLogic()),
+          PinTunnelBloc(subscribeChannelLogic: mockSubscribeChannelLogic, sensorLogic: mockSensorLogic),
       expect: () => [],
     );
 
@@ -75,10 +80,10 @@ void main() {
       'calls subscribeToChannel with correct parameters when SubscribeChannel is added',
       build: () => pinTunnelBloc,
       act: (bloc) {
-        bloc.add(SubscribeChannel(channelName: '*'));
+        bloc.add(SubscribeChannel(sensorId: 12345));
       },
       verify: (_) {
-        verify(() => mockSubscribeChannelLogic.subscribeToChannel('*', any()));
+        verify(() => mockSubscribeChannelLogic.subscribeToChannel(12345, any()));
       },
     );
 /*
