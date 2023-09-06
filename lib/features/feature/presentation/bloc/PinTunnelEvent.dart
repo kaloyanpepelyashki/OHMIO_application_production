@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:pin_tunnel_application_production/features/feature/domain/entities/sensor_range.dart';
 
+import '../../domain/entities/action_class.dart';
+
 abstract class PinTunnelEvent extends Equatable{
   const PinTunnelEvent();
 
@@ -91,4 +93,10 @@ class GetSensorRange extends PinTunnelEvent{
 
   @override
   List<Object> get props => [sensorId];
+}
+
+class AddAction extends PinTunnelEvent{
+  final ActionClass actionClass;
+
+  AddAction({required this.actionClass});
 }

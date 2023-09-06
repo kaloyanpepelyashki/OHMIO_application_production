@@ -2,6 +2,7 @@ import 'package:dart_either/dart_either.dart';
 import 'package:pin_tunnel_application_production/features/feature/domain/entities/sensor_range.dart';
 
 import '../../../../core/errors/failure.dart';
+import '../entities/action_class.dart';
 import '../repository/i_pin_tunnel_repository.dart';
 
 class SensorLogic{
@@ -12,5 +13,9 @@ class SensorLogic{
 
   Future<Either<Failure, SensorRange>>  getRangeForSensor(int sensorId){
     return _repository.getRangeForSensor(sensorId);
+  }
+
+  void addAction(ActionClass actionClass){
+    _repository.addAction(actionClass);
   }
 }

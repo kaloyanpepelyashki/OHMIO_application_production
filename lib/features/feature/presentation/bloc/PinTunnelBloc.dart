@@ -45,6 +45,7 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
     on<HourlyPayloadReceived>(_onHourlyPayloadReceived);
 
     on<GetSensorRange>(_onGetSensorRange);
+    on<AddAction>(_onAddAction);
   }
 
   void _onSubscribeChannel(
@@ -52,7 +53,7 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
     Emitter<PinTunnelState> emit,
   ) async {
     subscribeChannelLogic.subscribeToChannel(event.sensorId, (payload) {
-print("change received: ${jsonEncode(payload)}");
+      print("change received: ${jsonEncode(payload)}");
       payloadController.sink.add(payload);
     });
   }
@@ -125,9 +126,17 @@ print("change received: ${jsonEncode(payload)}");
     final result = await sensorLogic.getRangeForSensor(12345);
     result.fold(
       ifLeft: (value) => print(value),
-      ifRight: (value) => {
-        emit(SensorRangeReceivedState(value))},
+      ifRight: (value) => {emit(SensorRangeReceivedState(value))},
     );
+  }
+
+  void _onAddAction(
+    AddAction event,
+    Emitter<PinTunnelState> emit,
+  ) async {
+    print("In _onAddAction - Bloc");
+    sensorLogic.addAction(event.actionClass);
+    print("After sensorLogic.addAction(...)");
   }
 
   @override

@@ -68,7 +68,7 @@ class _SensorPageState extends State<SensorPage> {
             )
               ],
             ),
-            SensorActionConfig()
+            SensorActionConfig(context: context,)
           ],
         )
         //LineChartGeneral(),

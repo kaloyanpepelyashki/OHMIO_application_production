@@ -55,7 +55,7 @@ Future<void> configureDidReceiveLocalNotificationSubject(
       .listen((ReceivedNotification receivedNotification) async {
     await showDialog(
       context: context,
-      builder: (BuildContext context) => CupertinoAlertDialog(
+      builder: (context) => CupertinoAlertDialog(
         title: receivedNotification.title != null
             ? Text(receivedNotification.title!)
             : null,
@@ -66,7 +66,7 @@ Future<void> configureDidReceiveLocalNotificationSubject(
           CupertinoDialogAction(
             isDefaultAction: true,
             onPressed: () async {
-              GoRouter.of(context).go("/sensorPage");
+              GoRouter.of(context).push("/sensorPage");
             },
             child: const Text('Ok'),
           )
@@ -78,7 +78,7 @@ Future<void> configureDidReceiveLocalNotificationSubject(
 
 Future<void> configureSelectNotificationSubject(BuildContext context) async {
   selectNotificationStream.stream.listen((String? payload) async {
-   GoRouter.of(context).go("/sensorPage");
+   GoRouter.of(context).push("/sensorPage");
   });
 }
 

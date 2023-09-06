@@ -10,9 +10,9 @@ class ActionPopup extends StatefulWidget {
   State<ActionPopup> createState() => _ActionPopupState();
 }
 
-List<String> list = <String>['Above', 'Equal', 'Below'];
+List<String> list = <String>['ABOVE', 'EQUALS', 'BELOW'];
 
-List<String> actionList = <String>['notification'];
+List<String> actionList = <String>['SEND NOTIFICATION'];
 
 class _ActionPopupState extends State<ActionPopup> {
   late TextEditingController conditionValue;
@@ -35,7 +35,7 @@ class _ActionPopupState extends State<ActionPopup> {
   }
 
   void submit() {
-    ActionClass actionClass = ActionClass(condition: dropdownCondition, conditionValue: double.parse(conditionValue.text ?? "0"), action: dropdownAction);
+    ActionClass actionClass = ActionClass(sensorId: 12345,condition: dropdownCondition, conditionValue: double.parse(conditionValue.text ?? "0"), action: dropdownAction);
     Navigator.of(context).pop(actionClass);
   }
 
@@ -47,7 +47,7 @@ class _ActionPopupState extends State<ActionPopup> {
         width: MediaQuery.of(context).size.width * 0.8,
         child: Column(
           children: [
-            Text("set condition"),
+            Text("If the sensor value is "),
             Row(
               children: [
                 DropdownMenu<String>(
@@ -74,7 +74,7 @@ class _ActionPopupState extends State<ActionPopup> {
               ],
             ),
             SizedBox(height: 20,),
-            Text("choose action"),
+            Text("then: "),
             DropdownMenu<String>(
                   initialSelection: actionList.first,
                   onSelected: (String? value) {

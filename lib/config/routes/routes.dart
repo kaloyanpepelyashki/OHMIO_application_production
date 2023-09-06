@@ -2,21 +2,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pin_tunnel_application_production/features/feature/domain/usecases/subscribe_channel_logic.dart';
-import 'package:pin_tunnel_application_production/features/feature/presentation/pages/binary_encoder_page.dart';
-import 'package:pin_tunnel_application_production/features/feature/presentation/pages/confirm_email_page.dart';
 //Importing page components
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/dashboard_page.dart';
-import 'package:pin_tunnel_application_production/features/feature/presentation/pages/login_page.dart';
-import 'package:pin_tunnel_application_production/features/feature/presentation/pages/login_page_ghost.dart';
-import 'package:pin_tunnel_application_production/features/feature/presentation/pages/onboarding_page.dart';
-import 'package:pin_tunnel_application_production/features/feature/presentation/pages/retreive_tunnel_MAC_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/authentication/retreive_tunnel_MAC_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/sensor_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/signup_page.dart';
-import 'package:pin_tunnel_application_production/features/feature/presentation/pages/splash_page.dart';
-import 'package:pin_tunnel_application_production/features/feature/presentation/pages/user_onboarding_personal.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/authentication/user_onboarding_personal.dart';
 
 import '../../features/feature/data/repository/pin_tunnel_repository.dart';
 import '../../features/feature/presentation/bloc/PinTunnelBloc.dart';
+import '../../features/feature/presentation/pages/authentication/binary_encoder_page.dart';
+import '../../features/feature/presentation/pages/authentication/confirm_email_page.dart';
+import '../../features/feature/presentation/pages/authentication/login_page.dart';
+import '../../features/feature/presentation/pages/authentication/login_page_ghost.dart';
+import '../../features/feature/presentation/pages/authentication/onboarding_page.dart';
+import '../../features/feature/presentation/pages/authentication/splash_page.dart';
 import '../../main.dart';
 
 GoRouter router = GoRouter(initialLocation: "/",routes: <GoRoute>[

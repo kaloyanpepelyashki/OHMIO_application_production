@@ -16,9 +16,8 @@ class OnBoardingPage extends StatelessWidget {
               widthFactor: 0.9,
               heightFactor: 0.8,
               child: Column(children: [
-                const Text(
-                  "Title",
-                  style: TextStyle(fontSize: 40, letterSpacing: 17),
+                const Image(
+                  image: AssetImage('assets/brandmark-design.png'),
                 ),
                 Container(
 
@@ -27,20 +26,20 @@ class OnBoardingPage extends StatelessWidget {
                     child: Column(children: [
                       ElevatedButtonComponent(
                           onPressed: () {
-                            context.push('/login');
+                            GoRouter.of(context).push("/login");
                           },
                           text: "Log in"),
                       TextButton(
                           child: const Text('Sign up',
                               style: TextStyle(fontSize: 18)),
                           onPressed: () {
-                            context.push("/signup");
+                            GoRouter.of(context).push("/signup");
                           }),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.fromLTRB(30, 7, 30, 7)),
                         onPressed: () {
-                          context.push('/binaryEncoderPage');
+                          GoRouter.of(context).push("/binaryEncoderPage");
                         },
                         child: const Text('Blinker',
                             style: TextStyle(fontSize: 30)),

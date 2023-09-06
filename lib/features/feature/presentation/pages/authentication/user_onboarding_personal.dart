@@ -5,9 +5,9 @@ import 'package:pin_tunnel_application_production/features/feature/presentation/
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_back_action.dart';
 import "package:timezone/standalone.dart" as tz;
 
-import '../../data/data_sources/supabase_service.dart';
-import '../../domain/entities/user_class.dart';
-import '../widgets/elevated_button_component.dart';
+import '../../../data/data_sources/supabase_service.dart';
+import '../../../domain/entities/user_class.dart';
+import '../../widgets/elevated_button_component.dart';
 
 class OnBoardingPersonalDataPage extends StatefulWidget {
   const OnBoardingPersonalDataPage({super.key});

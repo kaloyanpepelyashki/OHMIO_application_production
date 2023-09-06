@@ -1,20 +1,21 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../data/data_sources/supabase_service.dart';
-import '../widgets/elevated_button_component.dart';
-import '../widgets/inputField_with_heading.dart';
-import '../widgets/top_bar_back_action.dart';
+import '../../../data/data_sources/supabase_service.dart';
+import '../../widgets/elevated_button_component.dart';
+import '../../widgets/top_bar_back_action.dart';
 
-class LogInPageGhost extends StatefulWidget {
-  const LogInPageGhost({super.key});
+class LogInPage extends StatefulWidget {
+  const LogInPage({super.key});
 
   @override
-  State<LogInPageGhost> createState() => _LogInPageGhostState();
+  State<LogInPage> createState() => _LogInComponentState();
 }
 
-class _LogInPageGhostState extends State<LogInPageGhost> {
+class _LogInComponentState extends State<LogInPage> {
   final _supabaseManager = supabaseManager;
   final _passwordController = TextEditingController();
   final _emailController = TextEditingController();
@@ -22,7 +23,7 @@ class _LogInPageGhostState extends State<LogInPageGhost> {
   @override
   void initState() {
     super.initState();
-    _emailController.text = _supabaseManager.user?.email ?? "";
+    //_emailController.text = _supabaseManager.user?.email ?? "kon";
   }
 
   @override
@@ -38,8 +39,11 @@ class _LogInPageGhostState extends State<LogInPageGhost> {
           email: email, password: password);
 
       signInSession.fold(
-          ifRight: (r) =>
-              {GoRouter.of(context).go("/signup/onboarding-personal-data")},
+          ifRight: (r) => {
+            OneSignal.login(email),
+            OneSignal.User.addEmail(email),
+            GoRouter.of(context).push("/dashboard")
+            },
           ifLeft: (l) => {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(l.message),
@@ -57,8 +61,10 @@ class _LogInPageGhostState extends State<LogInPageGhost> {
   }
 
   @override
+  //UI represented by this widget
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: const TopBarBackAction(),
         backgroundColor: Theme.of(context).colorScheme.background,
         body: Center(
@@ -67,19 +73,26 @@ class _LogInPageGhostState extends State<LogInPageGhost> {
               heightFactor: 0.8,
               child: Column(
                 children: [
+                  Text(
+                    "Title",
+                    style: TextStyle(fontSize: 40, letterSpacing: 17),
+                  ),
                   Container(
                       margin: const EdgeInsets.fromLTRB(0, 70, 0, 10),
                       child: Column(children: [
                         Container(
                             margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                            child: InputFieldWithHeading(
-                              controller: _emailController,
-                              heading: "Let's log you in",
-                              placeHolder: "Email",
-                            )),
+                            child: TextField(
+                              //key for testing purpose
+                                key: Key('emailField'),
+                                controller: _emailController,
+                                decoration: const InputDecoration(
+                                    hintText: "Email",
+                                    enabledBorder: OutlineInputBorder()))),
                         Container(
                             margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                             child: TextField(
+                                key: Key('passwordField'),
                                 controller: _passwordController,
                                 decoration: const InputDecoration(
                                     hintText: "Password",
@@ -88,6 +101,7 @@ class _LogInPageGhostState extends State<LogInPageGhost> {
                   Container(
                       margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                       child: ElevatedButtonComponent(
+                        key: Key('loginButton'),
                         onPressed: () {
                           _handleSignIn(context, _emailController.text.trim(),
                               _passwordController.text);
@@ -97,6 +111,5 @@ class _LogInPageGhostState extends State<LogInPageGhost> {
                 ],
               )),
         ));
-    ;
   }
 }

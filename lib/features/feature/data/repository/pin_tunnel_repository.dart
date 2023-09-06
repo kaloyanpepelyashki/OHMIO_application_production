@@ -1,6 +1,7 @@
 import 'package:dart_either/dart_either.dart';
 import 'package:pin_tunnel_application_production/features/feature/data/data_sources/supabase_service.dart';
 import 'package:pin_tunnel_application_production/features/feature/data/models/sensor_range_dao.dart';
+import 'package:pin_tunnel_application_production/features/feature/domain/entities/action_class.dart';
 import 'package:pin_tunnel_application_production/features/feature/domain/repository/i_pin_tunnel_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -10,14 +11,17 @@ import '../../../../core/errors/failure.dart';
 class PinTunnelRepository implements IPinTunnelRepository {
   @override
   subscribeToChannel(int sensorId, Function(dynamic) onReceived) async {
-
-     SupabaseManager supabaseManager = SupabaseManager(
+    SupabaseManager supabaseManager = SupabaseManager(
         supabaseUrl: "https://wruqswjbhpvpikhgwade.supabase.co",
         token:
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndydXFzd2piaHB2cGlraGd3YWRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTI4MzA2NTIsImV4cCI6MjAwODQwNjY1Mn0.XxlesUi6c-Wi7HXidzVotr8DWzljWGvY4LY3BPD-0N0");
     supabaseManager.supabaseClient.channel('*').on(
       RealtimeListenTypes.postgresChanges,
-      ChannelFilter(event: '*', schema: '*', table: 'pintunnel_data',filter: 'sensor_id=eq.${sensorId}'),
+      ChannelFilter(
+          event: '*',
+          schema: '*',
+          table: 'pintunnel_data',
+          filter: 'sensor_id=eq.${sensorId}'),
       (payload, [ref]) {
         print('Change received: ${payload.toString()}');
         onReceived(payload);
@@ -32,7 +36,11 @@ class PinTunnelRepository implements IPinTunnelRepository {
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndydXFzd2piaHB2cGlraGd3YWRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTI4MzA2NTIsImV4cCI6MjAwODQwNjY1Mn0.XxlesUi6c-Wi7HXidzVotr8DWzljWGvY4LY3BPD-0N0");
     supabaseManager.supabaseClient.channel('*').on(
       RealtimeListenTypes.postgresChanges,
-      ChannelFilter(event: '*', schema: '*', table: 'per_minute_data',filter: 'sensor_id=$sensorId'),
+      ChannelFilter(
+          event: '*',
+          schema: '*',
+          table: 'per_minute_data',
+          filter: 'sensor_id=$sensorId'),
       (payload, [ref]) {
         print('Change received: ${payload.toString()}');
         onReceived(payload);
@@ -99,4 +107,34 @@ class PinTunnelRepository implements IPinTunnelRepository {
   getPortConfigForSensor(int sensorId) {}
 
   getPintunnelForProfileEmail(String email) {}
+
+  @override
+  void addAction(ActionClass actionClass) async {
+    SupabaseClient client = SupabaseClient(
+        "https://wruqswjbhpvpikhgwade.supabase.co",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndydXFzd2piaHB2cGlraGd3YWRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTI4MzA2NTIsImV4cCI6MjAwODQwNjY1Mn0.XxlesUi6c-Wi7HXidzVotr8DWzljWGvY4LY3BPD-0N0");
+
+    print("In repository addAction");
+    print(actionClass.action);
+    print(actionClass.condition);
+    print(actionClass.conditionValue);
+    print(actionClass.sensorId);
+
+    try {
+      /* final response = await client.from('dependency').insert({
+        'action_logic': 'notification',
+        'action_condition': 'above',
+        'action_condition_value': 23.5,
+        'independent_sensor_id': 12345,
+      });*/
+      await client.from('dependency').insert({
+        'action_logic': actionClass.action,
+        'action_condition': actionClass.condition,
+        'action_condition_value': actionClass.conditionValue,
+        'independent_sensor_id': actionClass.sensorId,
+      });
+    } catch (e) {
+      print('Error inserting data: $e');
+    }
+  }
 }

@@ -9,6 +9,7 @@ import 'package:pin_tunnel_application_production/features/feature/domain/usecas
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/sensor_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/drawer_menu.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/grid_layout_component.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_blank.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_burger_menu.dart';
 
 import '../../../../core/util/notifications/android_notification_settings.dart';
@@ -55,6 +56,14 @@ class _DashBoardPageState extends State<DashBoardPage> {
     //Elements("Test item 4", 440)
   ];
 
+  bool isText1Underlined = true;
+
+  void toggleText(){
+    setState((){
+      isText1Underlined = !isText1Underlined;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -84,16 +93,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
     }
   }
 
-  @override
-  void dispose() {
-    closeNotificationStreams();
-    super.dispose();
-  }
 
-  void _handleSignOut(context) {
-    supabaseManager.signOutUser();
-    GoRouter.of(context).go("/onboarding");
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +101,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
     _showNotification();
     
     return Scaffold(
-      appBar: const TopBarBackAction(),
+      appBar: const TopBarBlank(),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: CustomScrollView(primary: false, slivers: [
         SliverPadding(
@@ -121,5 +121,17 @@ class _DashBoardPageState extends State<DashBoardPage> {
         )
       ]),
     );
+  }
+
+
+   @override
+  void dispose() {
+    closeNotificationStreams();
+    super.dispose();
+  }
+
+  void _handleSignOut(context) {
+    supabaseManager.signOutUser();
+    GoRouter.of(context).go("/onboarding");
   }
 }

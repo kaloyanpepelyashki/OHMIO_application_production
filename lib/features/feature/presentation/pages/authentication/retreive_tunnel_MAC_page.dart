@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../widgets/elevated_button_component.dart';
-import '../widgets/inputField_with_heading.dart';
-import '../widgets/top_bar_back_action.dart';
+import '../../widgets/elevated_button_component.dart';
+import '../../widgets/inputField_with_heading.dart';
+import '../../widgets/top_bar_back_action.dart';
 
 class RetreiveTunnelMACPage extends StatefulWidget {
   const RetreiveTunnelMACPage({super.key});
