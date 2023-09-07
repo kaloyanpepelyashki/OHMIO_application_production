@@ -73,10 +73,9 @@ class _LogInComponentState extends State<LogInPage> {
               heightFactor: 0.8,
               child: Column(
                 children: [
-                  Text(
-                    "Title",
-                    style: TextStyle(fontSize: 40, letterSpacing: 17),
-                  ),
+                  const Image(
+                  image: AssetImage('assets/brandmark-design.png'),
+                ),
                   Container(
                       margin: const EdgeInsets.fromLTRB(0, 70, 0, 10),
                       child: Column(children: [

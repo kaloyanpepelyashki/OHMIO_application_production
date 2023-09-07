@@ -4,7 +4,7 @@ import 'package:pin_tunnel_application_production/features/feature/presentation/
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_back_action.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../data/data_sources/supabase_service.dart';
+import '../../../data/data_sources/supabase_service.dart';
 
 
 class SignUpPage extends StatefulWidget {

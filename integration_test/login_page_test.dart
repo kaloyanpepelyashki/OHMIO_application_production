@@ -7,7 +7,7 @@ import 'package:pin_tunnel_application_production/config/routes/routes.dart';
 import 'package:pin_tunnel_application_production/core/util/notifications/general_notification_settings.dart';
 import 'package:pin_tunnel_application_production/features/feature/data/data_sources/supabase_service.dart';
 import 'package:pin_tunnel_application_production/main.dart';
-import 'package:pin_tunnel_application_production/features/feature/presentation/pages/dashboard_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/dashboard/dashboard_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 

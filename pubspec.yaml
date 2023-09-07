@@ -40,3 +40,6 @@ flutter:
   assets:
     - assets/brandmark-design_1.png
     - assets/brandmark-design.png
+    - assets/temperature_sensor.png
+    - assets/smoke_sensor.png
+    - assets/laser_actuator.png

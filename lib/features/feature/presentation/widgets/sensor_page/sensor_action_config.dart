@@ -10,45 +10,91 @@ import '../../bloc/PinTunnelEvent.dart';
 
 class ActionWidget extends StatelessWidget {
   final ActionClass actionClass;
+   int actionNumber;
   final BuildContext context;
-  
+  final Function onDelete;
+
   ActionWidget({
     required this.context,
     required this.actionClass,
-    super.key});
+    required this.actionNumber,
+    required this.onDelete,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 250,
-      height: 100,
-      //color: Colors.lightBlue[50],
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Text("Action ${actionNumber}"),
+            GestureDetector(
+              child: FaIcon(FontAwesomeIcons.trash),
+              onTap: (){
+                onDelete(actionNumber-1);
+              },
+            ),
+          ],
+        ),
+        SizedBox(height:8),
+        Container(
+          width: 290,
+          decoration: const BoxDecoration(
+              color: Color.fromARGB(255, 152, 151, 151),
+              borderRadius: BorderRadius.all(Radius.circular(20))),
+          child: Column(
             children: [
-              Text(this.actionClass.action!),
-              FaIcon(FontAwesomeIcons.trash),
+              Container(
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Temperature"),
+                        Text(this.actionClass.condition! +
+                            " " +
+                            this.actionClass.conditionValue.toString()),
+                      ],
+                    ),
+                    const Divider(
+                      height: 10,
+                      thickness: 2,
+                      indent: 3,
+                      endIndent: 3,
+                      color: Colors.black,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Action: "),
+                        Text(this.actionClass.action!),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))),
+                padding: EdgeInsets.all(10),
+                child: Text(
+                    '''If the temperature values is ${actionClass.condition}
+                ${actionClass.conditionValue} then the device will ${actionClass.action}'''),
+              )
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text("Temperature"),
-              Text(this.actionClass.condition! +
-                  " " +
-                  this.actionClass.conditionValue.toString()),
-            ],
-          )
-        ],
-      ),
+        ),
+        SizedBox(height: 10),
+      ],
     );
   }
 }
 
 class SensorActionConfig extends StatefulWidget {
-
   final BuildContext context;
 
   const SensorActionConfig({required this.context, super.key});
@@ -58,40 +104,18 @@ class SensorActionConfig extends StatefulWidget {
 }
 
 class _SensorActionConfigState extends State<SensorActionConfig> {
-
-  List<Widget> actions = [
-     Container(
-      width: 150,
-      height: 100,
-      //color: Colors.lightBlue[50],
-      child: const Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text("Action 1"),
-              FaIcon(FontAwesomeIcons.trash),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text("Temperature"),
-              Text("> 32"),
-            ],
-          )
-        ],
-      ),
-    ),
+  List<ActionWidget> actions = [
+  
   ];
-
 
   @override
   Widget build(BuildContext context) {
     return Container(
         width: 300,
         height: 300,
-        //color: Colors.lightBlue[300],
+        decoration: const BoxDecoration(
+            color: Color.fromARGB(255, 216, 215, 215),
+            borderRadius: BorderRadius.all(Radius.circular(20))),
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -102,6 +126,7 @@ class _SensorActionConfigState extends State<SensorActionConfig> {
                   IconButton(
                     icon: const FaIcon(
                       FontAwesomeIcons.plus,
+                      size: 18,
                     ),
                     onPressed: () async {
                       final actionClass = await showDialog(
@@ -109,12 +134,24 @@ class _SensorActionConfigState extends State<SensorActionConfig> {
                           barrierDismissible: true,
                           builder: (BuildContext context) =>
                               ActionPopup(context: context));
-                      setState(() => 
-                            actions.add(
-                              ActionWidget(actionClass: actionClass, context: context,),
+                      if (actionClass != null) {
+                        setState(
+                          () => actions.add(
+                            ActionWidget(
+                              actionClass: actionClass,
+                              actionNumber: actions.length + 1,
+                              context: context,
+                              onDelete:(index){
+                                setState(() {
+                                  actions.removeAt(index);
+                                });
+                                if (index>0) updateActionNumbers(index);
+                              }
                             ),
-                          );
-                      sendActionToDatabase(actionClass);
+                          ),
+                        );
+                        sendActionToDatabase(actionClass);
+                      }
                     },
                   ),
                 ],
@@ -129,8 +166,17 @@ class _SensorActionConfigState extends State<SensorActionConfig> {
         ));
   }
 
-  void sendActionToDatabase(ActionClass actionClass){
+  void updateActionNumbers(int index){
+    for(var i=index; i<actions.length; i++){
+      setState(() {
+        actions[i].actionNumber = actions.indexOf(actions[i])+1;
+      });
+    }
+  }
+
+  void sendActionToDatabase(ActionClass actionClass) {
     print("In sendActionToDatabase");
-    BlocProvider.of<PinTunnelBloc>(context).add(AddAction(actionClass: actionClass));
+    BlocProvider.of<PinTunnelBloc>(context)
+        .add(AddAction(actionClass: actionClass));
   }
 }

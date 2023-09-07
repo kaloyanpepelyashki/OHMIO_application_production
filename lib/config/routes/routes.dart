@@ -2,11 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pin_tunnel_application_production/features/feature/domain/usecases/subscribe_channel_logic.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/dashboard/choose_sensor_page.dart';
 //Importing page components
-import 'package:pin_tunnel_application_production/features/feature/presentation/pages/dashboard_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/dashboard/dashboard_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/authentication/retreive_tunnel_MAC_page.dart';
-import 'package:pin_tunnel_application_production/features/feature/presentation/pages/sensor_page.dart';
-import 'package:pin_tunnel_application_production/features/feature/presentation/pages/signup_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/sensor_page/sensor_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/authentication/signup_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/authentication/user_onboarding_personal.dart';
 
 import '../../features/feature/data/repository/pin_tunnel_repository.dart';
@@ -19,7 +20,7 @@ import '../../features/feature/presentation/pages/authentication/onboarding_page
 import '../../features/feature/presentation/pages/authentication/splash_page.dart';
 import '../../main.dart';
 
-GoRouter router = GoRouter(initialLocation: "/",routes: <GoRoute>[
+GoRouter router = GoRouter(initialLocation: "/", routes: <GoRoute>[
   GoRoute(
       path: "/",
       builder: (BuildContext context, GoRouterState state) {
@@ -69,9 +70,9 @@ GoRouter router = GoRouter(initialLocation: "/",routes: <GoRoute>[
         final logic = SubscribeChannelLogic(repository);
 
         return BlocProvider.value(
-      value: BlocProvider.of<PinTunnelBloc>(context),
-      child:  DashBoardPage(notificationAppLaunchDetails),
-    );
+          value: BlocProvider.of<PinTunnelBloc>(context),
+          child: DashBoardPage(notificationAppLaunchDetails),
+        );
       }),
   GoRoute(
       path: "/sensorPage",
@@ -80,6 +81,11 @@ GoRouter router = GoRouter(initialLocation: "/",routes: <GoRoute>[
           value: BlocProvider.of<PinTunnelBloc>(context),
           child: const SensorPage(),
         );
+      }),
+  GoRoute(
+      path: "/chooseSensorPage",
+      builder: (BuildContext context, GoRouterState state) {
+        return const ChooseSensorPage();
       }),
   GoRoute(
       path: "/binaryEncoderPage",

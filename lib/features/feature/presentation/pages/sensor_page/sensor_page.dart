@@ -4,7 +4,7 @@ import 'package:pin_tunnel_application_production/features/feature/presentation/
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/sensor_page/sensor_action_config.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/sensor_page/temperature_sensor_widget.dart';
 
-import '../widgets/top_bar_back_action.dart';
+import '../../widgets/top_bar_back_action.dart';
 
 class SensorPage extends StatefulWidget {
   const SensorPage({
@@ -46,7 +46,7 @@ class _SensorPageState extends State<SensorPage> {
                     return Container(
                         width: MediaQuery.sizeOf(context).width,
                         margin: EdgeInsets.symmetric(horizontal: 5.0),
-                        decoration: BoxDecoration(color: Colors.amber),
+                        decoration: BoxDecoration(color: Color(0xF9961E)),
                         child: i);
                   },
                 );
