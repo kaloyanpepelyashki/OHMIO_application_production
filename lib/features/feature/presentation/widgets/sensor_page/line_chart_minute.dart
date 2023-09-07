@@ -1,28 +1,27 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelBloc.dart';
-import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelState.dart';
 
-class LineChartGeneral extends StatefulWidget {
-  const LineChartGeneral({
-     super.key
-    });
+import '../../bloc/PinTunnelBloc.dart';
+import '../../bloc/PinTunnelState.dart';
+
+class LineChartMinute extends StatefulWidget {
+  const LineChartMinute({super.key});
 
   @override
-  State<LineChartGeneral> createState() => _LineChartGeneralState();
+  State<LineChartMinute> createState() => _LineChartMinuteState();
 }
 
-class _LineChartGeneralState extends State<LineChartGeneral> {
+class _LineChartMinuteState extends State<LineChartMinute> {
   double xValue = 1;
-  double minX = 0;
-  double maxX = 10;
-  double minY = 0;
+  double minX = 20;
+  double maxX = 30;
+  double minY = 20;
   double maxY = 90;
   List<FlSpot> spotValues = [
-    FlSpot(0, 3),
+    FlSpot(20, 20),
   ];
-
+  
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<PinTunnelBloc, PinTunnelState>(

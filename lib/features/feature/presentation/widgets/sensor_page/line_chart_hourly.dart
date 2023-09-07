@@ -1,26 +1,25 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelBloc.dart';
-import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelState.dart';
 
-class LineChartGeneral extends StatefulWidget {
-  const LineChartGeneral({
-     super.key
-    });
+import '../../bloc/PinTunnelBloc.dart';
+import '../../bloc/PinTunnelState.dart';
+
+class LineChartHourly extends StatefulWidget {
+  const LineChartHourly({super.key});
 
   @override
-  State<LineChartGeneral> createState() => _LineChartGeneralState();
+  State<LineChartHourly> createState() => _LineChartHourlyState();
 }
 
-class _LineChartGeneralState extends State<LineChartGeneral> {
+class _LineChartHourlyState extends State<LineChartHourly> {
   double xValue = 1;
-  double minX = 0;
-  double maxX = 10;
-  double minY = 0;
+  double minX = 10;
+  double maxX = 20;
+  double minY = 10;
   double maxY = 90;
   List<FlSpot> spotValues = [
-    FlSpot(0, 3),
+    FlSpot(10, 10),
   ];
 
   @override
@@ -31,14 +30,14 @@ class _LineChartGeneralState extends State<LineChartGeneral> {
         if (state is PayloadReceivedState) {
           spotValues.add(FlSpot(xValue, state.payload['new']['data']));
           xValue++;
-          if(spotValues.length > 9){
+          if (spotValues.length > 9) {
             minX++;
             maxX++;
           }
           if (minX < 0) {
             minX = 0;
           }
-          if(spotValues.length >9){
+          if (spotValues.length > 9) {
             spotValues.removeAt(0);
           }
         }
@@ -72,3 +71,4 @@ class _LineChartGeneralState extends State<LineChartGeneral> {
     );
   }
 }
+
