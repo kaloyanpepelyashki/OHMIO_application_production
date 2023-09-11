@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 
@@ -45,7 +44,7 @@ class _DashboardActuatorWidgetState extends State<DashboardActuatorWidget> {
                             sensorName: el.sensorName,
                           ),
                     Container(
-                      color: Color.fromARGB(255, 218, 217, 217),
+                      color: const Color.fromARGB(255, 218, 217, 217),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -62,7 +61,7 @@ class _DashboardActuatorWidgetState extends State<DashboardActuatorWidget> {
                   })
                             },
                           ),
-                          Text("Add New Device",
+                          const Text("Add New Device",
                               style: TextStyle(fontSize: 20)),
                         ],
                       ),

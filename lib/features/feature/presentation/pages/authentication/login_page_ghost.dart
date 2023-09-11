@@ -43,13 +43,13 @@ class _LogInPageGhostState extends State<LogInPageGhost> {
           ifLeft: (l) => {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(l.message),
-                  backgroundColor: Color.fromARGB(156, 255, 1, 1),
+                  backgroundColor: const Color.fromARGB(156, 255, 1, 1),
                 ))
               });
     } on AuthException catch (e) {
       SnackBar(
         content: Text(e.message),
-        backgroundColor: Color.fromARGB(156, 255, 1, 1),
+        backgroundColor: const Color.fromARGB(156, 255, 1, 1),
       );
       debugPrint("log in failed");
       debugPrint("Error: $e");
@@ -97,6 +97,5 @@ class _LogInPageGhostState extends State<LogInPageGhost> {
                 ],
               )),
         ));
-    ;
   }
 }

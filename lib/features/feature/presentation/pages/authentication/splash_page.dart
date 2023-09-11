@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_blank.dart';
@@ -18,7 +17,7 @@ class _SplashPageState extends State<SplashPage> {
   var _session = supabaseManager.supabaseSession;
 
   Future<void> _redirect() async {
-    await Future.delayed(Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: 5));
     if (!mounted) {
       debugPrint("!mounted");
       return;

@@ -20,7 +20,7 @@ class InitialState extends PinTunnelState{
 class PayloadReceivedState extends PinTunnelState{
   final dynamic payload;
 
-  PayloadReceivedState(this.payload);
+  const PayloadReceivedState(this.payload);
 
   @override
   List<Object> get props =>[payload];
@@ -29,7 +29,7 @@ class PayloadReceivedState extends PinTunnelState{
 class MinutePayloadReceivedState extends PinTunnelState{
   final dynamic payload;
 
-  MinutePayloadReceivedState(this.payload);
+  const MinutePayloadReceivedState(this.payload);
 
   @override
   List<Object> get props =>[payload];
@@ -38,7 +38,7 @@ class MinutePayloadReceivedState extends PinTunnelState{
 class HourlyPayloadReceivedState extends PinTunnelState{
   final dynamic payload;
 
-  HourlyPayloadReceivedState(this.payload);
+  const HourlyPayloadReceivedState(this.payload);
 
   @override
   List<Object> get props =>[payload];
@@ -47,7 +47,7 @@ class HourlyPayloadReceivedState extends PinTunnelState{
 class DailyPayloadReceivedState extends PinTunnelState{
   final dynamic payload;
 
-  DailyPayloadReceivedState(this.payload);
+  const DailyPayloadReceivedState(this.payload);
 
   @override
   List<Object> get props =>[payload];
@@ -57,7 +57,7 @@ class SensorRangeReceivedState extends PinTunnelState{
 
   final SensorRange sensorRange;
 
-  SensorRangeReceivedState(this.sensorRange);
+  const SensorRangeReceivedState(this.sensorRange);
 
   @override
   List<Object> get props =>[sensorRange];
@@ -66,7 +66,7 @@ class SensorRangeReceivedState extends PinTunnelState{
 class AddActionState extends PinTunnelState{
   final ActionClass actionClass;
 
-  AddActionState(this.actionClass);
+  const AddActionState(this.actionClass);
 
   @override
   List<Object> get props =>[actionClass];

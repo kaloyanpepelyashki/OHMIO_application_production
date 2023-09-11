@@ -1,32 +1,22 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pin_tunnel_application_production/features/feature/domain/usecases/subscribe_channel_logic.dart';
-import 'package:pin_tunnel_application_production/features/feature/presentation/pages/sensor_page/sensor_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/dashboard/dashboard_actuator_widget.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/dashboard/dashboard_sensor_widget.dart';
-import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/drawer_menu.dart';
-import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/grid_layout_component.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_blank.dart';
-import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_burger_menu.dart';
 
 import '../../../../../core/util/notifications/android_notification_settings.dart';
 import '../../../../../core/util/notifications/general_notification_settings.dart';
 import '../../../../../core/util/notifications/ios_notification_settings.dart';
-import '../../../../../main.dart';
 import '../../../data/data_sources/supabase_service.dart';
 import '../../../domain/entities/sensor_class.dart';
 import '../../bloc/PinTunnelBloc.dart';
 import '../../bloc/PinTunnelEvent.dart';
-import '../../bloc/PinTunnelState.dart';
 import '../../widgets/dashboard/dashboard_elements.dart';
-import '../../widgets/dashboard/grid_item_component.dart';
-import '../../widgets/top_bar_back_action.dart';
 
 class DashBoardPage extends StatefulWidget {
   const DashBoardPage(
@@ -73,13 +63,13 @@ class _DashBoardPageState extends State<DashBoardPage> {
     configureSelectNotificationSubject(context);
     _showNotification();
     BlocProvider.of<PinTunnelBloc>(context)
-        .add(SubscribeChannel(sensorId: 12345));
+        .add(const SubscribeChannel(sensorId: 12345));
     BlocProvider.of<PinTunnelBloc>(context)
-        .add(SubscribeMinuteChannel(sensorId: 12345));
+        .add(const SubscribeMinuteChannel(sensorId: 12345));
     BlocProvider.of<PinTunnelBloc>(context)
-        .add(SubscribeHourlyChannel(sensorId: 12345));
+        .add(const SubscribeHourlyChannel(sensorId: 12345));
     BlocProvider.of<PinTunnelBloc>(context)
-        .add(GetSensorRange(sensorId: 12345));
+        .add(const GetSensorRange(sensorId: 12345));
   }
 
   Future<void> _checkNotificationPermissions() async {
@@ -111,7 +101,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("My system"),
+              const Text("My system"),
               IconButton(
                 icon: const FaIcon(
                   FontAwesomeIcons.plus,
@@ -158,7 +148,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                   ),
                 ),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               GestureDetector(
                 onTap: toggleText,
                 child: Text(

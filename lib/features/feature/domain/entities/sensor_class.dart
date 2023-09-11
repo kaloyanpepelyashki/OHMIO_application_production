@@ -1,4 +1,6 @@
-class SensorClass {
+import 'package:equatable/equatable.dart';
+
+class SensorClass  extends Equatable{
   final String? tunnelMacAddress;
   final String? sensorName;
   final bool? isConnected;
@@ -6,7 +8,7 @@ class SensorClass {
   final String? sensorDescription;
   final bool? isActuator;
 
-   SensorClass({
+   const SensorClass({
     this.tunnelMacAddress,
     this.sensorName,
     this.isConnected,
@@ -15,4 +17,7 @@ class SensorClass {
     this.isActuator,
    }
   );
+  
+  @override
+  List<Object?> get props => [tunnelMacAddress, sensorName, isConnected, sensorImage, sensorDescription, isActuator];
 }

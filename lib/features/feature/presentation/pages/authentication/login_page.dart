@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -47,13 +46,13 @@ class _LogInComponentState extends State<LogInPage> {
           ifLeft: (l) => {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(l.message),
-                  backgroundColor: Color.fromARGB(156, 255, 1, 1),
+                  backgroundColor: const Color.fromARGB(156, 255, 1, 1),
                 ))
               });
     } on AuthException catch (e) {
       SnackBar(
         content: Text(e.message),
-        backgroundColor: Color.fromARGB(156, 255, 1, 1),
+        backgroundColor: const Color.fromARGB(156, 255, 1, 1),
       );
       debugPrint("log in failed");
       debugPrint("Error: $e");
@@ -83,7 +82,7 @@ class _LogInComponentState extends State<LogInPage> {
                             margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                             child: TextField(
                               //key for testing purpose
-                                key: Key('emailField'),
+                                key: const Key('emailField'),
                                 controller: _emailController,
                                 decoration: const InputDecoration(
                                     hintText: "Email",
@@ -91,7 +90,7 @@ class _LogInComponentState extends State<LogInPage> {
                         Container(
                             margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                             child: TextField(
-                                key: Key('passwordField'),
+                                key: const Key('passwordField'),
                                 controller: _passwordController,
                                 decoration: const InputDecoration(
                                     hintText: "Password",
@@ -100,7 +99,7 @@ class _LogInComponentState extends State<LogInPage> {
                   Container(
                       margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                       child: ElevatedButtonComponent(
-                        key: Key('loginButton'),
+                        key: const Key('loginButton'),
                         onPressed: () {
                           _handleSignIn(context, _emailController.text.trim(),
                               _passwordController.text);

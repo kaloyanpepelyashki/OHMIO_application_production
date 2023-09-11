@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:pin_tunnel_application_production/features/feature/data/data_sources/supabase_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

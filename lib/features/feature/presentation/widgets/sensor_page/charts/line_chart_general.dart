@@ -20,7 +20,7 @@ class _LineChartGeneralState extends State<LineChartGeneral> {
   double minY = 0;
   double maxY = 90;
   List<FlSpot> spotValues = [
-    FlSpot(0, 3),
+    const FlSpot(0, 3),
   ];
 
   @override
@@ -51,15 +51,15 @@ class _LineChartGeneralState extends State<LineChartGeneral> {
             gridData: FlGridData(
                 show: true,
                 getDrawingHorizontalLine: (value) {
-                  return FlLine(
-                    color: const Color(0xff37433d),
+                  return const FlLine(
+                    color: Color(0xff37433d),
                     strokeWidth: 1,
                   );
                 },
                 drawVerticalLine: true,
                 getDrawingVerticalLine: (value) {
-                  return FlLine(
-                    color: const Color(0xff37433d),
+                  return const FlLine(
+                    color: Color(0xff37433d),
                     strokeWidth: 1,
                   );
                 }),

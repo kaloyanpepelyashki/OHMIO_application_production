@@ -17,7 +17,7 @@ class TopBarBurgerMenu extends StatelessWidget implements PreferredSizeWidget {
             Scaffold.of(context).openEndDrawer();
           },
           icon: const Icon(color: Colors.black, size: 50.0, Icons.menu_rounded),
-          padding: EdgeInsets.fromLTRB(0, 5, 40.0, 0),
+          padding: const EdgeInsets.fromLTRB(0, 5, 40.0, 0),
         )
       ],
       backgroundColor: Theme.of(context).colorScheme.background,

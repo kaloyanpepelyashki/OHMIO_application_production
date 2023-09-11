@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -29,16 +28,16 @@ class ActionWidget extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Text("Action ${actionNumber}"),
+            Text("Action $actionNumber"),
             GestureDetector(
-              child: FaIcon(FontAwesomeIcons.trash),
+              child: const FaIcon(FontAwesomeIcons.trash),
               onTap: (){
                 onDelete(actionNumber-1);
               },
             ),
           ],
         ),
-        SizedBox(height:8),
+        const SizedBox(height:8),
         Container(
           width: 290,
           decoration: const BoxDecoration(
@@ -47,16 +46,14 @@ class ActionWidget extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: Column(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Temperature"),
-                        Text(this.actionClass.condition! +
-                            " " +
-                            this.actionClass.conditionValue.toString()),
+                        const Text("Temperature"),
+                        Text("${actionClass.condition!} ${actionClass.conditionValue}"),
                       ],
                     ),
                     const Divider(
@@ -69,8 +66,8 @@ class ActionWidget extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Action: "),
-                        Text(this.actionClass.action!),
+                        const Text("Action: "),
+                        Text(actionClass.action!),
                       ],
                     ),
                   ],
@@ -80,7 +77,7 @@ class ActionWidget extends StatelessWidget {
                 decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))),
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: Text(
                     '''If the temperature values is ${actionClass.condition}
                 ${actionClass.conditionValue} then the device will ${actionClass.action}'''),
@@ -88,7 +85,7 @@ class ActionWidget extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
       ],
     );
   }
@@ -119,42 +116,45 @@ class _SensorActionConfigState extends State<SensorActionConfig> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text("Setting your device"),
-                  IconButton(
-                    icon: const FaIcon(
-                      FontAwesomeIcons.plus,
-                      size: 18,
-                    ),
-                    onPressed: () async {
-                      final actionClass = await showDialog(
-                          context: context,
-                          barrierDismissible: true,
-                          builder: (BuildContext context) =>
-                              ActionPopup(context: context));
-                      if (actionClass != null) {
-                        setState(
-                          () => actions.add(
-                            ActionWidget(
-                              actionClass: actionClass,
-                              actionNumber: actions.length + 1,
-                              context: context,
-                              onDelete:(index){
-                                setState(() {
-                                  actions.removeAt(index);
-                                });
-                                if (index>0) updateActionNumbers(index);
-                              }
+              Padding(
+                padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text("Setting your device"),
+                    IconButton(
+                      icon: const FaIcon(
+                        FontAwesomeIcons.plus,
+                        size:30,
+                      ),
+                      onPressed: () async {
+                        final actionClass = await showDialog(
+                            context: context,
+                            barrierDismissible: true,
+                            builder: (BuildContext context) =>
+                                ActionPopup(context: context));
+                        if (actionClass != null) {
+                          setState(
+                            () => actions.add(
+                              ActionWidget(
+                                actionClass: actionClass,
+                                actionNumber: actions.length + 1,
+                                context: context,
+                                onDelete:(index){
+                                  setState(() {
+                                    actions.removeAt(index);
+                                  });
+                                  if (index>0) updateActionNumbers(index);
+                                }
+                              ),
                             ),
-                          ),
-                        );
-                        sendActionToDatabase(actionClass);
-                      }
-                    },
-                  ),
-                ],
+                          );
+                          sendActionToDatabase(actionClass);
+                        }
+                      },
+                    ),
+                  ],
+                ),
               ),
               SingleChildScrollView(
                 child: Column(

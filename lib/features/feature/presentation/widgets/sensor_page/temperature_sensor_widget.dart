@@ -1,11 +1,7 @@
-import 'dart:convert';
 import 'dart:math';
 
-import 'package:dart_either/dart_either.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pin_tunnel_application_production/features/feature/domain/entities/pintunnel_data_class.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelBloc.dart';
 
 import '../../../domain/entities/sensor_range.dart';
@@ -73,12 +69,12 @@ class CustomCircle extends StatelessWidget {
   final double minValue;
   final double maxValue;
   final double value;
-  CustomCircle(
-      {required this.minValue, required this.maxValue, required this.value});
+  const CustomCircle(
+      {super.key, required this.minValue, required this.maxValue, required this.value});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 200,
       height: 200,
       child: CustomPaint(
@@ -118,7 +114,7 @@ class CirclePainter extends CustomPainter {
       Offset textOffset = Offset(center.dx + (radius + 22) * cos(angle),
           center.dy + (radius + 22) * sin(angle));
       TextSpan span = TextSpan(
-          style: TextStyle(
+          style: const TextStyle(
               color: Colors.black, fontSize: 18.0, fontWeight: FontWeight.bold),
           text: '$i');
       TextPainter tp = TextPainter(
@@ -267,7 +263,7 @@ class CirclePainter extends CustomPainter {
 
     // Create the TextSpan object
     TextSpan span = TextSpan(
-      style: TextStyle(
+      style: const TextStyle(
           color: Colors.black, fontSize: 40.0, fontWeight: FontWeight.bold),
       text: centerText,
     );

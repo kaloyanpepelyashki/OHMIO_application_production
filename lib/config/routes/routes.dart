@@ -6,11 +6,14 @@ import 'package:pin_tunnel_application_production/features/feature/presentation/
 //Importing page components
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/dashboard/dashboard_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/authentication/retreive_tunnel_MAC_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/dashboard/sensor_detail_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/sensor_page/chart_full_screen_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/sensor_page/sensor_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/authentication/signup_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/authentication/user_onboarding_personal.dart';
 
 import '../../features/feature/data/repository/pin_tunnel_repository.dart';
+import '../../features/feature/domain/entities/sensor_class.dart';
 import '../../features/feature/presentation/bloc/PinTunnelBloc.dart';
 import '../../features/feature/presentation/pages/authentication/binary_encoder_page.dart';
 import '../../features/feature/presentation/pages/authentication/confirm_email_page.dart';
@@ -86,6 +89,12 @@ GoRouter router = GoRouter(initialLocation: "/", routes: <GoRoute>[
       path: "/chooseSensorPage",
       builder: (BuildContext context, GoRouterState state) {
         return const ChooseSensorPage();
+      }),
+  GoRoute(
+      path: "/sensorDetailPage",
+      name: "sensorDetailPage",
+      builder: (BuildContext context, GoRouterState state) {
+        return const SensorDetailPage(sensorClass: SensorClass());
       }),
   GoRoute(
       path: "/binaryEncoderPage",

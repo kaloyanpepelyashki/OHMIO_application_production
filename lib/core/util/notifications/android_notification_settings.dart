@@ -3,7 +3,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'general_notification_settings.dart';
 
 AndroidInitializationSettings initializationSettingsAndroid =
-    AndroidInitializationSettings('app_icon');
+    const AndroidInitializationSettings('app_icon');
 
 
 Future<void> showAndroidNotification() async{

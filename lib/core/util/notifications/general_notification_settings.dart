@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../features/feature/presentation/pages/sensor_page/sensor_page.dart';
 
 int id = 0;
 

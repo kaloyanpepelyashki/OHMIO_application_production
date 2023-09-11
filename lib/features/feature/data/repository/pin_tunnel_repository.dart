@@ -21,7 +21,7 @@ class PinTunnelRepository implements IPinTunnelRepository {
           event: '*',
           schema: '*',
           table: 'pintunnel_data',
-          filter: 'sensor_id=eq.${sensorId}'),
+          filter: 'sensor_id=eq.$sensorId'),
       (payload, [ref]) {
         print('Change received: ${payload.toString()}');
         onReceived(payload);
@@ -29,6 +29,7 @@ class PinTunnelRepository implements IPinTunnelRepository {
     ).subscribe();
   }
 
+  @override
   subscribeToMinuteData(int sensorId, Function(dynamic) onReceived) async {
     SupabaseManager supabaseManager = SupabaseManager(
         supabaseUrl: "https://wruqswjbhpvpikhgwade.supabase.co",
@@ -48,6 +49,7 @@ class PinTunnelRepository implements IPinTunnelRepository {
     ).subscribe();
   }
 
+  @override
   subscribeToHourlyData(int sensorId, Function(dynamic) onReceived) async {
     SupabaseManager supabaseManager = SupabaseManager(
         supabaseUrl: "https://wruqswjbhpvpikhgwade.supabase.co",
@@ -67,6 +69,7 @@ class PinTunnelRepository implements IPinTunnelRepository {
     ).subscribe();
   }
 
+  @override
   subscribeToDailyData(int sensorId, Function(dynamic) onReceived) async {
     SupabaseManager supabaseManager = SupabaseManager(
         supabaseUrl: "https://wruqswjbhpvpikhgwade.supabase.co",

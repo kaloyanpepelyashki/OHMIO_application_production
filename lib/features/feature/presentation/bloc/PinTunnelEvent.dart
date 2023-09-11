@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:pin_tunnel_application_production/features/feature/domain/entities/sensor_range.dart';
 
 import '../../domain/entities/action_class.dart';
 
@@ -13,7 +12,7 @@ abstract class PinTunnelEvent extends Equatable{
 class SubscribeChannel extends PinTunnelEvent{
   final int sensorId;
 
-  SubscribeChannel({required this.sensorId});
+  const SubscribeChannel({required this.sensorId});
 
   @override
   List<Object> get props => [sensorId];
@@ -22,7 +21,7 @@ class SubscribeChannel extends PinTunnelEvent{
 class SubscribeMinuteChannel extends PinTunnelEvent{
   final int sensorId;
 
-  SubscribeMinuteChannel({required this.sensorId});
+  const SubscribeMinuteChannel({required this.sensorId});
 
   @override
   List<Object> get props => [sensorId];
@@ -31,7 +30,7 @@ class SubscribeMinuteChannel extends PinTunnelEvent{
 class SubscribeHourlyChannel extends PinTunnelEvent{
   final int sensorId;
 
-  SubscribeHourlyChannel({required this.sensorId});
+  const SubscribeHourlyChannel({required this.sensorId});
 
   @override
   List<Object> get props => [sensorId];
@@ -40,7 +39,7 @@ class SubscribeHourlyChannel extends PinTunnelEvent{
 class SubscribeDailyChannel extends PinTunnelEvent{
   final int sensorId;
 
-  SubscribeDailyChannel({required this.sensorId});
+  const SubscribeDailyChannel({required this.sensorId});
 
   @override
   List<Object> get props => [sensorId];
@@ -52,7 +51,7 @@ class SubscribeDailyChannel extends PinTunnelEvent{
 class PayloadReceived extends PinTunnelEvent {
   final Map<String, dynamic> payload;
 
-  PayloadReceived({required this.payload});
+  const PayloadReceived({required this.payload});
 
   @override
   List<Object> get props => [payload];
@@ -61,7 +60,7 @@ class PayloadReceived extends PinTunnelEvent {
 class MinutePayloadReceived extends PinTunnelEvent {
   final Map<String, dynamic> payload;
 
-  MinutePayloadReceived({required this.payload});
+  const MinutePayloadReceived({required this.payload});
 
   @override
   List<Object> get props => [payload];
@@ -70,7 +69,7 @@ class MinutePayloadReceived extends PinTunnelEvent {
 class HourlyPayloadReceived extends PinTunnelEvent {
   final Map<String, dynamic> payload;
 
-  HourlyPayloadReceived({required this.payload});
+  const HourlyPayloadReceived({required this.payload});
 
   @override
   List<Object> get props => [payload];
@@ -79,7 +78,7 @@ class HourlyPayloadReceived extends PinTunnelEvent {
 class DailyPayloadReceived extends PinTunnelEvent {
   final Map<String, dynamic> payload;
 
-  DailyPayloadReceived({required this.payload});
+  const DailyPayloadReceived({required this.payload});
 
   @override
   List<Object> get props => [payload];
@@ -89,7 +88,7 @@ class DailyPayloadReceived extends PinTunnelEvent {
 class GetSensorRange extends PinTunnelEvent{
   final int sensorId;
 
-  GetSensorRange({required this.sensorId});
+  const GetSensorRange({required this.sensorId});
 
   @override
   List<Object> get props => [sensorId];
@@ -98,5 +97,5 @@ class GetSensorRange extends PinTunnelEvent{
 class AddAction extends PinTunnelEvent{
   final ActionClass actionClass;
 
-  AddAction({required this.actionClass});
+  const AddAction({required this.actionClass});
 }

@@ -110,6 +110,5 @@ class _OnBoardingPersonalDataPageState
                         )),
                   ],
                 ))));
-    ;
   }
 }

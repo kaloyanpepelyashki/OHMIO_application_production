@@ -72,11 +72,11 @@ class _SignUpComponentState extends State<SignUpPage> {
                     ),
               Expanded(
                 child: SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   child: Column(
                     children: [
                       Container(
-                        margin: EdgeInsets.fromLTRB(0, 70, 0, 10),
+                        margin: const EdgeInsets.fromLTRB(0, 70, 0, 10),
                         child: Column(
                           children: [
                             //<=== | Text fields | ===>

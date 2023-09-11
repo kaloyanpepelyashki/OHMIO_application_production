@@ -43,11 +43,11 @@ class _ActionPopupState extends State<ActionPopup> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Sensor action'),
-      content: Container(
+      content: SizedBox(
         width: MediaQuery.of(context).size.width * 0.8,
         child: Column(
           children: [
-            Text("If the sensor value is "),
+            const Text("If the sensor value is "),
             Row(
               children: [
                 DropdownMenu<String>(
@@ -63,18 +63,18 @@ class _ActionPopupState extends State<ActionPopup> {
                     return DropdownMenuEntry<String>(value: value, label: value);
                   }).toList(),
                 ),
-                SizedBox(width: 5,),
+                const SizedBox(width: 5,),
                 Expanded(
                   child: TextField(
                     autofocus: true,
-                    decoration: InputDecoration(hintText: 'Enter value'),
+                    decoration: const InputDecoration(hintText: 'Enter value'),
                     controller: conditionValue,
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 20,),
-            Text("then: "),
+            const SizedBox(height: 20,),
+            const Text("then: "),
             DropdownMenu<String>(
                   initialSelection: actionList.first,
                   onSelected: (String? value) {

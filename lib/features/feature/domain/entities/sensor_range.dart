@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:pin_tunnel_application_production/features/feature/data/models/sensor_range_dao.dart';
 
 class SensorRange extends Equatable{ 
   final String minValue;

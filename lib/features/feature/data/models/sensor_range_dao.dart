@@ -2,7 +2,7 @@ import 'package:pin_tunnel_application_production/features/feature/domain/entiti
 
 class SensorRangeDAO extends SensorRange{
 
-  SensorRangeDAO({
+  const SensorRangeDAO({
     required super.minValue,
     required super.maxValue
   });
