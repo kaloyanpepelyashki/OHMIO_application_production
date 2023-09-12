@@ -67,14 +67,15 @@ GoRouter router = GoRouter(initialLocation: "/", routes: <GoRoute>[
             })
       ]),
   GoRoute(
-      path: "/dashboard",
+      path: "/dashboard/:email",
+      name: "dashboard",
       builder: (BuildContext context, GoRouterState state) {
         final repository = PinTunnelRepository();
         final logic = SubscribeChannelLogic(repository);
 
         return BlocProvider.value(
           value: BlocProvider.of<PinTunnelBloc>(context),
-          child: DashBoardPage(notificationAppLaunchDetails),
+          child: DashBoardPage(state.pathParameters['email'], notificationAppLaunchDetails),
         );
       }),
   GoRoute(
@@ -91,10 +92,15 @@ GoRouter router = GoRouter(initialLocation: "/", routes: <GoRoute>[
         return const ChooseSensorPage();
       }),
   GoRoute(
-      path: "/sensorDetailPage",
+      path: "/sensorDetailPage/:isActuator/:sensorDescription/:sensorImage/:sensorName",
       name: "sensorDetailPage",
       builder: (BuildContext context, GoRouterState state) {
-        return const SensorDetailPage(sensorClass: SensorClass());
+        return  SensorDetailPage(
+          isActuator: state.pathParameters['isActuator']!,
+          sensorDescription: state.pathParameters['sensorDescription']!,
+          sensorImage: state.pathParameters['sensorImage']!,
+          sensorName: state.pathParameters['sensorName']!,
+        );
       }),
   GoRoute(
       path: "/binaryEncoderPage",

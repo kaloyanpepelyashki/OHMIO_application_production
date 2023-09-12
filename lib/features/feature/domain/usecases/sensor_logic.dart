@@ -3,6 +3,7 @@ import 'package:pin_tunnel_application_production/features/feature/domain/entiti
 
 import '../../../../core/errors/failure.dart';
 import '../entities/action_class.dart';
+import '../entities/sensor_class.dart';
 import '../repository/i_pin_tunnel_repository.dart';
 
 class SensorLogic{
@@ -13,6 +14,10 @@ class SensorLogic{
 
   Future<Either<Failure, SensorRange>>  getRangeForSensor(int sensorId){
     return _repository.getRangeForSensor(sensorId);
+  }
+
+   Future<Either<Failure, List<SensorClass>>> getSensorsForUser(String email){
+    return _repository.getSensorsForUser(email);
   }
 
   void addAction(ActionClass actionClass){

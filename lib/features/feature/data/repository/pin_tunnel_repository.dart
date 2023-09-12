@@ -7,6 +7,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../core/errors/exceptions.dart';
 import '../../../../core/errors/failure.dart';
+import '../../domain/entities/sensor_class.dart';
+import '../models/sensor_dao.dart';
 
 class PinTunnelRepository implements IPinTunnelRepository {
   @override
@@ -110,6 +112,37 @@ class PinTunnelRepository implements IPinTunnelRepository {
   getPortConfigForSensor(int sensorId) {}
 
   getPintunnelForProfileEmail(String email) {}
+
+  @override
+  Future<Either<Failure, List<SensorDAO>>> getSensorsForUser(
+      String email) async {
+    SupabaseClient client = SupabaseClient(
+        "https://wruqswjbhpvpikhgwade.supabase.co",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndydXFzd2piaHB2cGlraGd3YWRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTI4MzA2NTIsImV4cCI6MjAwODQwNjY1Mn0.XxlesUi6c-Wi7HXidzVotr8DWzljWGvY4LY3BPD-0N0");
+
+    try {
+      final clientId = (await client.from('profiles').select('''
+    id
+  ''').eq('email', email))[0]['id'];
+
+    final pintunnelData = (await client.from('pintunnel').select('''id, mac_address''').eq('user_id', clientId));
+
+      final cfg_code = (await client.from('sensor').select('''cfg_code''').eq('pintunnel_id', pintunnelData[0]['id']))[0]['cfg_code'];
+
+      print(cfg_code);
+
+      final data = await client.from('sensor_config').select('''description, isActuator, unit, version, min_value, max_value, image, name''');
+
+      print(data);
+
+      List<SensorDAO> sensorDAOList = [];
+      data.forEach((i) => sensorDAOList.add(SensorDAO.fromJSON(i as Map<String, dynamic>)));
+      
+      return Right(sensorDAOList);
+    } on APIException catch (e) {
+      return Left(APIFailure.fromException(e));
+    }
+  }
 
   @override
   void addAction(ActionClass actionClass) async {

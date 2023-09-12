@@ -99,3 +99,12 @@ class AddAction extends PinTunnelEvent{
 
   const AddAction({required this.actionClass});
 }
+
+class GetSensorsForUser extends PinTunnelEvent{
+  final String email;
+
+  const GetSensorsForUser({required this.email});
+
+  @override
+  List<Object> get props => [email];
+}

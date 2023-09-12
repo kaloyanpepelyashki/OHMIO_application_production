@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_back_action.dart';
 
 import '../../../domain/entities/sensor_class.dart';
 
 class SensorDetailPage extends StatelessWidget {
-  final SensorClass sensorClass;
+  final String isActuator;
+  final String sensorImage;
+  final String sensorName;
+  final String sensorDescription;
 
   const SensorDetailPage({
-    required this.sensorClass,
+    required this.isActuator,
+    required this.sensorImage,
+    required this.sensorName,
+    required this.sensorDescription,
     super.key,
   });
 
@@ -28,39 +35,39 @@ class SensorDetailPage extends StatelessWidget {
   */
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Scaffold(
+      appBar: const TopBarBackAction(),
+      backgroundColor: Theme.of(context).colorScheme.background,
+      body:  Column(
       children: [
-        Row(
-          children: [
-            Image(
-              image: AssetImage('assets/${sensorClass.sensorImage}'),
-              width: 100,
-              height: 100,
-            ),
-            const Column(
-              children: [
-                Text("Sensor Name"),
-                Text("Specifications"),
-                Text("Type: "),
-                Text("Max sensitivity: "),
-                Text("Output: "),
-              ],
-            ),
-          ],
-        ),
+           Row(
+            children: [
+              Image(
+                image: AssetImage('assets/${sensorImage}'),
+                width: 100,
+                height: 100,
+              ),
+              Flexible(
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      Text("Sensor Name: $sensorName"),
+                      Text("Specifications: $sensorDescription "),
+                      Text("Type: "),
+                      Text("Max sensitivity: "),
+                      Text("Output: "),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         const Text("Description"),
         const Text("Lorem ipsum dolor sit amet,"),
         ElevatedButton(
           onPressed: () {
-            Navigator.of(context).pop(SensorClass(
-                isActuator: sensorClass.isActuator,
-                sensorImage: sensorClass.sensorImage,
-                sensorName: sensorClass.sensorName,
-                sensorDescription: sensorClass.sensorDescription));
-
-            GoRouter.of(context).go(
-              "/dashboard",
-            );
+           
           },
           child: const Text("Connect"),
         ),
@@ -69,6 +76,7 @@ class SensorDetailPage extends StatelessWidget {
           child: const Text("Buy"),
         )
       ],
-    );
+    ),
+      );
   }
 }

@@ -39,10 +39,12 @@ class _LogInComponentState extends State<LogInPage> {
 
       signInSession.fold(
           ifRight: (r) => {
-            OneSignal.login(email),
-            OneSignal.User.addEmail(email),
-            GoRouter.of(context).push("/dashboard")
-            },
+                OneSignal.login(email),
+                OneSignal.User.addEmail(email),
+                GoRouter.of(context).pushNamed("dashboard", pathParameters: {
+                  "email": email,
+                })
+              },
           ifLeft: (l) => {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(l.message),
@@ -73,15 +75,15 @@ class _LogInComponentState extends State<LogInPage> {
               child: Column(
                 children: [
                   const Image(
-                  image: AssetImage('assets/brandmark-design.png'),
-                ),
+                    image: AssetImage('assets/brandmark-design.png'),
+                  ),
                   Container(
                       margin: const EdgeInsets.fromLTRB(0, 70, 0, 10),
                       child: Column(children: [
                         Container(
                             margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                             child: TextField(
-                              //key for testing purpose
+                                //key for testing purpose
                                 key: const Key('emailField'),
                                 controller: _emailController,
                                 decoration: const InputDecoration(

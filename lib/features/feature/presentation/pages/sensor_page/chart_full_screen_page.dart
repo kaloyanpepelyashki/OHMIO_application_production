@@ -17,8 +17,8 @@ class ChartFullScreenPage extends StatefulWidget {
 class _ChartFullScreenPageState extends State<ChartFullScreenPage> {
 
   late dynamic chartToDisplay;
-   GlobalKey<RangeAreaState> rangeAreaKey = GlobalKey<RangeAreaState>();
-
+  String selectedFilter = 'live';
+  
   @override
   void initState(){
     chartToDisplay = widget.chartWidget;
@@ -49,31 +49,64 @@ class _ChartFullScreenPageState extends State<ChartFullScreenPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   ElevatedButton(
-                    onPressed: () {},
-                    child: Text("Month"),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: const ButtonStyle(
+                    onPressed: () {
+                      _openWidget("live");
+                      selectedFilter = "live";
+                    },
+                    style: selectedFilter == "live" ? const ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Color(0xFF551C50)),
+                      foregroundColor: MaterialStatePropertyAll(Colors.white),
+                    ) : const ButtonStyle(
                       backgroundColor: MaterialStatePropertyAll(Colors.white),
                       foregroundColor: MaterialStatePropertyAll(Colors.black),
                     ),
-                    child: Text("Week"),
+                    child: Text("Live"),
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      setState(() {
-                        chartToDisplay = RangeArea(key: rangeAreaKey, timeFilter: "day");
-                      });
+                      _openWidget("minute");
+                      selectedFilter = "minute";
+                    },
+                    style: selectedFilter == "minute" ? const ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Color(0xFF551C50)),
+                      foregroundColor: MaterialStatePropertyAll(Colors.white),
+                    ) : const ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Colors.white),
+                      foregroundColor: MaterialStatePropertyAll(Colors.black),
+                    ),
+                    child: Text("Minute"),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      _openWidget("day");
+                      selectedFilter = "day";
                       
                       //_openWidget("day");
                     },
-                    style: const ButtonStyle(
+                    style: selectedFilter =="day" ? const ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Color(0xFF551C50)),
+                      foregroundColor: MaterialStatePropertyAll(Colors.white),
+                    ) : const ButtonStyle(
                       backgroundColor: MaterialStatePropertyAll(Colors.white),
                       foregroundColor: MaterialStatePropertyAll(Colors.black),
                     ),
                     child: Text("Day"),
                   ),
+                  ElevatedButton(
+                    onPressed: () {
+                      _openWidget("week");
+                      selectedFilter = "week";
+                    },
+                   style: selectedFilter =="week" ? const ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Color(0xFF551C50)),
+                      foregroundColor: MaterialStatePropertyAll(Colors.white),
+                    ) : const ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Colors.white),
+                      foregroundColor: MaterialStatePropertyAll(Colors.black),
+                    ),
+                    child: Text("Week"),
+                  ),
+                  
                 ],
               ),
             ),
@@ -86,9 +119,11 @@ class _ChartFullScreenPageState extends State<ChartFullScreenPage> {
   }
 
   _openWidget(String filter){
+
     if(widget.chartWidget is RangeArea){
+      GlobalKey<RangeAreaState> rangeAreaKey = GlobalKey<RangeAreaState>();
       setState(() {
-        chartToDisplay = RangeArea(timeFilter: filter);
+        chartToDisplay = RangeArea(key: rangeAreaKey, timeFilter: filter);
       });
     }
   }

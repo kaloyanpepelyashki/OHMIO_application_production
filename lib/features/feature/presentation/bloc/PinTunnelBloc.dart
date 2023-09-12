@@ -45,6 +45,7 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
     on<HourlyPayloadReceived>(_onHourlyPayloadReceived);
 
     on<GetSensorRange>(_onGetSensorRange);
+    on<GetSensorsForUser>(_onGetSensorsForUser);
     on<AddAction>(_onAddAction);
   }
 
@@ -127,6 +128,17 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
     result.fold(
       ifLeft: (value) => print(value),
       ifRight: (value) => {emit(SensorRangeReceivedState(value))},
+    );
+  }
+
+  void _onGetSensorsForUser(
+    GetSensorsForUser event,
+    Emitter<PinTunnelState> emit,
+  ) async {
+    final result = await sensorLogic.getSensorsForUser(event.email);
+    result.fold(
+      ifLeft: (value) => print(value),
+      ifRight: (value) => {emit(SensorsForUserReceivedState(value))},
     );
   }
 

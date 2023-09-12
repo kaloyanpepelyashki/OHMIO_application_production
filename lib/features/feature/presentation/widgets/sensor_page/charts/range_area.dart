@@ -36,7 +36,20 @@ class RangeAreaState extends State<RangeArea> {
   @override
   Widget build(BuildContext context) {
     late List<ChartData> chartData;
-    if (timeFilter == "day") {
+    if (timeFilter == "live") {
+      chartData = [
+        ChartData(DateTime(0, 0, 0, 0, 0,5), 20.0, 10),
+        ChartData(DateTime(0, 0, 0, 0, 0,10), 22.0, 15),
+        ChartData(DateTime(0, 0, 0, 0, 0,15), 26.5, 20),
+        ChartData(DateTime(0, 0, 0, 0, 0,20), 18.5, 18),
+        ChartData(DateTime(0, 0, 0, 0, 0,25), 19.9, 17),
+        ChartData(DateTime(0, 0, 0, 0, 0, 30), 20.1, 18),
+        ChartData(DateTime(0, 0, 0, 0, 0, 35), 25, 19),
+        ChartData(DateTime(0, 0, 0, 0, 0, 40), 24, 20),
+        ChartData(DateTime(0, 0, 0, 0, 0, 45), 19.9, 17),
+      ];
+    }
+    else if (timeFilter == "day") {
       chartData = [
         ChartData(DateTime(2010, 1, 1, 0, 0), 20.0, 10),
         ChartData(DateTime(2010, 1, 2, 0, 0), 22.0, 15),
@@ -48,7 +61,21 @@ class RangeAreaState extends State<RangeArea> {
         ChartData(DateTime(2010, 1, 8, 0, 0), 24, 20),
         ChartData(DateTime(2010, 1, 9, 0, 0), 19.9, 17),
       ];
-    } else {
+    } else if (timeFilter == "week"){
+      chartData = [
+        ChartData(DateTime(2010, 1, 7, 0, 0), 20.0, 10),
+        ChartData(DateTime(2010, 1, 14, 0, 0), 22.0, 15),
+        ChartData(DateTime(2010, 1, 21, 0, 0), 26.5, 20),
+        ChartData(DateTime(2010, 1, 28, 0, 0), 18.5, 18),
+        ChartData(DateTime(2010, 2, 4, 0, 0), 19.9, 17),
+        ChartData(DateTime(2010, 2, 11, 0, 0), 20.1, 18),
+        ChartData(DateTime(2010, 2, 18, 0, 0), 25, 19),
+        ChartData(DateTime(2010, 2, 25, 0, 0), 24, 20),
+        ChartData(DateTime(2010, 3, 2, 0, 0), 19.9, 17),
+      ];
+    }
+    
+    else {
       chartData = [
         ChartData(DateTime(2010, 1, 1, 1, 0), 20.0, 10),
         ChartData(DateTime(2010, 1, 1, 1, 1), 22.0, 15),

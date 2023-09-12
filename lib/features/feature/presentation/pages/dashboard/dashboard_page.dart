@@ -19,7 +19,11 @@ import '../../bloc/PinTunnelEvent.dart';
 import '../../widgets/dashboard/dashboard_elements.dart';
 
 class DashBoardPage extends StatefulWidget {
-  const DashBoardPage(
+
+   final String? email;
+
+   const DashBoardPage(
+    this.email,
     this.notificationAppLaunchDetails, {
     Key? key,
   }) : super(key: key);
@@ -70,6 +74,10 @@ class _DashBoardPageState extends State<DashBoardPage> {
         .add(const SubscribeHourlyChannel(sensorId: 12345));
     BlocProvider.of<PinTunnelBloc>(context)
         .add(const GetSensorRange(sensorId: 12345));
+    if(widget.email != null){
+      BlocProvider.of<PinTunnelBloc>(context)
+        .add(GetSensorsForUser(email: widget.email!));
+    }
   }
 
   Future<void> _checkNotificationPermissions() async {
