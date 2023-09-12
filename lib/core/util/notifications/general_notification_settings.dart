@@ -5,8 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../../features/feature/presentation/pages/sensor_page.dart';
 
 int id = 0;
 
@@ -54,7 +54,7 @@ Future<void> configureDidReceiveLocalNotificationSubject(
       .listen((ReceivedNotification receivedNotification) async {
     await showDialog(
       context: context,
-      builder: (BuildContext context) => CupertinoAlertDialog(
+      builder: (context) => CupertinoAlertDialog(
         title: receivedNotification.title != null
             ? Text(receivedNotification.title!)
             : null,
@@ -65,13 +65,7 @@ Future<void> configureDidReceiveLocalNotificationSubject(
           CupertinoDialogAction(
             isDefaultAction: true,
             onPressed: () async {
-              Navigator.of(context, rootNavigator: true).pop();
-              await Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) =>
-                      SensorPage(receivedNotification.payload),
-                ),
-              );
+              GoRouter.of(context).push("/sensorPage");
             },
             child: const Text('Ok'),
           )
@@ -83,9 +77,7 @@ Future<void> configureDidReceiveLocalNotificationSubject(
 
 Future<void> configureSelectNotificationSubject(BuildContext context) async {
   selectNotificationStream.stream.listen((String? payload) async {
-    await Navigator.of(context).push(MaterialPageRoute<void>(
-      builder: (BuildContext context) => SensorPage(payload),
-    ));
+   GoRouter.of(context).push("/sensorPage");
   });
 }
 

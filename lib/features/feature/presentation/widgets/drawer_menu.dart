@@ -22,26 +22,26 @@ class DrawerMenuComponent extends StatelessWidget {
 
     return Drawer(
         child: Column(children: [
-      DrawerHeader(child: Text("header")),
+      const DrawerHeader(child: Text("header")),
       Expanded(
-        child: ListView(padding: EdgeInsets.fromLTRB(45, 10, 0, 0), children: [
+        child: ListView(padding: const EdgeInsets.fromLTRB(45, 10, 0, 0), children: [
           Padding(
-              padding: EdgeInsets.fromLTRB(0, 20, 0, 50),
+              padding: const EdgeInsets.fromLTRB(0, 20, 0, 50),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ElevatedButton(
-                      child: Text("Go"),
+                      child: const Text("Go"),
                       onPressed: () {
                         GoRouter.of(context)
                             .go("/signup/onboarding-personal-data");
                       },
                     ),
-                    Text("Test list item",
+                    const Text("Test list item",
                         style: TextStyle(
                           fontSize: 20,
                         )),
-                    Text("Second test list item",
+                    const Text("Second test list item",
                         style: TextStyle(
                           fontSize: 20,
                         ))

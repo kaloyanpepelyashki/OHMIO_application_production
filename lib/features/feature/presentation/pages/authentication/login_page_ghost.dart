@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../data/data_sources/supabase_service.dart';
-import '../widgets/elevated_button_component.dart';
-import '../widgets/inputField_with_heading.dart';
-import '../widgets/top_bar_back_action.dart';
+import '../../../data/data_sources/supabase_service.dart';
+import '../../widgets/elevated_button_component.dart';
+import '../../widgets/inputField_with_heading.dart';
+import '../../widgets/top_bar_back_action.dart';
 
 class LogInPageGhost extends StatefulWidget {
   const LogInPageGhost({super.key});
@@ -43,13 +43,13 @@ class _LogInPageGhostState extends State<LogInPageGhost> {
           ifLeft: (l) => {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(l.message),
-                  backgroundColor: Color.fromARGB(156, 255, 1, 1),
+                  backgroundColor: const Color.fromARGB(156, 255, 1, 1),
                 ))
               });
     } on AuthException catch (e) {
       SnackBar(
         content: Text(e.message),
-        backgroundColor: Color.fromARGB(156, 255, 1, 1),
+        backgroundColor: const Color.fromARGB(156, 255, 1, 1),
       );
       debugPrint("log in failed");
       debugPrint("Error: $e");
@@ -97,6 +97,5 @@ class _LogInPageGhostState extends State<LogInPageGhost> {
                 ],
               )),
         ));
-    ;
   }
 }

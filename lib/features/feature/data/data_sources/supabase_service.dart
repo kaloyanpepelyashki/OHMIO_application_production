@@ -1,12 +1,9 @@
 import 'package:dart_either/dart_either.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pin_tunnel_application_production/features/feature/domain/entities/user_class.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../presentation/bloc/PinTunnelBloc.dart';
-import '../../presentation/bloc/PinTunnelEvent.dart';
 
 class SupabaseManager {
   String supabaseUrl;

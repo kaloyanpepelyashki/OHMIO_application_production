@@ -2,23 +2,28 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pin_tunnel_application_production/features/feature/domain/usecases/subscribe_channel_logic.dart';
-import 'package:pin_tunnel_application_production/features/feature/presentation/pages/binary_encoder_page.dart';
-import 'package:pin_tunnel_application_production/features/feature/presentation/pages/confirm_email_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/dashboard/choose_sensor_page.dart';
 //Importing page components
-import 'package:pin_tunnel_application_production/features/feature/presentation/pages/dashboard_page.dart';
-import 'package:pin_tunnel_application_production/features/feature/presentation/pages/login_page.dart';
-import 'package:pin_tunnel_application_production/features/feature/presentation/pages/login_page_ghost.dart';
-import 'package:pin_tunnel_application_production/features/feature/presentation/pages/onboarding_page.dart';
-import 'package:pin_tunnel_application_production/features/feature/presentation/pages/retreive_tunnel_MAC_page.dart';
-import 'package:pin_tunnel_application_production/features/feature/presentation/pages/signup_page.dart';
-import 'package:pin_tunnel_application_production/features/feature/presentation/pages/splash_page.dart';
-import 'package:pin_tunnel_application_production/features/feature/presentation/pages/user_onboarding_personal.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/dashboard/dashboard_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/authentication/retreive_tunnel_MAC_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/dashboard/sensor_detail_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/sensor_page/chart_full_screen_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/sensor_page/sensor_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/authentication/signup_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/authentication/user_onboarding_personal.dart';
 
 import '../../features/feature/data/repository/pin_tunnel_repository.dart';
+import '../../features/feature/domain/entities/sensor_class.dart';
 import '../../features/feature/presentation/bloc/PinTunnelBloc.dart';
+import '../../features/feature/presentation/pages/authentication/binary_encoder_page.dart';
+import '../../features/feature/presentation/pages/authentication/confirm_email_page.dart';
+import '../../features/feature/presentation/pages/authentication/login_page.dart';
+import '../../features/feature/presentation/pages/authentication/login_page_ghost.dart';
+import '../../features/feature/presentation/pages/authentication/onboarding_page.dart';
+import '../../features/feature/presentation/pages/authentication/splash_page.dart';
 import '../../main.dart';
 
-GoRouter router = GoRouter(initialLocation: "/login", routes: <GoRoute>[
+GoRouter router = GoRouter(initialLocation: "/", routes: <GoRoute>[
   GoRoute(
       path: "/",
       builder: (BuildContext context, GoRouterState state) {
@@ -62,15 +67,40 @@ GoRouter router = GoRouter(initialLocation: "/login", routes: <GoRoute>[
             })
       ]),
   GoRoute(
-      path: "/dashboard",
+      path: "/dashboard/:email",
+      name: "dashboard",
       builder: (BuildContext context, GoRouterState state) {
         final repository = PinTunnelRepository();
-      final logic = SubscribeChannelLogic(repository);
-        
-        return BlocProvider(
-        create: (context) => PinTunnelBloc(subscribeChannelLogic: logic),
-        child: DashBoardPage(notificationAppLaunchDetails),
-      );
+        final logic = SubscribeChannelLogic(repository);
+
+        return BlocProvider.value(
+          value: BlocProvider.of<PinTunnelBloc>(context),
+          child: DashBoardPage(state.pathParameters['email'], notificationAppLaunchDetails),
+        );
+      }),
+  GoRoute(
+      path: "/sensorPage",
+      builder: (BuildContext context, GoRouterState state) {
+        return BlocProvider.value(
+          value: BlocProvider.of<PinTunnelBloc>(context),
+          child: const SensorPage(),
+        );
+      }),
+  GoRoute(
+      path: "/chooseSensorPage",
+      builder: (BuildContext context, GoRouterState state) {
+        return const ChooseSensorPage();
+      }),
+  GoRoute(
+      path: "/sensorDetailPage/:isActuator/:sensorDescription/:sensorImage/:sensorName",
+      name: "sensorDetailPage",
+      builder: (BuildContext context, GoRouterState state) {
+        return  SensorDetailPage(
+          isActuator: state.pathParameters['isActuator']!,
+          sensorDescription: state.pathParameters['sensorDescription']!,
+          sensorImage: state.pathParameters['sensorImage']!,
+          sensorName: state.pathParameters['sensorName']!,
+        );
       }),
   GoRoute(
       path: "/binaryEncoderPage",

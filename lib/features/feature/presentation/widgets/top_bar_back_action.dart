@@ -1,5 +1,4 @@
 // App bar with only back button
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'back_action_btn.dart';
