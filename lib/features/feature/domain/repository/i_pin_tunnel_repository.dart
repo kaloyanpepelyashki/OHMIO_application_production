@@ -12,6 +12,6 @@ abstract class IPinTunnelRepository{
   subscribeToHourlyData(int sensorId, Function(dynamic) onReceived);
   subscribeToDailyData(int sensorId, Function(dynamic) onReceived);
   Future<Either<Failure,SensorRangeDAO>> getRangeForSensor(int sensorId);
-  Future<Either<Failure, List<SensorDAO>>> getSensorsForUser(String email);
+  Future<Either<Failure, List<SensorClass>>> getSensorsForUser(String email);
   void addAction(ActionClass actionClass);
 }

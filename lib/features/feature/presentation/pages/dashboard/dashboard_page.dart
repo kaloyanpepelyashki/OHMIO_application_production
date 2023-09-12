@@ -19,10 +19,9 @@ import '../../bloc/PinTunnelEvent.dart';
 import '../../widgets/dashboard/dashboard_elements.dart';
 
 class DashBoardPage extends StatefulWidget {
+  final String? email;
 
-   final String? email;
-
-   const DashBoardPage(
+  const DashBoardPage(
     this.email,
     this.notificationAppLaunchDetails, {
     Key? key,
@@ -45,9 +44,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
     //Elements("Test item 4", 440)
   ];
 
-  List<Elements> actuatorElements = [
-    
-  ];
+  List<Elements> actuatorElements = [];
 
   bool isText1Underlined = true;
 
@@ -66,14 +63,14 @@ class _DashBoardPageState extends State<DashBoardPage> {
     configureDidReceiveLocalNotificationSubject(context);
     configureSelectNotificationSubject(context);
     _showNotification();
-    
+
     BlocProvider.of<PinTunnelBloc>(context)
         .add(const SubscribeHourlyChannel(sensorId: 12345));
     BlocProvider.of<PinTunnelBloc>(context)
         .add(const GetSensorRange(sensorId: 12345));
-    if(widget.email != null){
+    if (widget.email != null) {
       BlocProvider.of<PinTunnelBloc>(context)
-        .add(GetSensorsForUser(email: widget.email!));
+          .add(GetSensorsForUser(email: widget.email!));
     }
   }
 
@@ -94,10 +91,8 @@ class _DashBoardPageState extends State<DashBoardPage> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: const TopBarBlank(),
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -119,18 +114,19 @@ class _DashBoardPageState extends State<DashBoardPage> {
                       .then((result) {
                     if (result != null) {
                       selectedSensor = result as SensorClass;
-                      selectedSensor.isActuator! ? 
-                        actuatorElements.add(Elements(
-                          isActuator: selectedSensor.isActuator!,
-                            sensorDescription: selectedSensor.sensorDescription!,
-                            sensorImage: selectedSensor.sensorImage!,
-                            sensorName: selectedSensor.sensorName!))
+                      selectedSensor.isActuator!
+                          ? actuatorElements.add(Elements(
+                              isActuator: selectedSensor.isActuator!,
+                              sensorDescription:
+                                  selectedSensor.sensorDescription!,
+                              sensorImage: selectedSensor.sensorImage!,
+                              sensorName: selectedSensor.sensorName!))
                           : sensorElements.add(Elements(
-                            isActuator: selectedSensor.isActuator!,
-                            sensorDescription: selectedSensor.sensorDescription!,
-                            sensorImage: selectedSensor.sensorImage!,
-                            sensorName: selectedSensor.sensorName!
-                          ));
+                              isActuator: selectedSensor.isActuator!,
+                              sensorDescription:
+                                  selectedSensor.sensorDescription!,
+                              sensorImage: selectedSensor.sensorImage!,
+                              sensorName: selectedSensor.sensorName!));
                       print(selectedSensor);
                     }
                   })
@@ -168,9 +164,11 @@ class _DashBoardPageState extends State<DashBoardPage> {
               ),
             ],
           ),
-          isText1Underlined ? 
-          DashboardSensorWidget(sensorElements: sensorElements,) :
-          DashboardActuatorWidget(actuatorElements: actuatorElements)
+          isText1Underlined
+              ? DashboardSensorWidget(
+                  sensorElements: sensorElements,
+                )
+              : DashboardActuatorWidget(actuatorElements: actuatorElements)
         ],
       ),
     );

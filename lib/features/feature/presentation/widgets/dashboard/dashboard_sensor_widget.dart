@@ -20,11 +20,10 @@ class DashboardSensorWidget extends StatefulWidget {
 
 class _DashboardSensorWidgetState extends State<DashboardSensorWidget> {
 
-  late List<SensorClass> sensorItems;
+  final List<SensorClass> sensorItems = [];
 
   @override
   void initState() {
-    sensorItems = [];
     //sensorItems = widget.sensorElements;
     super.initState();
   }
@@ -38,8 +37,10 @@ class _DashboardSensorWidgetState extends State<DashboardSensorWidget> {
           if(state.sensorList != null){
             state.sensorList.forEach((i) {
               if(i.isActuator == false){
-                print(i.sensorImage);
-                sensorItems.add(SensorClass(sensorDescription: i.sensorDescription!, isActuator: i.isActuator!, unit: i.unit!, version: i.version!, minValue: i.minValue!, maxValue: i.maxValue!, image: i.image!, name: i.name!));
+                print("sensor image: ${i.sensorImage}");
+                if(! sensorItems.any((item) => item.sensorDescription == i.sensorDescription)){
+                  sensorItems.add(i);
+               }
                 //sensorItems.add(Elements(isActuator: i.isActuator!, sensorName: i.sensorName!, sensorImage: i.sensorImage!, sensorDescription: i.sensorDescription!));
               }
             });

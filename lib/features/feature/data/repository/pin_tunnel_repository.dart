@@ -18,15 +18,15 @@ class PinTunnelRepository implements IPinTunnelRepository {
         token:
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndydXFzd2piaHB2cGlraGd3YWRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTI4MzA2NTIsImV4cCI6MjAwODQwNjY1Mn0.XxlesUi6c-Wi7HXidzVotr8DWzljWGvY4LY3BPD-0N0");
     final response = await supabaseManager.supabaseClient
-      .from('pintunnel_data')
-      .select('''time, data''')
-      .eq('sensor_id', sensorId)
-      .order('time', ascending: false)
-      .limit(10);
-      print("PINTUNNEL_DATA RESPONSE: $response");
-      onReceived({'sensor_data': response});
-      Future.delayed(Duration(seconds: 1));
-    
+        .from('pintunnel_data')
+        .select('''time, data''')
+        .eq('sensor_id', sensorId)
+        .order('time', ascending: false)
+        .limit(10);
+    print("PINTUNNEL_DATA RESPONSE: $response");
+    onReceived({'sensor_data': response});
+    Future.delayed(Duration(seconds: 1));
+
     supabaseManager.supabaseClient.channel('*').on(
       RealtimeListenTypes.postgresChanges,
       ChannelFilter(
@@ -43,19 +43,18 @@ class PinTunnelRepository implements IPinTunnelRepository {
 
   @override
   subscribeToMinuteData(int sensorId, Function(dynamic) onReceived) async {
-    
     SupabaseManager supabaseManager = SupabaseManager(
         supabaseUrl: "https://wruqswjbhpvpikhgwade.supabase.co",
         token:
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndydXFzd2piaHB2cGlraGd3YWRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTI4MzA2NTIsImV4cCI6MjAwODQwNjY1Mn0.XxlesUi6c-Wi7HXidzVotr8DWzljWGvY4LY3BPD-0N0");
     final response = await supabaseManager.supabaseClient
-      .from('per_minute_data')
-      .select('''created_at, avg''')
-      .eq('sensor_id', sensorId)
-      .order('created_at', ascending: false)
-      .limit(10);
-      onReceived({'sensor_data': response});
-    
+        .from('per_minute_data')
+        .select('''created_at, avg''')
+        .eq('sensor_id', sensorId)
+        .order('created_at', ascending: false)
+        .limit(10);
+    onReceived({'sensor_data': response});
+
     supabaseManager.supabaseClient.channel('*').on(
       RealtimeListenTypes.postgresChanges,
       ChannelFilter(
@@ -133,7 +132,7 @@ class PinTunnelRepository implements IPinTunnelRepository {
   getPintunnelForProfileEmail(String email) {}
 
   @override
-  Future<Either<Failure, List<SensorDAO>>> getSensorsForUser(
+  Future<Either<Failure, List<SensorClass>>> getSensorsForUser(
       String email) async {
     SupabaseClient client = SupabaseClient(
         "https://wruqswjbhpvpikhgwade.supabase.co",
@@ -144,20 +143,24 @@ class PinTunnelRepository implements IPinTunnelRepository {
     id
   ''').eq('email', email))[0]['id'];
 
-    final pintunnelData = (await client.from('pintunnel').select('''id, mac_address''').eq('user_id', clientId));
+      final pintunnelData = (await client
+          .from('pintunnel')
+          .select('''id, mac_address''').eq('user_id', clientId));
 
-      final cfg_code = (await client.from('sensor').select('''cfg_code''').eq('pintunnel_id', pintunnelData[0]['id']))[0]['cfg_code'];
+      final cfg_code = (await client.from('sensor').select('''cfg_code''').eq(
+          'pintunnel_id', pintunnelData[0]['id']))[0]['cfg_code'];
 
-      print(cfg_code);
+      final data = await client.from('sensor_config').select(
+          '''description, isActuator, unit, version, min_value, max_value, image, name''');
 
-      final data = await client.from('sensor_config').select('''description, isActuator, unit, version, min_value, max_value, image, name''');
+      List<SensorClass> sensorClassList = [];
+      data.forEach((i) =>
+          {
+            sensorClassList.add(SensorDAO.fromJSON(i as Map<String, dynamic>)),
+          });
 
-      print(data);
 
-      List<SensorDAO> sensorDAOList = [];
-      data.forEach((i) => sensorDAOList.add(SensorDAO.fromJSON(i as Map<String, dynamic>)));
-      
-      return Right(sensorDAOList);
+      return Right(sensorClassList);
     } on APIException catch (e) {
       return Left(APIFailure.fromException(e));
     }
