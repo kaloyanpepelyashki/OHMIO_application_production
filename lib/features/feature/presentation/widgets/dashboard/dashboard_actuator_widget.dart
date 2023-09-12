@@ -35,9 +35,8 @@ class _DashboardActuatorWidgetState extends State<DashboardActuatorWidget> {
           if(state.sensorList != null){
             state.sensorList.forEach((i) {
               if(i.isActuator!){
-                SensorClass sensorClass = SensorClass(sensorDescription: i.sensorDescription!, isActuator: i.isActuator!, unit: i.unit!, version: i.version!, minValue: i.minValue!, maxValue: i.maxValue!, image: i.image!, name: i.name!);
-                if(! actuatorItems.any((item) => item.sensorDescription == sensorClass.sensorDescription)){
-                  actuatorItems.add(sensorClass);
+                if(! actuatorItems.any((item) => item.sensorDescription == i.sensorDescription)){
+                  actuatorItems.add(i);
                }
               }
             });
