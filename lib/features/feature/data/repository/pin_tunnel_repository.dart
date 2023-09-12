@@ -17,6 +17,16 @@ class PinTunnelRepository implements IPinTunnelRepository {
         supabaseUrl: "https://wruqswjbhpvpikhgwade.supabase.co",
         token:
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndydXFzd2piaHB2cGlraGd3YWRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTI4MzA2NTIsImV4cCI6MjAwODQwNjY1Mn0.XxlesUi6c-Wi7HXidzVotr8DWzljWGvY4LY3BPD-0N0");
+    final response = await supabaseManager.supabaseClient
+      .from('pintunnel_data')
+      .select('''time, data''')
+      .eq('sensor_id', sensorId)
+      .order('time', ascending: false)
+      .limit(10);
+      print("PINTUNNEL_DATA RESPONSE: $response");
+      onReceived({'sensor_data': response});
+      Future.delayed(Duration(seconds: 1));
+    
     supabaseManager.supabaseClient.channel('*').on(
       RealtimeListenTypes.postgresChanges,
       ChannelFilter(
@@ -25,7 +35,7 @@ class PinTunnelRepository implements IPinTunnelRepository {
           table: 'pintunnel_data',
           filter: 'sensor_id=eq.$sensorId'),
       (payload, [ref]) {
-        print('Change received: ${payload.toString()}');
+        //print('Change received: ${payload.toString()}');
         onReceived(payload);
       },
     ).subscribe();
@@ -33,19 +43,28 @@ class PinTunnelRepository implements IPinTunnelRepository {
 
   @override
   subscribeToMinuteData(int sensorId, Function(dynamic) onReceived) async {
+    
     SupabaseManager supabaseManager = SupabaseManager(
         supabaseUrl: "https://wruqswjbhpvpikhgwade.supabase.co",
         token:
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndydXFzd2piaHB2cGlraGd3YWRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTI4MzA2NTIsImV4cCI6MjAwODQwNjY1Mn0.XxlesUi6c-Wi7HXidzVotr8DWzljWGvY4LY3BPD-0N0");
+    final response = await supabaseManager.supabaseClient
+      .from('per_minute_data')
+      .select('''created_at, avg''')
+      .eq('sensor_id', sensorId)
+      .order('created_at', ascending: false)
+      .limit(10);
+      onReceived({'sensor_data': response});
+    
     supabaseManager.supabaseClient.channel('*').on(
       RealtimeListenTypes.postgresChanges,
       ChannelFilter(
           event: '*',
           schema: '*',
           table: 'per_minute_data',
-          filter: 'sensor_id=$sensorId'),
+          filter: 'sensor_id=eq.$sensorId'),
       (payload, [ref]) {
-        print('Change received: ${payload.toString()}');
+        print('Minute payload received: ${payload.toString()}');
         onReceived(payload);
       },
     ).subscribe();
@@ -63,7 +82,7 @@ class PinTunnelRepository implements IPinTunnelRepository {
           event: '*',
           schema: '*',
           table: 'hourly_data',
-          filter: 'sensor_id=$sensorId'),
+          filter: 'sensor_id=eq.$sensorId'),
       (payload, [ref]) {
         //print('Change received: ${payload.toString()}');
         onReceived(payload);
@@ -83,7 +102,7 @@ class PinTunnelRepository implements IPinTunnelRepository {
           event: '*',
           schema: '*',
           table: 'daily_data',
-          filter: 'sensor_id=$sensorId'),
+          filter: 'sensor_id=eq.$sensorId'),
       (payload, [ref]) {
         //print('Change received: ${payload.toString()}');
         onReceived(payload);

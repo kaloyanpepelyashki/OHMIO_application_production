@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+
+import '../../../bloc/PinTunnelBloc.dart';
+import '../../../bloc/PinTunnelState.dart';
 
 class RangeArea extends StatefulWidget {
   final String timeFilter;
@@ -38,18 +42,17 @@ class RangeAreaState extends State<RangeArea> {
     late List<ChartData> chartData;
     if (timeFilter == "live") {
       chartData = [
-        ChartData(DateTime(0, 0, 0, 0, 0,5), 20.0, 10),
-        ChartData(DateTime(0, 0, 0, 0, 0,10), 22.0, 15),
-        ChartData(DateTime(0, 0, 0, 0, 0,15), 26.5, 20),
-        ChartData(DateTime(0, 0, 0, 0, 0,20), 18.5, 18),
-        ChartData(DateTime(0, 0, 0, 0, 0,25), 19.9, 17),
+        ChartData(DateTime(0, 0, 0, 0, 0, 5), 20.0, 10),
+        ChartData(DateTime(0, 0, 0, 0, 0, 10), 22.0, 15),
+        ChartData(DateTime(0, 0, 0, 0, 0, 15), 26.5, 20),
+        ChartData(DateTime(0, 0, 0, 0, 0, 20), 18.5, 18),
+        ChartData(DateTime(0, 0, 0, 0, 0, 25), 19.9, 17),
         ChartData(DateTime(0, 0, 0, 0, 0, 30), 20.1, 18),
         ChartData(DateTime(0, 0, 0, 0, 0, 35), 25, 19),
         ChartData(DateTime(0, 0, 0, 0, 0, 40), 24, 20),
         ChartData(DateTime(0, 0, 0, 0, 0, 45), 19.9, 17),
       ];
-    }
-    else if (timeFilter == "day") {
+    } else if (timeFilter == "day") {
       chartData = [
         ChartData(DateTime(2010, 1, 1, 0, 0), 20.0, 10),
         ChartData(DateTime(2010, 1, 2, 0, 0), 22.0, 15),
@@ -61,7 +64,7 @@ class RangeAreaState extends State<RangeArea> {
         ChartData(DateTime(2010, 1, 8, 0, 0), 24, 20),
         ChartData(DateTime(2010, 1, 9, 0, 0), 19.9, 17),
       ];
-    } else if (timeFilter == "week"){
+    } else if (timeFilter == "week") {
       chartData = [
         ChartData(DateTime(2010, 1, 7, 0, 0), 20.0, 10),
         ChartData(DateTime(2010, 1, 14, 0, 0), 22.0, 15),
@@ -73,9 +76,7 @@ class RangeAreaState extends State<RangeArea> {
         ChartData(DateTime(2010, 2, 25, 0, 0), 24, 20),
         ChartData(DateTime(2010, 3, 2, 0, 0), 19.9, 17),
       ];
-    }
-    
-    else {
+    } else {
       chartData = [
         ChartData(DateTime(2010, 1, 1, 1, 0), 20.0, 10),
         ChartData(DateTime(2010, 1, 1, 1, 1), 22.0, 15),
@@ -88,72 +89,82 @@ class RangeAreaState extends State<RangeArea> {
         ChartData(DateTime(2010, 1, 1, 1, 8), 19.9, 17),
       ];
     }
-    return Center(
-      child: Container(
-        width: 500,
-        child: SfCartesianChart(
-          zoomPanBehavior: _zoomPanBehavior,
-          tooltipBehavior: _tooltipBehavior,
-          primaryXAxis: DateTimeAxis(
-            rangePadding: ChartRangePadding.round,
-            labelAlignment: LabelAlignment.end,
-            autoScrollingDelta: 5,
-            autoScrollingMode: AutoScrollingMode.end,
 
-            //additional offset from both sides - plotOffset: 10
-            //intervalType: DateTimeIntervalType.minutes
+    return BlocConsumer<PinTunnelBloc, PinTunnelState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        if (state is PayloadReceivedState) {}
+        return Center(
+          child: Container(
+            width: 500,
+            child: SfCartesianChart(
+              zoomPanBehavior: _zoomPanBehavior,
+              tooltipBehavior: _tooltipBehavior,
+              primaryXAxis: DateTimeAxis(
+                rangePadding: ChartRangePadding.round,
+                labelAlignment: LabelAlignment.end,
+                autoScrollingDelta: 5,
+                autoScrollingMode: AutoScrollingMode.end,
+
+                //additional offset from both sides - plotOffset: 10
+                //intervalType: DateTimeIntervalType.minutes
+              ),
+              primaryYAxis: NumericAxis(
+                labelFormat: '{value}°C',
+                minimum: 0.0,
+                maximum: 50.0,
+                decimalPlaces: 2,
+                labelAlignment: LabelAlignment.center,
+                plotBands: <PlotBand>[
+                  //chart area colored
+                  PlotBand(
+                    isVisible: true,
+                    start: 30,
+                    end: 50,
+                    color: Colors.red,
+                    opacity: 0.5,
+                  ),
+                  PlotBand(
+                    isVisible: true,
+                    start: 0,
+                    end: 5,
+                    color: Colors.blue,
+                    opacity: 0.5,
+                  ),
+                ],
+                //numberFormat: NumberFormat.compactCurrency()
+              ),
+              series: <ChartSeries>[
+                RangeAreaSeries<ChartData, DateTime>(
+                  enableTooltip: true,
+                  dataSource: chartData,
+                  borderDrawMode: RangeAreaBorderMode.excludeSides,
+                  emptyPointSettings: EmptyPointSettings(
+                      // Mode of empty point
+                      mode: EmptyPointMode.gap),
+                  color: Colors.white,
+                  opacity: 0.5,
+                  markerSettings: const MarkerSettings(
+                    isVisible: true,
+                    shape: DataMarkerType.diamond,
+                    borderColor: Colors.black,
+                  ),
+                  //dataLabelSettings: const DataLabelSettings(
+                  //    showCumulativeValues: true,
+                  //    isVisible: true,
+                  //    color: Colors.blue,
+                  //    ),
+                  borderColor: Colors.black,
+                  borderWidth: 2,
+                  xValueMapper: (ChartData data, _) => data.x,
+                  lowValueMapper: (ChartData data, _) => data.low,
+                  highValueMapper: (ChartData data, _) => data.high,
+                )
+              ],
+            ),
           ),
-          primaryYAxis: NumericAxis(
-            labelFormat: '{value}°C',
-            minimum: 0.0,
-            maximum: 50.0,
-            decimalPlaces: 2,
-            labelAlignment: LabelAlignment.center,
-            plotBands: <PlotBand>[
-              //chart area colored
-              PlotBand(
-                isVisible: true,
-                start: 30,
-                end: 50,
-                color: Colors.red,
-                opacity: 0.5,
-              ),
-              PlotBand(
-                isVisible: true,
-                start: 0,
-                end: 5,
-                color: Colors.blue,
-                opacity: 0.5,
-              ),
-            ],
-            //numberFormat: NumberFormat.compactCurrency()
-          ),
-          series: <ChartSeries>[
-            RangeAreaSeries<ChartData, DateTime>(
-              enableTooltip: true,
-              dataSource: chartData,
-              borderDrawMode: RangeAreaBorderMode.excludeSides,
-              color: Colors.white,
-              opacity: 0.5,
-              markerSettings: const MarkerSettings(
-                isVisible: true,
-                shape: DataMarkerType.diamond,
-                borderColor: Colors.black,
-              ),
-              //dataLabelSettings: const DataLabelSettings(
-              //    showCumulativeValues: true,
-              //    isVisible: true,
-              //    color: Colors.blue,
-              //    ),
-              borderColor: Colors.black,
-              borderWidth: 2,
-              xValueMapper: (ChartData data, _) => data.x,
-              lowValueMapper: (ChartData data, _) => data.low,
-              highValueMapper: (ChartData data, _) => data.high,
-            )
-          ],
-        ),
-      ),
+        );
+      },
     );
   }
 }

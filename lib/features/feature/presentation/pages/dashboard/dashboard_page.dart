@@ -66,10 +66,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
     configureDidReceiveLocalNotificationSubject(context);
     configureSelectNotificationSubject(context);
     _showNotification();
-    BlocProvider.of<PinTunnelBloc>(context)
-        .add(const SubscribeChannel(sensorId: 12345));
-    BlocProvider.of<PinTunnelBloc>(context)
-        .add(const SubscribeMinuteChannel(sensorId: 12345));
+    
     BlocProvider.of<PinTunnelBloc>(context)
         .add(const SubscribeHourlyChannel(sensorId: 12345));
     BlocProvider.of<PinTunnelBloc>(context)

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/sensor_page/charts/range_area.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/sensor_page/charts/spline_default.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_back_action.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_blank.dart';
 
@@ -76,6 +77,21 @@ class _ChartFullScreenPageState extends State<ChartFullScreenPage> {
                     ),
                     child: Text("Minute"),
                   ),
+                
+                  ElevatedButton(
+                    onPressed: () {
+                      _openWidget("hour");
+                      selectedFilter = "hour";
+                    },
+                   style: selectedFilter =="hour" ? const ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Color(0xFF551C50)),
+                      foregroundColor: MaterialStatePropertyAll(Colors.white),
+                    ) : const ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Colors.white),
+                      foregroundColor: MaterialStatePropertyAll(Colors.black),
+                    ),
+                    child: Text("hour"),
+                  ),
                   ElevatedButton(
                     onPressed: () {
                       _openWidget("day");
@@ -91,20 +107,6 @@ class _ChartFullScreenPageState extends State<ChartFullScreenPage> {
                       foregroundColor: MaterialStatePropertyAll(Colors.black),
                     ),
                     child: Text("Day"),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      _openWidget("week");
-                      selectedFilter = "week";
-                    },
-                   style: selectedFilter =="week" ? const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(Color(0xFF551C50)),
-                      foregroundColor: MaterialStatePropertyAll(Colors.white),
-                    ) : const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(Colors.white),
-                      foregroundColor: MaterialStatePropertyAll(Colors.black),
-                    ),
-                    child: Text("Week"),
                   ),
                   
                 ],
@@ -124,6 +126,12 @@ class _ChartFullScreenPageState extends State<ChartFullScreenPage> {
       GlobalKey<RangeAreaState> rangeAreaKey = GlobalKey<RangeAreaState>();
       setState(() {
         chartToDisplay = RangeArea(key: rangeAreaKey, timeFilter: filter);
+      });
+    }
+    if(widget.chartWidget is SplineDefault){
+      GlobalKey<SplineDefaultState> rangeAreaKey = GlobalKey<SplineDefaultState>();
+      setState(() {
+        chartToDisplay = SplineDefault(key: rangeAreaKey, timeFilter: filter);
       });
     }
   }
