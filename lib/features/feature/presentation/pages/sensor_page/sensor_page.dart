@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/sensor_page/chart_full_screen_page.dart';
@@ -7,6 +8,8 @@ import 'package:pin_tunnel_application_production/features/feature/presentation/
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/sensor_page/sensor_action_config.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/sensor_page/temperature_sensor_widget.dart';
 
+import '../../bloc/PinTunnelBloc.dart';
+import '../../bloc/PinTunnelEvent.dart';
 import '../../widgets/sensor_page/charts/line_chart_general.dart';
 import '../../widgets/sensor_page/charts/range_area.dart';
 import '../../widgets/sensor_page/charts/spline_default.dart';
@@ -25,15 +28,16 @@ class _SensorPageState extends State<SensorPage> {
   //GlobalKey<RangeAreaState> rangeAreaKey = GlobalKey<RangeAreaState>();
 
   final Widget lineChartWidget = const LineChartGeneral();
-  final Widget splineDefault = const SplineDefault();
+  late Widget splineDefault;
   late Widget rangeArea;
   final Widget temperatureSensorWidget = TemperatureSensorWidget();
 
   List<Widget> carouselItems = [];
   List<Widget> sensorChartItems = [];
 
-  int chartItemIndex = 0;
   bool isChartPage = true;
+
+  String selectedFilter = 'live';
 
   double carouselSliderHeight = 400;
 
@@ -41,16 +45,10 @@ class _SensorPageState extends State<SensorPage> {
   void initState() {
     super.initState();
     rangeArea = RangeArea(
-      timeFilter: 'month', /*key: rangeAreaKey*/
+      timeFilter: 'live', /*key: rangeAreaKey*/
     );
+    splineDefault = SplineDefault(timeFilter: 'live');
     carouselItems = [splineDefault, temperatureSensorWidget];
-    sensorChartItems = [
-      splineDefault,
-      rangeArea
-      // lineChartWidget,
-      // lineChartHourly,
-      // lineChartMinute,
-    ];
   }
 
   final CarouselController _carouselController = CarouselController();
@@ -65,137 +63,126 @@ class _SensorPageState extends State<SensorPage> {
           child: Column(
             children: [
               Text(sensorName),
-              Row(
-                children: [
-                  ElevatedButton(
-                    onPressed: () => {
-                      if (chartItemIndex != 0)
-                        {
-                          carouselItems[0] = sensorChartItems[0],
-                          setState(() {
-                            chartItemIndex = 0;
-                          })
-                        }
-                    },
-                    child: const Text('spline chart'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () => {
-                      if (chartItemIndex != 1)
-                        {
-                          carouselItems[0] = sensorChartItems[1],
-                          setState(() {
-                            chartItemIndex = 1;
-                          })
-                        }
-                    },
-                    child: const Text('range area chart'),
-                  ),
-                ],
-              ),
-              /*Wrap(
-                //mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () => {
-                      if (chartItemIndex != 0)
-                        {
-                          carouselItems[0] = sensorChartItems[0],
-                          setState(() {
-                            chartItemIndex = 0;
-                          })
-                        }
-                    },
-                    child: const Text('Live'),
-                  ),
-                  const SizedBox(width: 10),
-                  ElevatedButton(
-                    onPressed: () => {
-                      if (chartItemIndex != 1)
-                        {
-                          carouselItems[0] = sensorChartItems[1],
-                          setState(() {
-                            chartItemIndex = 1;
-                          })
-                        }
-                    },
-                    child: const Text('Hour'),
-                  ),
-                  const SizedBox(width: 10),
-                  ElevatedButton(
-                    onPressed: () => {
-                      if (chartItemIndex != 2)
-                        {
-                          carouselItems[0] = sensorChartItems[2],
-                          setState(() {
-                            chartItemIndex = 2;
-                          })
-                        }
-                    },
-
-                    //child: Text('Minute'),
-                    child: const Text('minute'),
-                  ),
-                  const SizedBox(width: 10),
-                  ElevatedButton(
-                    onPressed: () => {
-                      if (chartItemIndex != 3)
-                        {
-                          carouselItems[0] = sensorChartItems[3],
-                          setState(() {
-                            chartItemIndex = 3;
-                          })
-                        }
-                    },
-                    child: const Text('spline chart'),
-                  ),
-                  const SizedBox(width: 10),
-                  ElevatedButton(
-                    onPressed: () => {
-                      if (chartItemIndex != 4)
-                        {
-                          carouselItems[0] = sensorChartItems[4],
-                          setState(() {
-                            chartItemIndex = 4;
-                          })
-                        }
-                    },
-                    child: const Text('range area chart'),
-                  )
-                  
-                ],
-              ),*/
               Stack(
                 children: [
-                  Container(
-                    child: CarouselSlider(
-                      carouselController: _carouselController,
-                      options: CarouselOptions(
-                        height: carouselSliderHeight,
-                        enableInfiniteScroll: false,
-                        disableCenter: true,
-                        viewportFraction: 1.0,
-                        scrollPhysics: const NeverScrollableScrollPhysics(),
+                  Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              selectedFilter = 'live';
+                              changeChartsBasedOnFilter("live");
+                            },
+                            child: Text("Live"),
+                            style: selectedFilter == "live"
+                                ? const ButtonStyle(
+                                    backgroundColor: MaterialStatePropertyAll(
+                                        Color(0xFF551C50)),
+                                    foregroundColor:
+                                        MaterialStatePropertyAll(Colors.white),
+                                  )
+                                : const ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStatePropertyAll(Colors.white),
+                                    foregroundColor:
+                                        MaterialStatePropertyAll(Colors.black),
+                                  ),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              selectedFilter = 'minute';
+                              changeChartsBasedOnFilter("minute");
+                            },
+                            child: Text("Minute"),
+                            style: selectedFilter == "minute"
+                                ? const ButtonStyle(
+                                    backgroundColor: MaterialStatePropertyAll(
+                                        Color(0xFF551C50)),
+                                    foregroundColor:
+                                        MaterialStatePropertyAll(Colors.white),
+                                  )
+                                : const ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStatePropertyAll(Colors.white),
+                                    foregroundColor:
+                                        MaterialStatePropertyAll(Colors.black),
+                                  ),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              selectedFilter = 'hour';
+                              changeChartsBasedOnFilter("hour");
+                            },
+                            child: Text("Hour"),
+                            style: selectedFilter == "hour"
+                                ? const ButtonStyle(
+                                    backgroundColor: MaterialStatePropertyAll(
+                                        Color(0xFF551C50)),
+                                    foregroundColor:
+                                        MaterialStatePropertyAll(Colors.white),
+                                  )
+                                : const ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStatePropertyAll(Colors.white),
+                                    foregroundColor:
+                                        MaterialStatePropertyAll(Colors.black),
+                                  ),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              selectedFilter = 'day';
+                              changeChartsBasedOnFilter("Day");
+                            },
+                            child: Text("Day"),
+                            style: selectedFilter == "day"
+                                ? const ButtonStyle(
+                                    backgroundColor: MaterialStatePropertyAll(
+                                        Color(0xFF551C50)),
+                                    foregroundColor:
+                                        MaterialStatePropertyAll(Colors.white),
+                                  )
+                                : const ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStatePropertyAll(Colors.white),
+                                    foregroundColor:
+                                        MaterialStatePropertyAll(Colors.black),
+                                  ),
+                          ),
+                        ],
                       ),
-                      items: carouselItems.map((i) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return Container(
-                                height: carouselSliderHeight,
-                                width: MediaQuery.sizeOf(context).width,
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 5.0),
-                                decoration: const BoxDecoration(
-                                    color: Color(0x00f9961e)),
-                                child: i);
-                          },
-                        );
-                      }).toList(),
-                    ),
+                      Container(
+                        child: CarouselSlider(
+                          carouselController: _carouselController,
+                          options: CarouselOptions(
+                            height: carouselSliderHeight,
+                            enableInfiniteScroll: false,
+                            disableCenter: true,
+                            viewportFraction: 1.0,
+                            scrollPhysics: const NeverScrollableScrollPhysics(),
+                          ),
+                          items: carouselItems.map((i) {
+                            return Builder(
+                              builder: (BuildContext context) {
+                                return Container(
+                                    height: carouselSliderHeight,
+                                    width: MediaQuery.sizeOf(context).width,
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 5.0),
+                                    decoration: const BoxDecoration(
+                                        color: Color(0x00f9961e)),
+                                    child: i);
+                              },
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ],
                   ),
                   isChartPage
                       ? Positioned(
-                          top: 10,
+                          top: 50,
                           right: 100,
                           child: Row(
                             children: [
@@ -239,12 +226,15 @@ class _SensorPageState extends State<SensorPage> {
                                       .then((result) {
                                     if (result == "spline chart") {
                                       setState(() {
-                                        carouselItems[0] = SplineDefault();
+                                        carouselItems[0] =
+                                            SplineDefault(timeFilter: 'day');
                                       });
                                     }
                                     if (result == "range area chart") {
                                       setState(() {
-                                        carouselItems[0] = RangeArea(timeFilter: 'month',);
+                                        carouselItems[0] = RangeArea(
+                                          timeFilter: 'day',
+                                        );
                                       });
                                     }
                                   });
@@ -292,47 +282,21 @@ class _SensorPageState extends State<SensorPage> {
               )
             ],
           ),
-        )
-        //LineChartGeneral(),
-        //TemperatureSensorWidget(),
-        /* Column(
-        children: [
-          TemperatureSensorWidget(),
-          LineChartGeneral()
-        ],
-      ),*/
-        );
+        ));
+  }
+
+  void changeChartsBasedOnFilter(String filter) {
+    GlobalKey<SplineDefaultState> splineDefaultKey =
+        GlobalKey<SplineDefaultState>();
+    if (carouselItems[0] is SplineDefault) {
+      setState(() {
+        carouselItems[0] =
+            SplineDefault(key: splineDefaultKey, timeFilter: filter);
+      });
+    } else if (carouselItems[0] is RangeArea) {
+      setState(() {
+        carouselItems[0] = RangeArea(key: splineDefaultKey, timeFilter: filter);
+      });
+    }
   }
 }
-/*
-class _InfoValueString extends StatelessWidget {
-  const _InfoValueString({
-    required this.title,
-    required this.value,
-    Key? key,
-  }) : super(key: key);
-
-  final String title;
-  final Object? value;
-
-  @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-        child: Text.rich(
-          TextSpan(
-            children: <InlineSpan>[
-              TextSpan(
-                text: '$title ',
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              TextSpan(
-                text: '$value',
-              )
-            ],
-          ),
-        ),
-      );
-}
-*/

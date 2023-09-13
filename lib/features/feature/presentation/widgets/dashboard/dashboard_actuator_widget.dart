@@ -19,12 +19,10 @@ class DashboardActuatorWidget extends StatefulWidget {
 }
 
 class _DashboardActuatorWidgetState extends State<DashboardActuatorWidget> {
-  late SensorClass selectedSensor;
-  late List<Elements> actuatorItems;
+  final List<SensorClass> actuatorItems = [];
 
   @override
   void initState() {
-    actuatorItems = widget.actuatorElements;
     super.initState();
   }
 
@@ -37,7 +35,9 @@ class _DashboardActuatorWidgetState extends State<DashboardActuatorWidget> {
           if(state.sensorList != null){
             state.sensorList.forEach((i) {
               if(i.isActuator!){
-                actuatorItems.add(Elements(isActuator: i.isActuator!, sensorName: i.sensorName!, sensorImage: i.sensorImage!, sensorDescription: i.sensorDescription!));
+                if(! actuatorItems.any((item) => item.sensorDescription == i.sensorDescription)){
+                  actuatorItems.add(i);
+               }
               }
             });
           }
@@ -73,11 +73,6 @@ class _DashboardActuatorWidgetState extends State<DashboardActuatorWidget> {
                           onPressed: () => {
                             GoRouter.of(context)
                                 .push("/chooseSensorPage")
-                                .then((result) {
-                              if (result != null) {
-                                selectedSensor = result as SensorClass;
-                              }
-                            })
                           },
                         ),
                         const Text("Add New Device",
