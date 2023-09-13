@@ -48,8 +48,6 @@ class _DashBoardPageState extends State<DashBoardPage> {
 
   List<Elements> actuatorElements = [];
 
-  List<Elements> actuatorElements = [];
-
   bool isText1Underlined = true;
 
   late SensorClass selectedSensor;
