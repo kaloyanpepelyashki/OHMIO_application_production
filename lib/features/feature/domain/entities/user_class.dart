@@ -1,9 +1,10 @@
+import 'dart:ffi';
 
 import 'package:pin_tunnel_application_production/features/feature/domain/entities/tunnel_class.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 // ignore: camel_case_types
-class User_Profile{
+class User_Profile {
   late User? userRef;
   late String userId;
   late String email;
@@ -14,21 +15,21 @@ class User_Profile{
   late Tunnel? tunnelDevice;
   late String tunnelMACAddress;
   late String tunnelState;
+  late bool finishedOnBoarding = false;
 
   //User_Profile();
 
-  User_Profile({
-    this.userRef,
-    required this.userId,
-    required this.email,
-    this.signUpDate,
-    required this.username,
-    required this.firstName,
-    required this.lastName,
-    required this.tunnelDevice,
-    required this.tunnelMACAddress,
-    required this.tunnelState
-  });
+  User_Profile(
+      {this.userRef,
+      required this.userId,
+      required this.email,
+      this.signUpDate,
+      required this.username,
+      required this.firstName,
+      required this.lastName,
+      required this.tunnelDevice,
+      required this.tunnelMACAddress,
+      required this.tunnelState});
 
   //The onboarding method
   //Defines the first part of the userProfile object
@@ -57,6 +58,10 @@ class User_Profile{
     this.tunnelState = tunnelState;
   }
 
+  void finishOnBoarding() {
+    finishedOnBoarding = true;
+  }
+
   //Cleans the object (sets the members to be empty)
   void clearProfile() {
     userId = "";
@@ -72,5 +77,13 @@ class User_Profile{
 }
 
 //Initializing the userProfile object
-final userProfile = User_Profile(userId:"", email:"", signUpDate:null, username: "", firstName:"", lastName:"",
-  tunnelDevice:null, tunnelMACAddress: "", tunnelState: "");
+final userProfile = User_Profile(
+    userId: "",
+    email: "",
+    signUpDate: null,
+    username: "",
+    firstName: "",
+    lastName: "",
+    tunnelDevice: null,
+    tunnelMACAddress: "",
+    tunnelState: "");

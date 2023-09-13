@@ -9,7 +9,7 @@ import '../../bloc/PinTunnelEvent.dart';
 
 class ActionWidget extends StatelessWidget {
   final ActionClass actionClass;
-   int actionNumber;
+  int actionNumber;
   final BuildContext context;
   final Function onDelete;
 
@@ -31,13 +31,13 @@ class ActionWidget extends StatelessWidget {
             Text("Action $actionNumber"),
             GestureDetector(
               child: const FaIcon(FontAwesomeIcons.trash),
-              onTap: (){
-                onDelete(actionNumber-1);
+              onTap: () {
+                onDelete(actionNumber - 1);
               },
             ),
           ],
         ),
-        const SizedBox(height:8),
+        const SizedBox(height: 8),
         Container(
           width: 290,
           decoration: const BoxDecoration(
@@ -53,7 +53,8 @@ class ActionWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text("Temperature"),
-                        Text("${actionClass.condition!} ${actionClass.conditionValue}"),
+                        Text(
+                            "${actionClass.condition!} ${actionClass.conditionValue}"),
                       ],
                     ),
                     const Divider(
@@ -75,8 +76,10 @@ class ActionWidget extends StatelessWidget {
               ),
               Container(
                 decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(20),
+                        bottomRight: Radius.circular(20))),
                 padding: const EdgeInsets.all(10),
                 child: Text(
                     '''If the temperature values is ${actionClass.condition}
@@ -101,9 +104,7 @@ class SensorActionConfig extends StatefulWidget {
 }
 
 class _SensorActionConfigState extends State<SensorActionConfig> {
-  List<ActionWidget> actions = [
-  
-  ];
+  List<ActionWidget> actions = [];
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +126,7 @@ class _SensorActionConfigState extends State<SensorActionConfig> {
                     IconButton(
                       icon: const FaIcon(
                         FontAwesomeIcons.plus,
-                        size:30,
+                        size: 30,
                       ),
                       onPressed: () async {
                         final actionClass = await showDialog(
@@ -137,16 +138,15 @@ class _SensorActionConfigState extends State<SensorActionConfig> {
                           setState(
                             () => actions.add(
                               ActionWidget(
-                                actionClass: actionClass,
-                                actionNumber: actions.length + 1,
-                                context: context,
-                                onDelete:(index){
-                                  setState(() {
-                                    actions.removeAt(index);
-                                  });
-                                  if (index>0) updateActionNumbers(index);
-                                }
-                              ),
+                                  actionClass: actionClass,
+                                  actionNumber: actions.length + 1,
+                                  context: context,
+                                  onDelete: (index) {
+                                    setState(() {
+                                      actions.removeAt(index);
+                                    });
+                                    if (index > 0) updateActionNumbers(index);
+                                  }),
                             ),
                           );
                           sendActionToDatabase(actionClass);
@@ -166,10 +166,11 @@ class _SensorActionConfigState extends State<SensorActionConfig> {
         ));
   }
 
-  void updateActionNumbers(int index){
-    for(var i=index; i<actions.length; i++){
+//Related to the block
+  void updateActionNumbers(int index) {
+    for (var i = index; i < actions.length; i++) {
       setState(() {
-        actions[i].actionNumber = actions.indexOf(actions[i])+1;
+        actions[i].actionNumber = actions.indexOf(actions[i]) + 1;
       });
     }
   }

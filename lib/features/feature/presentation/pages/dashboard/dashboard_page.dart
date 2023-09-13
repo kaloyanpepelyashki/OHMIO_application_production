@@ -7,7 +7,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/dashboard/dashboard_actuator_widget.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/dashboard/dashboard_sensor_widget.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/drawer_menu.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_blank.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_burger_menu.dart';
 
 import '../../../../../core/util/notifications/android_notification_settings.dart';
 import '../../../../../core/util/notifications/general_notification_settings.dart';
@@ -19,10 +21,9 @@ import '../../bloc/PinTunnelEvent.dart';
 import '../../widgets/dashboard/dashboard_elements.dart';
 
 class DashBoardPage extends StatefulWidget {
+  final String? email;
 
-   final String? email;
-
-   const DashBoardPage(
+  const DashBoardPage(
     this.email,
     this.notificationAppLaunchDetails, {
     Key? key,
@@ -45,9 +46,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
     //Elements("Test item 4", 440)
   ];
 
-  List<Elements> actuatorElements = [
-    
-  ];
+  List<Elements> actuatorElements = [];
 
   bool isText1Underlined = true;
 
@@ -74,9 +73,9 @@ class _DashBoardPageState extends State<DashBoardPage> {
         .add(const SubscribeHourlyChannel(sensorId: 12345));
     BlocProvider.of<PinTunnelBloc>(context)
         .add(const GetSensorRange(sensorId: 12345));
-    if(widget.email != null){
+    if (widget.email != null) {
       BlocProvider.of<PinTunnelBloc>(context)
-        .add(GetSensorsForUser(email: widget.email!));
+          .add(GetSensorsForUser(email: widget.email!));
     }
   }
 
@@ -97,83 +96,97 @@ class _DashBoardPageState extends State<DashBoardPage> {
     }
   }
 
-
   @override
+  //Widget presentation
   Widget build(BuildContext context) {
-
     return Scaffold(
-      appBar: const TopBarBlank(),
+      appBar: const TopBarBurgerMenu(),
       backgroundColor: Theme.of(context).colorScheme.background,
+      endDrawer: const DrawerMenuComponent(),
       body: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text("My system"),
-              IconButton(
-                icon: const FaIcon(
-                  FontAwesomeIcons.plus,
-                ),
-                onPressed: () => {
-                  GoRouter.of(context)
-                      .push(
-                    "/chooseSensorPage",
+          Padding(
+              padding: EdgeInsets.fromLTRB(20, 0, 10, 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    "My system",
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  IconButton(
+                    icon: const FaIcon(
+                      FontAwesomeIcons.plus,
+                    ),
+                    onPressed: () => {
+                      GoRouter.of(context)
+                          .push(
+                        "/chooseSensorPage",
+                      )
+                          .then((result) {
+                        if (result != null) {
+                          selectedSensor = result as SensorClass;
+                          selectedSensor.isActuator!
+                              ? actuatorElements.add(Elements(
+                                  isActuator: selectedSensor.isActuator!,
+                                  sensorDescription:
+                                      selectedSensor.sensorDescription!,
+                                  sensorImage: selectedSensor.sensorImage!,
+                                  sensorName: selectedSensor.sensorName!))
+                              : sensorElements.add(Elements(
+                                  isActuator: selectedSensor.isActuator!,
+                                  sensorDescription:
+                                      selectedSensor.sensorDescription!,
+                                  sensorImage: selectedSensor.sensorImage!,
+                                  sensorName: selectedSensor.sensorName!));
+                          print(selectedSensor);
+                        }
+                      })
+                    },
                   )
-                      .then((result) {
-                    if (result != null) {
-                      selectedSensor = result as SensorClass;
-                      selectedSensor.isActuator! ? 
-                        actuatorElements.add(Elements(
-                          isActuator: selectedSensor.isActuator!,
-                            sensorDescription: selectedSensor.sensorDescription!,
-                            sensorImage: selectedSensor.sensorImage!,
-                            sensorName: selectedSensor.sensorName!))
-                          : sensorElements.add(Elements(
-                            isActuator: selectedSensor.isActuator!,
-                            sensorDescription: selectedSensor.sensorDescription!,
-                            sensorImage: selectedSensor.sensorImage!,
-                            sensorName: selectedSensor.sensorName!
-                          ));
-                      print(selectedSensor);
-                    }
-                  })
-                },
-              )
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GestureDetector(
-                onTap: toggleText,
-                child: Text(
-                  "Sensor",
-                  style: TextStyle(
-                    fontSize: 20,
-                    decoration: isText1Underlined
-                        ? TextDecoration.underline
-                        : TextDecoration.none,
+                ],
+              )),
+          Padding(
+              padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                      padding: EdgeInsets.fromLTRB(0, 0, 11, 0),
+                      child: GestureDetector(
+                        onTap: toggleText,
+                        child: Text(
+                          "Sensor",
+                          style: TextStyle(
+                            fontSize: 17,
+                            decoration: isText1Underlined
+                                ? TextDecoration.underline
+                                : TextDecoration.none,
+                          ),
+                        ),
+                      )),
+                  GestureDetector(
+                    onTap: toggleText,
+                    child: Text(
+                      "Actuator",
+                      style: TextStyle(
+                        fontSize: 17,
+                        decoration: isText1Underlined
+                            ? TextDecoration.none
+                            : TextDecoration.underline,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              const SizedBox(width: 10),
-              GestureDetector(
-                onTap: toggleText,
-                child: Text(
-                  "Actuator",
-                  style: TextStyle(
-                    fontSize: 20,
-                    decoration: isText1Underlined
-                        ? TextDecoration.none
-                        : TextDecoration.underline,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          isText1Underlined ? 
-          DashboardSensorWidget(sensorElements: sensorElements,) :
-          DashboardActuatorWidget(actuatorElements: actuatorElements)
+                ],
+              )),
+          isText1Underlined
+              ? DashboardSensorWidget(
+                  sensorElements: sensorElements,
+                )
+              : DashboardActuatorWidget(actuatorElements: actuatorElements)
         ],
       ),
     );
