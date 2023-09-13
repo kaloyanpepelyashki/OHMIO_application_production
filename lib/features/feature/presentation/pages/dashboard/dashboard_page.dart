@@ -66,11 +66,11 @@ class _DashBoardPageState extends State<DashBoardPage> {
 
     BlocProvider.of<PinTunnelBloc>(context)
         .add(const SubscribeHourlyChannel(sensorId: 12345));
-    BlocProvider.of<PinTunnelBloc>(context)
-        .add(const GetSensorRange(sensorId: 12345));
+    //BlocProvider.of<PinTunnelBloc>(context)
+      //  .add(const GetSensorRange(sensorId: 12345));
     if (widget.email != null) {
-      BlocProvider.of<PinTunnelBloc>(context)
-          .add(GetSensorsForUser(email: widget.email!));
+     // BlocProvider.of<PinTunnelBloc>(context)
+      ///   .add(GetSensorsForUser(email: widget.email!));
     }
   }
 

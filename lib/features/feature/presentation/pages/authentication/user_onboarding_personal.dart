@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/inputField_with_heading.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_back_action.dart';
+import 'package:screen_protector/screen_protector.dart';
 import "package:timezone/standalone.dart" as tz;
 
 import '../../../data/data_sources/supabase_service.dart';
@@ -22,6 +23,23 @@ class _OnBoardingPersonalDataPageState
   //Inut field TextEditing controllers
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
+
+
+  @override
+  void initState() async{
+    await ScreenProtector.protectDataLeakageWithColor(Colors.white);
+    await ScreenProtector.preventScreenshotOn();
+    _userProfile.empty();
+    super.initState();
+  }
+
+  @override
+  void dispose() async{
+    _nameController.dispose();
+    _lastNameController.dispose();
+    await ScreenProtector.preventScreenshotOff();
+    super.dispose();
+  }
 
   final _userProfile = userProfile;
 
@@ -55,18 +73,6 @@ class _OnBoardingPersonalDataPageState
     GoRouter.of(context).go("/signup/onboarding-tunnel-mac");
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _userProfile.empty();
-  }
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _lastNameController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {

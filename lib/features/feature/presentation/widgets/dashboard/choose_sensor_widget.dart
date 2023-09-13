@@ -53,7 +53,7 @@ class ChooseSensorWidget extends StatelessWidget {
             sensorName: sensorName,
             sensorDescription: sensorDescription);
 
-       GoRouter.of(context).goNamed("sensorDetailPage", pathParameters: {
+       GoRouter.of(context).pushNamed("sensorDetailPage", pathParameters: {
           "isActuator": isActuator.toString(),
           "sensorImage": sensorImage.toString(),
           "sensorName": sensorName,

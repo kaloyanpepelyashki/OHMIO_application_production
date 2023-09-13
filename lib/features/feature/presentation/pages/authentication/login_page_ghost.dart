@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:screen_protector/screen_protector.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../data/data_sources/supabase_service.dart';
@@ -20,15 +21,18 @@ class _LogInPageGhostState extends State<LogInPageGhost> {
   final _emailController = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
+  void initState() async{
+    await ScreenProtector.protectDataLeakageWithColor(Colors.white);
+    await ScreenProtector.preventScreenshotOn();
     _emailController.text = _supabaseManager.user?.email ?? "";
+    super.initState();
   }
 
   @override
-  void dispose() {
+  void dispose() async{
     _emailController.dispose();
     _passwordController.dispose();
+    await ScreenProtector.preventScreenshotOff();
     super.dispose();
   }
 

@@ -1,8 +1,13 @@
+import 'dart:io';
+
 import 'package:dart_either/dart_either.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:http/io_client.dart';
 import 'package:pin_tunnel_application_production/features/feature/domain/entities/user_class.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:http/http.dart' as http;
 
 
 class SupabaseManager {
@@ -23,21 +28,29 @@ class SupabaseManager {
     _initialize();
   }
 
-  _initialize() {
-    supabaseClient = SupabaseClient(supabaseUrl, token);
+  _initialize() async{
+      supabaseClient = SupabaseClient(
+      supabaseUrl,
+       token,);
     supabaseSession = supabaseClient.auth.currentSession;
   }
 
-  subscribeToChannel(String channelName, Function(String) onReceived) {
-    supabaseClient.channel('*').on(
-      RealtimeListenTypes.postgresChanges,
-      ChannelFilter(event: '*', schema: '*'),
-      (payload, [ref]) {
-        //print('Change received: ${payload.toString()}');
-        onReceived(payload.toString());
-      },
-    ).subscribe();
-  }
+
+  Future<SecurityContext> get globalContext async {
+  final sslCert = await rootBundle.load('assets/certificate.crt');
+  SecurityContext securityContext = SecurityContext(withTrustedRoots: false);
+  securityContext.setTrustedCertificatesBytes(sslCert.buffer.asInt8List());
+  return securityContext;
+}
+
+ Future<http.Client> getSSLPinningClient() async {
+  HttpClient client = HttpClient(context: await globalContext);
+  client.badCertificateCallback =
+      (X509Certificate cert, String host, int port) => false;
+  IOClient ioClient = IOClient(client);
+  return ioClient;
+}
+
 
   //* Defining the SIGN-UP method
   Future<Either<AuthException, User?>> signUpUser(dynamic context,
