@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
-import 'package:screen_protector/screen_protector.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../data/data_sources/supabase_service.dart';
@@ -21,18 +20,15 @@ class _LogInComponentState extends State<LogInPage> {
   final _emailController = TextEditingController();
 
   @override
-  void initState() async{
+  void initState() {
     super.initState();
-    await ScreenProtector.protectDataLeakageWithColor(Colors.white);
-    await ScreenProtector.preventScreenshotOn();
     //_emailController.text = _supabaseManager.user?.email ?? "kon";
   }
 
   @override
-  void dispose() async{
+  void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
-    await ScreenProtector.preventScreenshotOff();
     super.dispose();
   }
 

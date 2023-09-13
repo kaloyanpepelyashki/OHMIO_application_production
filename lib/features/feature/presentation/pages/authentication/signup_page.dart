@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/elevated_button_component.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_back_action.dart';
-import 'package:screen_protector/screen_protector.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../data/data_sources/supabase_service.dart';
@@ -20,19 +19,10 @@ class _SignUpComponentState extends State<SignUpPage> {
   final user = supabaseManager.user;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-
-  @override 
-  void initState()async{
-    await ScreenProtector.protectDataLeakageWithColor(Colors.white);
-    await ScreenProtector.preventScreenshotOn();
-    super.initState();
-  }
-
   @override
-  void dispose() async{
+  void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
-    await ScreenProtector.preventScreenshotOff();
     super.dispose();
   }
 
