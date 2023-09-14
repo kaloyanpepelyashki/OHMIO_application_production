@@ -14,26 +14,29 @@ class GridItem extends StatelessWidget {
       this.sensorImage,
       this.sensorDescription});
 
-
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      child: Container(
-        color: isActuator! ? Colors.lightBlue : Colors.green[200],
-        child: Column(
-          children: [
-            sensorImage == null ? SizedBox() : Image.network(sensorImage!),
-            Text(
-              sensorName == null ? "" : sensorName!,
-            ),
-            Text(sensorDescription == null ? "" : sensorDescription!)
-          ],
+        child: Container(
+          color: isActuator! ? Colors.lightBlue : Colors.green[200],
+          child: Column(
+            children: [
+              /*sensorImage == null
+                  ? SizedBox()
+                  : Image.network(
+                      sensorImage!,
+                      errorBuilder: (context, error, stackTrace) =>
+                          Image.asset('assets/laser_actuator.png'),
+                    ),*/
+              Text(
+                sensorName == null ? "" : sensorName!,
+              ),
+              Text(sensorDescription == null ? "" : sensorDescription!)
+            ],
+          ),
         ),
-      ),
-      onTap:(){
-        GoRouter.of(context).push("/sensorPage");
-      }
-    );
+        onTap: () {
+          GoRouter.of(context).push("/sensorPage");
+        });
   }
 }

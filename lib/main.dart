@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:pin_tunnel_application_production/Providers/global_data_provider.dart';
 import 'package:pin_tunnel_application_production/config/routes/routes.dart';
@@ -22,6 +23,7 @@ import 'dependency_injection.dart';
 
 import 'dependency_injection.dart' as di;
 import 'features/feature/data/data_sources/supabase_service.dart';
+
 
 @pragma('vm:entry-point')
 void notificationTapBackground(NotificationResponse notificationResponse) {
@@ -109,6 +111,11 @@ Future<void> main() async {
       child: const MyApp(),
     ),
   );
+  WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{
+    if(Platform.isAndroid){
+      await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+    }
+  });
 }
 
 class MyApp extends StatelessWidget {

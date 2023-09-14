@@ -26,6 +26,7 @@ class _LogInComponentState extends State<LogInPage> {
     //_emailController.text = _supabaseManager.user?.email ?? "kon";
   }
 
+
   @override
   void dispose() {
     _emailController.dispose();
