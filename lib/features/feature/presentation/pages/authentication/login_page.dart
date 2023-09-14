@@ -4,6 +4,7 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../data/data_sources/supabase_service.dart';
+import '../../../domain/entities/user_class.dart';
 import '../../widgets/elevated_button_component.dart';
 import '../../widgets/top_bar_back_action.dart';
 
@@ -39,6 +40,7 @@ class _LogInComponentState extends State<LogInPage> {
 
       signInSession.fold(
           ifRight: (r) => {
+                userProfile.fetchFromDatabase(supabaseManager.user?.id),
                 OneSignal.login(email),
                 OneSignal.User.addEmail(email),
                 GoRouter.of(context).pushNamed("dashboard", pathParameters: {

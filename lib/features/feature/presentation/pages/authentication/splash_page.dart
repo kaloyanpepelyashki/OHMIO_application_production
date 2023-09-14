@@ -4,8 +4,6 @@ import 'package:pin_tunnel_application_production/features/feature/presentation/
 
 import '../../../data/data_sources/supabase_service.dart';
 
-
-
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
 
@@ -23,10 +21,13 @@ class _SplashPageState extends State<SplashPage> {
       return;
     }
     _session = supabaseManager.supabaseClient.auth.currentSession;
+    //Checks if the session is null or not
     if (_session != null) {
+      //If the session is not null (there is a user logged in), it navigates to the dashboard
       debugPrint("Going to dashboard");
-      GoRouter.of(context).push("/dashboard");
+      GoRouter.of(context).push("/dashboard/:email");
     } else {
+      //If the sessions is null, navigates to onboarding screen (login/signup)
       debugPrint("Going to onboarding page");
       GoRouter.of(context).push("/onboarding");
     }

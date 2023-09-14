@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pin_tunnel_application_production/features/feature/domain/entities/user_class.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/dashboard/dashboard_actuator_widget.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/dashboard/dashboard_sensor_widget.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/drawer_menu.dart';
@@ -96,6 +97,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
   @override
   //Widget presentation
   Widget build(BuildContext context) {
+    debugPrint("email: ${userProfile.email}");
     return Scaffold(
       appBar: const TopBarBurgerMenu(),
       backgroundColor: Theme.of(context).colorScheme.background,

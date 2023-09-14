@@ -1,5 +1,8 @@
 import 'dart:ffi';
 
+import 'package:dart_either/dart_either.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:pin_tunnel_application_production/features/feature/data/data_sources/supabase_service.dart';
 import 'package:pin_tunnel_application_production/features/feature/domain/entities/tunnel_class.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -60,6 +63,35 @@ class User_Profile {
 
   void finishOnBoarding() {
     finishedOnBoarding = true;
+  }
+
+//Data binding with the database
+  Future<Either<Exception, void>> fetchFromDatabase(sessionUUID) async {
+    final databaseData = await supabaseManager.supabaseClient
+        .from("profiles")
+        .select('username, email, first_name, last_name')
+        .eq("id", sessionUUID);
+
+    debugPrint("user data is : $databaseData");
+
+    if (databaseData == null) {
+      return Either.left(Exception("Unexpected error occured"));
+    } else {
+      final parsedData = databaseData.data as List<Map<String, dynamic>>;
+
+      for (final row in parsedData) {
+        final username = row['username'];
+        final email = row['email'];
+        final firstName = row['first_name'];
+        final lastName = row['last_name'];
+
+        userProfile.username = username;
+        userProfile.email = email;
+        userProfile.firstName = firstName;
+        userProfile.lastName = lastName;
+      }
+    }
+    return Either.left(Exception("Unexpected error occured"));
   }
 
   //Cleans the object (sets the members to be empty)

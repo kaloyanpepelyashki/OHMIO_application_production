@@ -12,6 +12,7 @@ import 'package:pin_tunnel_application_production/config/themes/main_theme.dart'
 import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelBloc.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/dashboard/dashboard_page.dart';
 import "package:provider/provider.dart";
+import 'package:supabase_flutter/supabase_flutter.dart';
 import "package:timezone/data/latest.dart" as tz;
 
 import 'core/util/notifications/android_notification_settings.dart';
@@ -20,6 +21,7 @@ import 'core/util/notifications/ios_notification_settings.dart';
 import 'dependency_injection.dart';
 
 import 'dependency_injection.dart' as di;
+import 'features/feature/data/data_sources/supabase_service.dart';
 
 @pragma('vm:entry-point')
 void notificationTapBackground(NotificationResponse notificationResponse) {
@@ -44,7 +46,7 @@ Future<void> main() async {
 
   //ONESIGNAL NOTIFICATIONS
   OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
-  
+
   OneSignal.initialize("714ca8e6-14af-4778-b0d7-02eb3331cffb");
   OneSignal.Notifications.requestPermission(true);
 
@@ -83,12 +85,26 @@ Future<void> main() async {
     onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
   );
 
+  WidgetsFlutterBinding.ensureInitialized();
+
+  //Initializing supabase manager
+  await Supabase.initialize(
+    url: supabaseManager.supabaseUrl,
+    anonKey: supabaseManager.token,
+  );
+
+  //* supabaseClient init
+  supabaseManager.supabaseClient = Supabase.instance.client;
+
+  //* supabaseSession init
+  supabaseManager.supabaseSession =
+      supabaseManager.supabaseClient.auth.currentSession;
+
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => GlobalDataProvider()),
-        BlocProvider<PinTunnelBloc>(
-          create: (context) => sl<PinTunnelBloc>())
+        BlocProvider<PinTunnelBloc>(create: (context) => sl<PinTunnelBloc>())
       ],
       child: const MyApp(),
     ),
@@ -104,7 +120,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: "Pin Tunnel",
+      title: "OHMIO",
       routerConfig: router,
       theme: mainTheme,
     );
