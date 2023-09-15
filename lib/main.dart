@@ -3,7 +3,9 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_jailbreak_detection/flutter_jailbreak_detection.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -118,15 +120,53 @@ Future<void> main() async {
   });
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool? _jailbroken;
+  bool? _developerMode;
+
+  @override
+  void initState() {
+    super.initState();
+    initPlatformState();
+  }
+
+  // Platform messages are asynchronous, so we initialize in an async method.
+  Future<void> initPlatformState() async {
+    bool jailbroken;
+    bool developerMode;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      jailbroken = await FlutterJailbreakDetection.jailbroken;
+      developerMode = await FlutterJailbreakDetection.developerMode;
+    } on PlatformException {
+      jailbroken = true;
+      developerMode = true;
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      _jailbroken = jailbroken;
+      _developerMode = developerMode;
+    });
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    return _jailbroken==true ? Text("JAILBROKEN DEVICE") : MaterialApp.router(
       title: "OHMIO",
       routerConfig: router,
       theme: mainTheme,
