@@ -141,14 +141,26 @@ class PinTunnelRepository implements IPinTunnelRepository {
     try {
       final clientId = (await client.from('profiles').select('''
     id
-  ''').eq('email', email))[0]['id'];
+  ''').eq('email', email));
+
+      if(clientId.isEmpty){
+        return Left(NotFoundFailure(message: "ClientId not found for given email", statusCode: 404));
+      }
 
       final pintunnelData = (await client
           .from('pintunnel')
-          .select('''id, mac_address''').eq('user_id', clientId));
+          .select('''id, mac_address''').eq('user_id', clientId[0]['id']));
+
+      if(pintunnelData.isEmpty){
+        return Left(NotFoundFailure(message: "Pintunnel not found for given email", statusCode: 404));
+      }
 
       final cfg_code = (await client.from('sensor').select('''cfg_code''').eq(
           'pintunnel_id', pintunnelData[0]['id']))[0]['cfg_code'];
+
+      if(cfg_code.isEmpty){
+        return Left(NotFoundFailure(message: "Cfg_code not found for given email", statusCode: 404));
+      }
 
       final data = await client.from('sensor_config').select(
           '''description, isActuator, unit, version, min_value, max_value, image, name''');
@@ -158,9 +170,10 @@ class PinTunnelRepository implements IPinTunnelRepository {
           {
             sensorClassList.add(SensorDAO.fromJSON(i as Map<String, dynamic>)),
           });
-
-
-      return Right(sensorClassList);
+      if(sensorClassList.isNotEmpty){
+        return Right(sensorClassList);
+      }
+      return Left(NotFoundFailure(message: "Sensors not found", statusCode: 404));
     } on APIException catch (e) {
       return Left(APIFailure.fromException(e));
     }

@@ -17,3 +17,8 @@ class APIFailure extends Failure{
 
   APIFailure.fromException(APIException exception) : this(message: exception.message, statusCode: exception.statusCode);
 }
+
+class NotFoundFailure extends Failure{
+   const NotFoundFailure({required super.message, required super.statusCode});
+
+}

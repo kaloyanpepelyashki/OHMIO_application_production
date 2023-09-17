@@ -138,7 +138,11 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
     final result = await sensorLogic.getSensorsForUser(event.email);
     result.fold(
       ifLeft: (value) => print(value),
-      ifRight: (value) => {emit(SensorsForUserReceivedState(value))},
+      ifRight: (value) => {
+        if(value.isNotEmpty) {
+          emit(SensorsForUserReceivedState(value))
+        }
+        },
     );
   }
 
