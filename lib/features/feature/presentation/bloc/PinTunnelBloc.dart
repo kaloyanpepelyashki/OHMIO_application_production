@@ -92,7 +92,8 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
     PayloadReceived event,
     Emitter<PinTunnelState> emit,
   ) {
-    emit(PayloadReceivedState(event.payload));
+    print("EVENT.PAYLOAD ${event.payload}");
+      emit(PayloadReceivedState(event.payload));
    // print('payloadReceived emmited $event.payload');
   }
 

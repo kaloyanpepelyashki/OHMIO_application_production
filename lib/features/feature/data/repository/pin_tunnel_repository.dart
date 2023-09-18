@@ -13,7 +13,8 @@ import '../models/sensor_dao.dart';
 class PinTunnelRepository implements IPinTunnelRepository {
   @override
   subscribeToChannel(int sensorId, Function(dynamic) onReceived) async {
-    SupabaseManager supabaseManager = SupabaseManager(
+    try{
+      SupabaseManager supabaseManager = SupabaseManager(
         supabaseUrl: "https://wruqswjbhpvpikhgwade.supabase.co",
         token:
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndydXFzd2piaHB2cGlraGd3YWRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTI4MzA2NTIsImV4cCI6MjAwODQwNjY1Mn0.XxlesUi6c-Wi7HXidzVotr8DWzljWGvY4LY3BPD-0N0");
@@ -23,9 +24,9 @@ class PinTunnelRepository implements IPinTunnelRepository {
         .eq('sensor_id', sensorId)
         .order('time', ascending: false)
         .limit(10);
-    print("PINTUNNEL_DATA RESPONSE: $response");
-    onReceived({'sensor_data': response});
-    Future.delayed(Duration(seconds: 1));
+    if(response !=null){
+      onReceived({'sensor_data': response});
+    }
 
     supabaseManager.supabaseClient.channel('*').on(
       RealtimeListenTypes.postgresChanges,
@@ -39,6 +40,9 @@ class PinTunnelRepository implements IPinTunnelRepository {
         onReceived(payload);
       },
     ).subscribe();
+    }catch(e){
+      print(e);
+    }
   }
 
   @override
@@ -53,7 +57,9 @@ class PinTunnelRepository implements IPinTunnelRepository {
         .eq('sensor_id', sensorId)
         .order('created_at', ascending: false)
         .limit(10);
-    onReceived({'sensor_data': response});
+    if(response!=null){
+      onReceived({'sensor_data': response});
+    }
 
     supabaseManager.supabaseClient.channel('*').on(
       RealtimeListenTypes.postgresChanges,

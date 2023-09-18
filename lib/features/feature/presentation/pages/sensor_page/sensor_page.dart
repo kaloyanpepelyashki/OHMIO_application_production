@@ -43,6 +43,8 @@ class _SensorPageState extends State<SensorPage> {
 
   @override
   void initState() {
+    BlocProvider.of<PinTunnelBloc>(context)
+        .add(const SubscribeChannel(sensorId: 12345));
     super.initState();
     rangeArea = RangeArea(
       timeFilter: 'live', /*key: rangeAreaKey*/

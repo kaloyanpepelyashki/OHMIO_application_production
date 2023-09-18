@@ -29,15 +29,8 @@ class _GridItemState extends State<GridItem> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<PinTunnelBloc, PinTunnelState>(
-      listener: (context, state) {
-
-      },
+      listener: (context, state) {},
       builder: (context, state) {
-        if (state is PayloadReceivedState) {
-          setState(() {
-            valueString = state.payload['new']['data'];
-          });
-       }
         return GestureDetector(
             child: Container(
               color: const Color(0xFFF1F1F1),
