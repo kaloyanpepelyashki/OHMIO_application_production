@@ -26,7 +26,6 @@ class _OnBoardingPersonalDataPageState
   final _userProfile = userProfile;
 
   void uploadToDatabase() async {
-    debugPrint("id: ${supabaseManager.user?.id}");
     tz.Location utc = tz.getLocation('UTC');
     await supabaseManager.supabaseClient.from("profiles").update({
       "email": supabaseManager.user?.email,
@@ -52,7 +51,7 @@ class _OnBoardingPersonalDataPageState
   void getPersonalData() async {
     uploadToDatabase();
     populateUserProfile();
-    GoRouter.of(context).go("/signup/onboarding-tunnel-mac");
+    GoRouter.of(context).go("/signup/onboarding-username");
   }
 
   @override

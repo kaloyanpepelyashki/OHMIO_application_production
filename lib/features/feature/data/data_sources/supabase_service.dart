@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:pin_tunnel_application_production/features/feature/domain/entities/user_class.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-
 class SupabaseManager {
   String supabaseUrl;
   String token;
@@ -15,7 +14,7 @@ class SupabaseManager {
 
   //* Defining constructor for SupabaseManager class
   //Assigning a constructor for the SupabaseManager class
-  
+
   SupabaseManager({
     required this.supabaseUrl,
     required this.token,
@@ -41,30 +40,34 @@ class SupabaseManager {
 
   //* Defining the SIGN-UP method
   Future<Either<AuthException, User?>> signUpUser(dynamic context,
-      {String? email, String? password}) async {
-    try {
-      //signUp method by supabase
-      final AuthResponse response =
-          await supabaseClient.auth.signUp(email: email!, password: password!);
+      {String? email, String? password, String? repeatPassword}) async {
+    if (password == repeatPassword) {
+      try {
+        //signUp method by supabase
+        final AuthResponse response = await supabaseClient.auth
+            .signUp(email: email!, password: password!);
 
-      if (response.user?.id != null) {
-        user = response.user;
-        supabaseSession = response.session;
+        if (response.user?.id != null) {
+          user = response.user;
+          supabaseSession = response.session;
 
-        //Return right part of Either< > if success
-        return Either.right(user);
-      } else if (response.user?.id == null) {
-        debugPrint("A error occured");
+          //Return right part of Either< > if success
+          return Either.right(user);
+        } else if (response.user?.id == null) {
+          debugPrint("A error occured");
+          //Returns left part of Either< > if faliure
+          return const Either.left(AuthException("An error occured"));
+        }
+      } on AuthException catch (e) {
         //Returns left part of Either< > if faliure
-        return const Either.left(AuthException("An error occured"));
+        return Either.left(AuthException(e.message));
+      } catch (e) {
+        debugPrint("not working");
+        //Returns left part of Either< > if faliure
+        return Either.left(AuthException("$e"));
       }
-    } on AuthException catch (e) {
-      //Returns left part of Either< > if faliure
-      return Either.left(AuthException(e.message));
-    } catch (e) {
-      debugPrint("not working");
-      //Returns left part of Either< > if faliure
-      return Either.left(AuthException("$e"));
+    } else {
+      return const Either.left(AuthException("Passwords do not match"));
     }
 
     //Fallback return statement (if none of the preceding return statements are executed)
