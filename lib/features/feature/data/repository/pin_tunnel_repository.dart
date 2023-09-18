@@ -158,10 +158,6 @@ class PinTunnelRepository implements IPinTunnelRepository {
       final cfg_code = (await client.from('sensor').select('''cfg_code''').eq(
           'pintunnel_id', pintunnelData[0]['id']))[0]['cfg_code'];
 
-      if(cfg_code.isEmpty){
-        return Left(NotFoundFailure(message: "Cfg_code not found for given email", statusCode: 404));
-      }
-
       final data = await client.from('sensor_config').select(
           '''description, isActuator, unit, version, min_value, max_value, image, name''');
 

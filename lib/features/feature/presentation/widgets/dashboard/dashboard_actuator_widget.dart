@@ -1,3 +1,4 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -42,6 +43,7 @@ class _DashboardActuatorWidgetState extends State<DashboardActuatorWidget> {
             });
           }
         }
+        
         return Expanded(
           child: CustomScrollView(primary: false, slivers: [
             SliverPadding(
@@ -51,7 +53,7 @@ class _DashboardActuatorWidgetState extends State<DashboardActuatorWidget> {
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
                 //set size of grid item
-                childAspectRatio: 1 / 2,
+                childAspectRatio: 3/4,
                 children: [
                   if (actuatorItems.isNotEmpty)
                     for (final el in actuatorItems)
@@ -61,23 +63,32 @@ class _DashboardActuatorWidgetState extends State<DashboardActuatorWidget> {
                         sensorImage: el.sensorImage,
                         sensorName: el.sensorName,
                       ),
-                  Container(
-                    color: const Color.fromARGB(255, 218, 217, 217),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          icon: const FaIcon(FontAwesomeIcons.plus,
-                              size: 50,
-                              color: Color.fromARGB(255, 132, 131, 131)),
-                          onPressed: () => {
-                            GoRouter.of(context)
-                                .push("/chooseSensorPage")
-                          },
-                        ),
-                        const Text("Add New Device",
-                            style: TextStyle(fontSize: 20)),
-                      ],
+                  DottedBorder(
+
+                    strokeWidth: 1,
+                    padding: EdgeInsets.all(4),
+                    child: Container(
+                      color:const Color(0xFFF1F1F1),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                  
+                            Container(
+                              width: 90,
+                              height: 90,
+                              child: IconButton(
+                                icon: const FaIcon(FontAwesomeIcons.plus,
+                                    size: 90,
+                                    color: Colors.black),
+                                onPressed: () =>
+                                    {GoRouter.of(context).push("/chooseSensorPage")},
+                              ),
+                            ),
+                            SizedBox(height: 20),
+                          const Text("Add New Device",
+                              style: TextStyle(fontSize: 20)),
+                        ],
+                      ),
                     ),
                   )
                 ],
