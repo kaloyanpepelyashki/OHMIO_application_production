@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pin_tunnel_application_production/features/feature/domain/usecases/subscribe_channel_logic.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/authentication/user_onboarding_personal_username.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/dashboard/choose_sensor_page.dart';
 //Importing page components
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/dashboard/dashboard_page.dart';
@@ -61,6 +62,11 @@ GoRouter router = GoRouter(initialLocation: "/", routes: <GoRoute>[
               return const OnBoardingPersonalDataPage();
             }),
         GoRoute(
+            path: "onboarding-username",
+            builder: (BuildContext context, GoRouterState state) {
+              return const OnBoardingUsernamePage();
+            }),
+        GoRoute(
             path: "onboarding-tunnel-mac",
             builder: (BuildContext context, GoRouterState state) {
               return const RetreiveTunnelMACPage();
@@ -75,7 +81,8 @@ GoRouter router = GoRouter(initialLocation: "/", routes: <GoRoute>[
 
         return BlocProvider.value(
           value: BlocProvider.of<PinTunnelBloc>(context),
-          child: DashBoardPage(state.pathParameters['email'], notificationAppLaunchDetails),
+          child: DashBoardPage(
+              state.pathParameters['email'], notificationAppLaunchDetails),
         );
       }),
   GoRoute(
@@ -92,10 +99,11 @@ GoRouter router = GoRouter(initialLocation: "/", routes: <GoRoute>[
         return const ChooseSensorPage();
       }),
   GoRoute(
-      path: "/sensorDetailPage/:isActuator/:sensorDescription/:sensorImage/:sensorName",
+      path:
+          "/sensorDetailPage/:isActuator/:sensorDescription/:sensorImage/:sensorName",
       name: "sensorDetailPage",
       builder: (BuildContext context, GoRouterState state) {
-        return  SensorDetailPage(
+        return SensorDetailPage(
           isActuator: state.pathParameters['isActuator']!,
           sensorDescription: state.pathParameters['sensorDescription']!,
           sensorImage: state.pathParameters['sensorImage']!,

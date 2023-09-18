@@ -101,6 +101,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
   @override
   //Widget presentation
   Widget build(BuildContext context) {
+    //Not working yet
     debugPrint("email: ${userProfile.email}");
     return Scaffold(
       appBar: const TopBarBurgerMenu(),

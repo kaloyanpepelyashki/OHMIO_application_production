@@ -2,10 +2,14 @@ PODS:
   - app_links (0.0.1):
     - Flutter
   - Flutter (1.0.0)
+  - flutter_jailbreak_detection (1.0.0):
+    - Flutter
+    - IOSSecuritySuite
   - flutter_local_notifications (0.0.1):
     - Flutter
   - integration_test (0.0.1):
     - Flutter
+  - IOSSecuritySuite (1.9.9)
   - onesignal_flutter (5.0.0):
     - Flutter
     - OneSignalXCFramework (= 5.0.1)
@@ -66,6 +70,7 @@ PODS:
 DEPENDENCIES:
   - app_links (from `.symlinks/plugins/app_links/ios`)
   - Flutter (from `Flutter`)
+  - flutter_jailbreak_detection (from `.symlinks/plugins/flutter_jailbreak_detection/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
   - onesignal_flutter (from `.symlinks/plugins/onesignal_flutter/ios`)
@@ -77,6 +82,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - IOSSecuritySuite
     - OneSignalXCFramework
 
 EXTERNAL SOURCES:
@@ -84,6 +90,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/app_links/ios"
   Flutter:
     :path: Flutter
+  flutter_jailbreak_detection:
+    :path: ".symlinks/plugins/flutter_jailbreak_detection/ios"
   flutter_local_notifications:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
   integration_test:
@@ -104,8 +112,10 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   app_links: 5ef33d0d295a89d9d16bb81b0e3b0d5f70d6c875
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  flutter_jailbreak_detection: c5bf66ff6c0c4230769b6ba0bd63eb6ac4148a76
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
   integration_test: 13825b8a9334a850581300559b8839134b124670
+  IOSSecuritySuite: 72c55371aafe586196c325a8348319c36d385ce4
   onesignal_flutter: 33912d40612d20a6b34cd77e3d783f61843493fc
   OneSignalXCFramework: 8429bc2456554da1b09b17135621087152ad05a0
   path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943

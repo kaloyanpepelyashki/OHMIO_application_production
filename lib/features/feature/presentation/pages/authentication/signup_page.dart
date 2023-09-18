@@ -6,7 +6,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../data/data_sources/supabase_service.dart';
 
-
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 
@@ -19,6 +18,8 @@ class _SignUpComponentState extends State<SignUpPage> {
   final user = supabaseManager.user;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _repeatPasswordController = TextEditingController();
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -26,10 +27,11 @@ class _SignUpComponentState extends State<SignUpPage> {
     super.dispose();
   }
 
-  void _handleSignUp(context, String email, String password) async {
+  void _handleSignUp(
+      context, String email, String password, String repeatPassword) async {
     try {
       var signUpSession = await _supabaseManager.signUpUser(context,
-          email: email, password: password);
+          email: email, password: password, repeatPassword: repeatPassword);
       signUpSession.fold(
           //If signUpSession is success
           ifRight: (r) => {GoRouter.of(context).go("/signup/confirm-email")},
@@ -67,9 +69,9 @@ class _SignUpComponentState extends State<SignUpPage> {
           child: Column(
             children: [
               const Text(
-                      "Title",
-                      style: TextStyle(fontSize: 40, letterSpacing: 17),
-                    ),
+                "Title",
+                style: TextStyle(fontSize: 40, letterSpacing: 17),
+              ),
               Expanded(
                 child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
@@ -87,7 +89,7 @@ class _SignUpComponentState extends State<SignUpPage> {
                                     decoration: const InputDecoration(
                                         hintText: "Email",
                                         enabledBorder: OutlineInputBorder()))),
-                
+
                             Container(
                                 margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                                 child: TextField(
@@ -97,8 +99,9 @@ class _SignUpComponentState extends State<SignUpPage> {
                                         enabledBorder: OutlineInputBorder()))),
                             Container(
                                 margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                                child: const TextField(
-                                    decoration: InputDecoration(
+                                child: TextField(
+                                    controller: _repeatPasswordController,
+                                    decoration: const InputDecoration(
                                         hintText: "Repeat Password",
                                         enabledBorder: OutlineInputBorder())))
                           ],
@@ -108,8 +111,11 @@ class _SignUpComponentState extends State<SignUpPage> {
                         margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                         child: ElevatedButtonComponent(
                             onPressed: () {
-                              _handleSignUp(context, _emailController.text,
-                                  _passwordController.text);
+                              _handleSignUp(
+                                  context,
+                                  _emailController.text,
+                                  _passwordController.text,
+                                  _repeatPasswordController.text);
                             },
                             text: "Ok"),
                       ),
