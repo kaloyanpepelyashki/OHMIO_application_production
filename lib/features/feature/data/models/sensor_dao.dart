@@ -4,6 +4,7 @@ class SensorDAO {
   static SensorClass fromJSON(Map<String, dynamic> json) {
     return SensorClass(
       sensorDescription: json['description']?.toString() ?? "",
+      sensorId: json['id'] ?? "",
       isActuator: json['isActuator'] is bool ? json['isActuator'] : false,
       unit: json['unit']?.toString() ?? "",
       version: json['version']?.toString() ?? "",

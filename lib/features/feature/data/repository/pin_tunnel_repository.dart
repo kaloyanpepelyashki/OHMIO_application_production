@@ -183,7 +183,7 @@ class PinTunnelRepository implements IPinTunnelRepository {
         return Left(NotFoundFailure(message: "Pintunnel not found for given email", statusCode: 404));
       }
 
-      final cfg_code = (await client.from('sensor').select('''cfg_code''').eq(
+      final sensorData = (await client.from('sensor').select('''cfg_code, id''').eq(
           'pintunnel_id', pintunnelData[0]['id']))[0]['cfg_code'];
 
       final data = await client.from('sensor_config').select(

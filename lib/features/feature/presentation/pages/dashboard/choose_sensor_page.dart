@@ -14,9 +14,7 @@ class ChooseSensorPage extends StatelessWidget {
         child: Column(
           children: [
             ChooseSensorWidget(isActuator:false, sensorDescription: 'A small and super simple NTC thermistor in a voltage divider configuration', sensorImage: 'temperature_sensor.png', sensorName: 'Temperature sensor',),
-            SizedBox(height: 50),
             ChooseSensorWidget(isActuator: false, sensorDescription: 'The MQ2 is one of the commonly used analog gas sensors in the MQ sensor series', sensorImage: 'smoke_sensor.png', sensorName: 'Smoke sensor',),
-            SizedBox(height: 50),
             ChooseSensorWidget(isActuator: true, sensorDescription: 'This laser is made to operate at 5V.', sensorImage: 'laser_actuator.png', sensorName: 'Laser atuator',),
           ],
         ),

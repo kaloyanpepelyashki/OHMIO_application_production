@@ -9,6 +9,7 @@ import 'package:pin_tunnel_application_production/features/feature/domain/entiti
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/dashboard/dashboard_actuator_widget.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/dashboard/dashboard_sensor_widget.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/drawer_menu.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/help_widget.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_blank.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_burger_menu.dart';
 
@@ -107,90 +108,95 @@ class _DashBoardPageState extends State<DashBoardPage> {
       appBar: const TopBarBurgerMenu(),
       backgroundColor: Theme.of(context).colorScheme.background,
       endDrawer: const DrawerMenuComponent(),
-      body: Column(
+      body: Stack(
         children: [
-          Padding(
-              padding: EdgeInsets.fromLTRB(20, 0, 10, 30),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "My system",
-                    style: TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  IconButton(
-                    icon: const FaIcon(
-                      FontAwesomeIcons.plus,
-                    ),
-                    onPressed: () => {
-                      GoRouter.of(context)
-                          .push(
-                        "/chooseSensorPage",
+          Column(
+            children: [
+              Padding(
+                  padding: EdgeInsets.fromLTRB(20, 0, 10, 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "My system",
+                        style: TextStyle(
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      IconButton(
+                        icon: const FaIcon(
+                          FontAwesomeIcons.plus,
+                        ),
+                        onPressed: () => {
+                          GoRouter.of(context)
+                              .push(
+                            "/chooseSensorPage",
+                          )
+                              .then((result) {
+                            if (result != null) {
+                              selectedSensor = result as SensorClass;
+                              selectedSensor.isActuator!
+                                  ? actuatorElements.add(Elements(
+                                      isActuator: selectedSensor.isActuator!,
+                                      sensorDescription:
+                                          selectedSensor.sensorDescription!,
+                                      sensorImage: selectedSensor.sensorImage!,
+                                      sensorName: selectedSensor.sensorName!))
+                                  : sensorElements.add(Elements(
+                                      isActuator: selectedSensor.isActuator!,
+                                      sensorDescription:
+                                          selectedSensor.sensorDescription!,
+                                      sensorImage: selectedSensor.sensorImage!,
+                                      sensorName: selectedSensor.sensorName!));
+                              print(selectedSensor);
+                            }
+                          })
+                        },
                       )
-                          .then((result) {
-                        if (result != null) {
-                          selectedSensor = result as SensorClass;
-                          selectedSensor.isActuator!
-                              ? actuatorElements.add(Elements(
-                                  isActuator: selectedSensor.isActuator!,
-                                  sensorDescription:
-                                      selectedSensor.sensorDescription!,
-                                  sensorImage: selectedSensor.sensorImage!,
-                                  sensorName: selectedSensor.sensorName!))
-                              : sensorElements.add(Elements(
-                                  isActuator: selectedSensor.isActuator!,
-                                  sensorDescription:
-                                      selectedSensor.sensorDescription!,
-                                  sensorImage: selectedSensor.sensorImage!,
-                                  sensorName: selectedSensor.sensorName!));
-                          print(selectedSensor);
-                        }
-                      })
-                    },
-                  )
-                ],
-              )),
-          Padding(
-              padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                      padding: EdgeInsets.fromLTRB(0, 0, 11, 0),
-                      child: GestureDetector(
+                    ],
+                  )),
+              Padding(
+                  padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                          padding: EdgeInsets.fromLTRB(0, 0, 11, 0),
+                          child: GestureDetector(
+                            onTap: toggleText,
+                            child: Text(
+                              "Sensor",
+                              style: TextStyle(
+                                fontSize: 17,
+                                decoration: isText1Underlined
+                                    ? TextDecoration.underline
+                                    : TextDecoration.none,
+                              ),
+                            ),
+                          )),
+                      GestureDetector(
                         onTap: toggleText,
                         child: Text(
-                          "Sensor",
+                          "Actuator",
                           style: TextStyle(
                             fontSize: 17,
                             decoration: isText1Underlined
-                                ? TextDecoration.underline
-                                : TextDecoration.none,
+                                ? TextDecoration.none
+                                : TextDecoration.underline,
                           ),
                         ),
-                      )),
-                  GestureDetector(
-                    onTap: toggleText,
-                    child: Text(
-                      "Actuator",
-                      style: TextStyle(
-                        fontSize: 17,
-                        decoration: isText1Underlined
-                            ? TextDecoration.none
-                            : TextDecoration.underline,
                       ),
-                    ),
-                  ),
-                ],
-              )),
-          isText1Underlined
-              ? DashboardSensorWidget(
-                  sensorElements: sensorElements,
-                )
-              : DashboardActuatorWidget(actuatorElements: actuatorElements)
+                    ],
+                  )),
+              isText1Underlined
+                  ? DashboardSensorWidget(
+                      sensorElements: sensorElements,
+                    )
+                  : DashboardActuatorWidget(actuatorElements: actuatorElements)
+            ],
+          ),
+          HelpWidget(),
         ],
       ),
     );

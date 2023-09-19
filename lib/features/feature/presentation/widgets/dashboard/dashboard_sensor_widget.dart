@@ -40,6 +40,7 @@ class _DashboardSensorWidgetState extends State<DashboardSensorWidget> {
               if(i.isActuator == false){
                 print("sensor image: ${i.sensorImage}");
                 if(! sensorItems.any((item) => item.sensorDescription == i.sensorDescription)){
+                  
                   sensorItems.add(i);
                }
                 //sensorItems.add(Elements(isActuator: i.isActuator!, sensorName: i.sensorName!, sensorImage: i.sensorImage!, sensorDescription: i.sensorDescription!));
