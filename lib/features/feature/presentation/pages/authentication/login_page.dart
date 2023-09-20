@@ -26,7 +26,6 @@ class _LogInComponentState extends State<LogInPage> {
     //_emailController.text = _supabaseManager.user?.email ?? "kon";
   }
 
-
   @override
   void dispose() {
     _emailController.dispose();
@@ -44,7 +43,7 @@ class _LogInComponentState extends State<LogInPage> {
                // userProfile.fetchFromDatabase(supabaseManager.user?.id),
                 OneSignal.login(email),
                 OneSignal.User.addEmail(email),
-                GoRouter.of(context).pushNamed("dashboard", pathParameters: {
+                GoRouter.of(context).pushNamed("login-splash", pathParameters: {
                   "email": email,
                 })
               },
