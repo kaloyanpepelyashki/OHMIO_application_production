@@ -39,10 +39,10 @@ class DashBoardPage extends StatefulWidget {
       notificationAppLaunchDetails?.didNotificationLaunchApp ?? false;
 
   @override
-  State<DashBoardPage> createState() => _DashBoardPageState();
+  State<DashBoardPage> createState() => DashBoardPageState();
 }
 
-class _DashBoardPageState extends State<DashBoardPage> {
+class DashBoardPageState extends State<DashBoardPage> {
   bool _notificationsEnabled = false;
   List<Elements> sensorElements = [
     //Elements("Test item 4", 440)
@@ -103,7 +103,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
   //Widget presentation
   Widget build(BuildContext context) {
     //Not working yet
-    debugPrint("email: ${userProfile.email}");
+    debugPrint("email: ${widget.email}");
     return Scaffold(
       appBar: const TopBarBurgerMenu(),
       backgroundColor: Theme.of(context).colorScheme.background,

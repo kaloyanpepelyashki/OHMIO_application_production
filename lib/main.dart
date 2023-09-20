@@ -26,7 +26,6 @@ import 'dependency_injection.dart';
 import 'dependency_injection.dart' as di;
 import 'features/feature/data/data_sources/supabase_service.dart';
 
-
 @pragma('vm:entry-point')
 void notificationTapBackground(NotificationResponse notificationResponse) {
   // ignore: avoid_print
@@ -88,9 +87,7 @@ Future<void> main() async {
     },
     onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
   );
-
   WidgetsFlutterBinding.ensureInitialized();
-
   //Initializing supabase manager
   await Supabase.initialize(
     url: supabaseManager.supabaseUrl,
@@ -113,8 +110,8 @@ Future<void> main() async {
       child: const MyApp(),
     ),
   );
-  WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{
-    if(Platform.isAndroid){
+  WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+    if (Platform.isAndroid) {
       await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
     }
   });
@@ -166,10 +163,12 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return _jailbroken==true ? Text("JAILBROKEN DEVICE") : MaterialApp.router(
-      title: "OHMIO",
-      routerConfig: router,
-      theme: mainTheme,
-    );
+    return _jailbroken == true
+        ? Text("JAILBROKEN DEVICE")
+        : MaterialApp.router(
+            title: "OHMIO",
+            routerConfig: router,
+            theme: mainTheme,
+          );
   }
 }

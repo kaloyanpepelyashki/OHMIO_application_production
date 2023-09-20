@@ -7,7 +7,11 @@ import 'package:pin_tunnel_application_production/features/feature/presentation/
 //Importing page components
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/dashboard/dashboard_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/authentication/retreive_tunnel_MAC_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/dashboard/sensor_connect_first_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/dashboard/sensor_connect_second_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/dashboard/sensor_detail_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/sensor_connect_guide/pintunnel_tutorial_first_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/sensor_connect_guide/pintunnel_tutorial_second_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/sensor_page/chart_full_screen_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/sensor_page/sensor_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/authentication/signup_page.dart';
@@ -111,9 +115,30 @@ GoRouter router = GoRouter(initialLocation: "/", routes: <GoRoute>[
         );
       }),
   GoRoute(
+      path: "/sensorConnectFirstPage",
+      builder: (BuildContext context, GoRouterState state) {
+        return const SensorConnectFirstPage();
+      }),
+  GoRoute(
+      path: "/sensorConnectSecondPage",
+      builder: (BuildContext context, GoRouterState state) {
+        return const SensorConnectSecondPage();
+      }),
+  GoRoute(
       path: "/binaryEncoderPage",
       builder: (BuildContext context, GoRouterState state) {
         return const BinaryEncoderPage();
+      }),
+  GoRoute(
+      path: "/pintunnelTutorialFirstPage",
+      builder: (BuildContext context, GoRouterState state) {
+        return const PintunnelTutorialFirstPage();
+      }),
+
+    GoRoute(
+      path: "/pintunnelTutorialSecondPage",
+      builder: (BuildContext context, GoRouterState state) {
+        return const PintunnelTutorialSecondPage();
       })
 ]);
 

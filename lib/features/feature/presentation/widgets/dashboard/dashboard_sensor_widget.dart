@@ -35,7 +35,7 @@ class _DashboardSensorWidgetState extends State<DashboardSensorWidget> {
       listener: (context, state) {},
       builder: (context, state) {
         if (state is SensorsForUserReceivedState) {
-          if(state.sensorList != null){
+          if(state.sensorList.isNotEmpty){
             state.sensorList.forEach((i) {
               if(i.isActuator == false){
                 print("sensor image: ${i.sensorImage}");

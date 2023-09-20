@@ -9,6 +9,9 @@ import 'PinTunnelEvent.dart';
 import 'PinTunnelState.dart';
 
 class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
+
+  String? email; 
+
   final SubscribeChannelLogic subscribeChannelLogic;
   final SensorLogic sensorLogic;
   final payloadController = StreamController<Map<String, dynamic>>();

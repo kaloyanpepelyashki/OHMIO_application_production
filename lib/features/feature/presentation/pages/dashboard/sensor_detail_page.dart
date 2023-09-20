@@ -175,7 +175,9 @@ class SensorDetailPage extends StatelessWidget {
                   width: 194,
                   height: 44,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      GoRouter.of(context).push("/sensorConnectFirstPage");
+                    },
                     child: Text(
                       "Connect",
                       style: GoogleFonts.inter(

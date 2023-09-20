@@ -41,7 +41,7 @@ class _LogInComponentState extends State<LogInPage> {
 
       signInSession.fold(
           ifRight: (r) => {
-                userProfile.fetchFromDatabase(supabaseManager.user?.id),
+               // userProfile.fetchFromDatabase(supabaseManager.user?.id),
                 OneSignal.login(email),
                 OneSignal.User.addEmail(email),
                 GoRouter.of(context).pushNamed("dashboard", pathParameters: {

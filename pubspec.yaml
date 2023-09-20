@@ -49,3 +49,6 @@ flutter:
     - assets/temperature_sensor.png
     - assets/smoke_sensor.png
     - assets/laser_actuator.png
+    - assets/pintunnel_image.png
+    - assets/actuator.gif
+    - assets/sensor.gif
