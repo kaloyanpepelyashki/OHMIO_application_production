@@ -17,17 +17,20 @@ class RetreiveTunnelMACPage extends StatefulWidget {
 class _RetreiveTunnelMACPageState extends State<RetreiveTunnelMACPage> {
   final TextEditingController _macAddressController = TextEditingController();
 
+  late final dynamic pinTunnelID;
+
   Future<Either<Exception, bool>> checkMacInDatabase() async {
     try {
       final databaseResponse = await supabaseManager.supabaseClient
           .from("pintunnel")
           .select()
           .eq("mac_address", _macAddressController.text);
-
-      if (databaseResponse.length == null) {
+      if (databaseResponse.length == 0) {
         throw Either.left(Exception("No device with such a MAC address"));
+      } else {
+        pinTunnelID = databaseResponse[0]["id"];
+        return Either.right(databaseResponse.length > 0);
       }
-      return Either.right(databaseResponse.length > 0);
     } catch (e) {
       return Either.left(Exception(e.toString()));
     }
@@ -40,12 +43,11 @@ class _RetreiveTunnelMACPageState extends State<RetreiveTunnelMACPage> {
         ifRight: (r) async => {
               if (r)
                 {
-                  debugPrint("Success"),
                   await supabaseManager.supabaseClient
                       .from("profiles")
-                      .update({"pintunnel_id": _macAddressController}).eq(
+                      .update({"pintunnel_id": pinTunnelID}).eq(
                           "id", supabaseManager.user?.id),
-                  GoRouter.of(context).go("/signup/")
+                  GoRouter.of(context).go("/dashboard/:email")
                 }
             },
         ifLeft: (l) => {
@@ -56,8 +58,10 @@ class _RetreiveTunnelMACPageState extends State<RetreiveTunnelMACPage> {
             });
   }
 
-  void proceedProcess() {
-    GoRouter.of(context).go("/signup/");
+  @override
+  void dispose() {
+    super.dispose();
+    _macAddressController.dispose();
   }
 
   @override

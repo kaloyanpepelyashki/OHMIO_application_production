@@ -48,6 +48,12 @@ class _OnBoardingUsernamePageState extends State<OnBoardingUsernamePage> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _usernameController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: const TopBarBackAction(),
