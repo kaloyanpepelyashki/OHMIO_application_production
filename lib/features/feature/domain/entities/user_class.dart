@@ -67,31 +67,40 @@ class User_Profile {
 
 //Data binding with the database
   Future<Either<Exception, void>> fetchFromDatabase(sessionUUID) async {
-    final databaseData = await supabaseManager.supabaseClient
-        .from("profiles")
-        .select('username, email, first_name, last_name')
-        .eq("id", sessionUUID);
+    try {
+      print("USER ID $sessionUUID");
+      final databaseData = await supabaseManager.supabaseClient
+          .from("profiles")
+          .select('username, email, first_name, last_name')
+          .eq("id", sessionUUID);
 
-    debugPrint("user data is : $databaseData");
+      debugPrint("user data is : $databaseData");
 
-    if (databaseData == null) {
-      return Either.left(Exception("Unexpected error occured"));
-    } else {
-      final parsedData = databaseData.data as List<Map<String, dynamic>>;
+      if (databaseData.isEmpty) {
+        return Either.left(Exception("Unexpected error occured"));
+      } else {
+        final parsedData = databaseData as List<dynamic>;
+        print("PARSED DATA: ${parsedData}");
 
-      for (final row in parsedData) {
-        final username = row['username'];
-        final email = row['email'];
-        final firstName = row['first_name'];
-        final lastName = row['last_name'];
+        if (parsedData.isEmpty) {
+          return Either.left(Exception("No data found for the given ID"));
+        
+        }
+        final username = parsedData[0]['username'] ?? "";
+        final email = parsedData[0]['email'] ?? "";
+        final firstName = parsedData[0]['first_name'] ?? "";
+        final lastName = parsedData[0]['last_name'] ?? "";
 
         userProfile.username = username;
         userProfile.email = email;
         userProfile.firstName = firstName;
         userProfile.lastName = lastName;
+        return Right(Future<void>);
       }
+    } catch (e) {
+      print("EXCEPTION FETCH FROM DATABASE $e");
     }
-    return Either.left(Exception("Unexpected error occured"));
+    return Left(Exception("Unexpected error"));
   }
 
   //Cleans the object (sets the members to be empty)

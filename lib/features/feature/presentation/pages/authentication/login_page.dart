@@ -39,8 +39,9 @@ class _LogInComponentState extends State<LogInPage> {
           email: email, password: password);
 
       signInSession.fold(
-          ifRight: (r) => {
-               // userProfile.fetchFromDatabase(supabaseManager.user?.id),
+          ifRight: (r) async => {
+                await userProfile.fetchFromDatabase(supabaseManager.user?.id),
+                print("DATA PARSED"),
                 OneSignal.login(email),
                 OneSignal.User.addEmail(email),
                 GoRouter.of(context).pushNamed("login-splash", pathParameters: {

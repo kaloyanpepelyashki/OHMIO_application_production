@@ -49,7 +49,7 @@ class _TopBarOhmioTutorialState extends State<TopBarOhmioTutorial> {
               ),
               onTap: () {
                 GoRouter.of(context).pushNamed("dashboard", pathParameters: {
-                  "email": supabaseManager.supabaseClient.auth.currentUser!.email!,
+                  "email": "kuba.kolando.02.01@gmail.com",
                 });
               }),
         ),

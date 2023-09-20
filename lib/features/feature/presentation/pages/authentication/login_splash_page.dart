@@ -34,9 +34,16 @@ class _LoginSplashPageState extends State<LoginSplashPage> {
         .select()
         .eq("id", _session?.user.id);
 
-    if (!_userProfileDB[0]["finishedOnBoarding"]) {
+    print("USER PROFILE DB${_userProfileDB}");
+
+    if(_userProfileDB.isNotEmpty){
+      if (!_userProfileDB[0]["finishedOnBoarding"]) {
       GoRouter.of(context).go("/signup/onboarding-personal-data");
     } else {
+      GoRouter.of(context).go("/dashboard/:email");
+    }
+    }
+    else{
       GoRouter.of(context).go("/dashboard/:email");
     }
   }
