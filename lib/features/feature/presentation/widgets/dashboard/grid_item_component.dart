@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelBloc.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelEvent.dart';
 
 import '../../bloc/PinTunnelState.dart';
 
 class GridItem extends StatefulWidget {
+  final int? id;
   final bool? isActuator;
   final String? sensorName;
   final String? sensorImage;
@@ -13,6 +15,7 @@ class GridItem extends StatefulWidget {
 
   const GridItem(
       {super.key,
+      this.id,
       this.isActuator,
       this.sensorName,
       this.sensorImage,
@@ -27,17 +30,27 @@ class _GridItemState extends State<GridItem> {
   String valueString = '500.59';
 
   @override
+  void initState() {
+    BlocProvider.of<PinTunnelBloc>(context)
+        .add(const SubscribeChannel(sensorId: 12345));
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer<PinTunnelBloc, PinTunnelState>(
-      listener: (context, state) {
-
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         if (state is PayloadReceivedState) {
-          setState(() {
-            valueString = state.payload['new']['data'];
-          });
-       }
+          if (state.payload.containsKey('sensor_data')) {
+            valueString = state.payload['sensor_data'][state.payload['sensor_data'].length-1]['data'].toString();
+          } else {
+            valueString = state.payload['new']['data'].toString();
+            //    _chartSeriesController?.updateDataSource(
+            //    addedDataIndexes: <int>[chartData.length - 1],
+            //  );
+          }
+        }
         return GestureDetector(
             child: Container(
               color: const Color(0xFFF1F1F1),

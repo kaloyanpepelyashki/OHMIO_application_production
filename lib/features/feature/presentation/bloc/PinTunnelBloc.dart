@@ -43,6 +43,7 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
     on<PayloadReceived>(_onPayloadReceived);
     on<MinutePayloadReceived>(_onMinutePayloadReceived);
     on<HourlyPayloadReceived>(_onHourlyPayloadReceived);
+    on<DailyPayloadReceived>(_onDailyPayloadReceived);
 
     on<GetSensorRange>(_onGetSensorRange);
     on<GetSensorsForUser>(_onGetSensorsForUser);
@@ -92,7 +93,8 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
     PayloadReceived event,
     Emitter<PinTunnelState> emit,
   ) {
-    emit(PayloadReceivedState(event.payload));
+    print("EVENT.PAYLOAD ${event.payload}");
+      emit(PayloadReceivedState(event.payload));
    // print('payloadReceived emmited $event.payload');
   }
 
@@ -101,7 +103,7 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
     Emitter<PinTunnelState> emit,
   ) {
     emit(MinutePayloadReceivedState(event.payload));
-    print('minutePayloadReceivedState emmited $event.payload');
+    print('minutePayloadReceivedState emmited ${event.payload}');
   }
 
   void _onHourlyPayloadReceived(
@@ -109,7 +111,7 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
     Emitter<PinTunnelState> emit,
   ) {
     emit(HourlyPayloadReceivedState(event.payload));
-    print('hourlyPayloadReceivedState emmited $event.payload');
+    print('hourlyPayloadReceivedState emmited ${event.payload}');
   }
 
   void _onDailyPayloadReceived(

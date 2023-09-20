@@ -18,69 +18,91 @@ class ChooseSensorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Center(
-        child: Container(
-          width: 300,
-          height: 200,
-          color: Colors.lightBlue,
-          child: Row(
-            children: [
-              Image(
-                image: AssetImage('assets/$sensorImage'),
-                width: 100,
-                height: 100,
+    return Column(
+      children: [
+        SizedBox(height: 20),
+        GestureDetector(
+          child: Center(
+            child: Container(
+              width: 340,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: Color(0xFFD9D9D9),
               ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
+              height: 90,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(sensorName),
-                    const SizedBox(height: 30),
-                    Text(sensorDescription)
+                    Image(
+                      image: AssetImage('assets/$sensorImage'),
+                      width: 50,
+                      height: 50,
+                    ),
+                    Flexible(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(8.0, 17, 8, 0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              sensorName,
+                              style: TextStyle(
+                                fontSize: 16,
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                            Text(
+                              sensorDescription,
+                              style: TextStyle(fontSize: 11),
+                            )
+                          ],
+                        ),
+                      ),
+                    )
                   ],
                 ),
-              )
-            ],
+              ),
+            ),
           ),
-        ),
-      ),
-      onTap: () {
-        SensorClass sensorClass = SensorClass(
-            isActuator: isActuator,
-            sensorImage: sensorImage,
-            sensorName: sensorName,
-            sensorDescription: sensorDescription);
+          onTap: () {
+            SensorClass sensorClass = SensorClass(
+                isActuator: isActuator,
+                sensorImage: sensorImage,
+                sensorName: sensorName,
+                sensorDescription: sensorDescription);
 
-       GoRouter.of(context).goNamed("sensorDetailPage", pathParameters: {
-          "isActuator": isActuator.toString(),
-          "sensorImage": sensorImage.toString(),
-          "sensorName": sensorName,
-          "sensorDescription": sensorDescription
-        });
+            GoRouter.of(context).pushNamed("sensorDetailPage", pathParameters: {
+              "isActuator": isActuator.toString(),
+              "sensorImage": sensorImage.toString(),
+              "sensorName": sensorName,
+              "sensorDescription": sensorDescription
+            });
 
-        //SensorDetailPage(sensorClass: sensorClass);
+            //SensorDetailPage(sensorClass: sensorClass);
 
-        /*
+            /*
 
 GoRouter.of(context)
-                      .push(
-                    "/sensorDetailPage",
-                  ) .then((result) {
-                    Navigator.of(context).pop(SensorClass(
-            isActuator: isActuator,
-            sensorImage: sensorImage,
-            sensorName: sensorName,
-            sensorDescription: sensorDescription));
-                  });
+                          .push(
+                        "/sensorDetailPage",
+                      ) .then((result) {
+                        Navigator.of(context).pop(SensorClass(
+                isActuator: isActuator,
+                sensorImage: sensorImage,
+                sensorName: sensorName,
+                sensorDescription: sensorDescription));
+                      });
 
-        Navigator.of(context).pop(SensorClass(
-            isActuator: isActuator,
-            sensorImage: sensorImage,
-            sensorName: sensorName,
-            sensorDescription: sensorDescription));*/
-      },
+            Navigator.of(context).pop(SensorClass(
+                isActuator: isActuator,
+                sensorImage: sensorImage,
+                sensorName: sensorName,
+                sensorDescription: sensorDescription));*/
+          },
+        ),
+      ],
     );
   }
 }

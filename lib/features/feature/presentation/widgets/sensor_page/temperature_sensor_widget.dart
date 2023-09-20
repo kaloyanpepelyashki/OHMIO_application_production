@@ -16,9 +16,9 @@ class TemperatureSensorWidget extends StatefulWidget {
 }
 
 class _TemperatureSensorWidgetState extends State<TemperatureSensorWidget> {
-   double minValue = 5;
+  double minValue = 5;
 
-   double maxValue = 30;
+  double maxValue = 30;
 
   double value = 35;
 
@@ -30,8 +30,15 @@ class _TemperatureSensorWidgetState extends State<TemperatureSensorWidget> {
       listener: (context, state) {},
       builder: (context, state) {
         if (state is PayloadReceivedState) {
-          value = state.payload['new']['data'];
-       }
+          if (state.payload.containsKey('sensor_data')) {
+            state
+                .payload['sensor_data'][state.payload['sensor_data'].length - 1]
+                ['data'];
+          } else {
+            state.payload['new']['data'];
+          }
+        }
+        /*
         if (state is MinutePayloadReceivedState){
           print('payload in widget');
             minuteValue = state.payload['new']['avg'];
@@ -41,6 +48,7 @@ class _TemperatureSensorWidgetState extends State<TemperatureSensorWidget> {
           minValue = double.parse(sensorRange.minValue);
           maxValue = double.parse(sensorRange.maxValue);
         }
+        */
         return SizedBox(
           width: 500,
           height: 500,
@@ -70,7 +78,10 @@ class CustomCircle extends StatelessWidget {
   final double maxValue;
   final double value;
   const CustomCircle(
-      {super.key, required this.minValue, required this.maxValue, required this.value});
+      {super.key,
+      required this.minValue,
+      required this.maxValue,
+      required this.value});
 
   @override
   Widget build(BuildContext context) {
