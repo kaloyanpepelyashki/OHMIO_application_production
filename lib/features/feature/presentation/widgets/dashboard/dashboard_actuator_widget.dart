@@ -11,8 +11,8 @@ import 'dashboard_elements.dart';
 import 'grid_item_component.dart';
 
 class DashboardActuatorWidget extends StatefulWidget {
-  final List<Elements> actuatorElements;
-  const DashboardActuatorWidget({required this.actuatorElements, super.key});
+  final Function onActuatorLoaded;
+  const DashboardActuatorWidget({required this.onActuatorLoaded, super.key});
 
   @override
   State<DashboardActuatorWidget> createState() =>
@@ -30,19 +30,21 @@ class _DashboardActuatorWidgetState extends State<DashboardActuatorWidget> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<PinTunnelBloc, PinTunnelState>(
-      listener: (context, state) {},
-      builder: (context, state) {
+      listener: (context, state) {
         if (state is SensorsForUserReceivedState) {
           if(state.sensorList.isNotEmpty){
             state.sensorList.forEach((i) {
               if(i.isActuator!){
                 if(! actuatorItems.any((item) => item.sensorDescription == i.sensorDescription)){
                   actuatorItems.add(i);
+                  widget.onActuatorLoaded(i);
                }
               }
             });
           }
         }
+      },
+      builder: (context, state) {
         
         return Expanded(
           child: CustomScrollView(primary: false, slivers: [

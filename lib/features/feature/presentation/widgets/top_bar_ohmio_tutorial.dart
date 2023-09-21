@@ -56,6 +56,7 @@ class _TopBarOhmioTutorialState extends State<TopBarOhmioTutorial> {
       ],
       backgroundColor: Theme.of(context).colorScheme.background,
       leadingWidth: 100,
+      elevation: 0,
     );
   }
 }

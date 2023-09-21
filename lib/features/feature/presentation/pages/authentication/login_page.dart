@@ -47,6 +47,7 @@ class _LogInComponentState extends State<LogInPage> {
                 GoRouter.of(context).go("/")
               },
           ifLeft: (l) => {
+                print("EXCEPTION IS login_page: $l"),
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(l.message),
                   backgroundColor: const Color.fromARGB(156, 255, 1, 1),

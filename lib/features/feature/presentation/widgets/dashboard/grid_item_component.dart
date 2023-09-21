@@ -27,7 +27,7 @@ class GridItem extends StatefulWidget {
 
 class _GridItemState extends State<GridItem> {
   final symbolList = ['° C', '%'];
-  String valueString = '500.59';
+  String valueString = '0';
 
   @override
   void initState() {

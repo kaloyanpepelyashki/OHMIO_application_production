@@ -33,7 +33,11 @@ class _OnBoardingPersonalDataPageState
       "first_name": _nameController.text.trim(),
       "last_name": _lastNameController.text.trim(),
       "updated_at": tz.TZDateTime.from(DateTime.now(), utc).toIso8601String(),
-    }).eq("id", _session?.user.id);
+    }).eq("id", supabaseManager.user?.id);
+
+    await supabaseManager.supabaseClient.from("pintunnel").insert([
+      {"user_id": supabaseManager.user?.id}
+    ]);
   }
 
   void populateUserProfile() {

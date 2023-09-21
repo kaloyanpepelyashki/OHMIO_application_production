@@ -5,22 +5,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pin_tunnel_application_production/features/feature/domain/entities/user_class.dart';
+import 'package:pin_tunnel_application_production/core/util/notifications/android_notification_settings.dart';
+import 'package:pin_tunnel_application_production/core/util/notifications/general_notification_settings.dart';
+import 'package:pin_tunnel_application_production/core/util/notifications/ios_notification_settings.dart';
+import 'package:pin_tunnel_application_production/features/feature/data/data_sources/supabase_service.dart';
+import 'package:pin_tunnel_application_production/features/feature/domain/entities/sensor_class.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelBloc.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelEvent.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/dashboard/dashboard_actuator_widget.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/dashboard/dashboard_sensor_widget.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/drawer_menu.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/help_widget.dart';
-import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_blank.dart';
-import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_burger_menu.dart';
 
-import '../../../../../core/util/notifications/android_notification_settings.dart';
-import '../../../../../core/util/notifications/general_notification_settings.dart';
-import '../../../../../core/util/notifications/ios_notification_settings.dart';
-import '../../../data/data_sources/supabase_service.dart';
-import '../../../domain/entities/sensor_class.dart';
-import '../../bloc/PinTunnelBloc.dart';
-import '../../bloc/PinTunnelEvent.dart';
-import '../../widgets/dashboard/dashboard_elements.dart';
+import '../../widgets/top_bar_burger_menu.dart';
 
 class DashBoardPage extends StatefulWidget {
   final String? email;
@@ -44,11 +41,11 @@ class DashBoardPage extends StatefulWidget {
 
 class DashBoardPageState extends State<DashBoardPage> {
   bool _notificationsEnabled = false;
-  List<Elements> sensorElements = [
+  List<SensorClass> sensorElements = [
     //Elements("Test item 4", 440)
   ];
 
-  List<Elements> actuatorElements = [];
+  List<SensorClass> actuatorElements = [];
 
   bool isText1Underlined = true;
 
@@ -131,25 +128,6 @@ class DashBoardPageState extends State<DashBoardPage> {
                               .push(
                             "/chooseSensorPage",
                           )
-                              .then((result) {
-                            if (result != null) {
-                              selectedSensor = result as SensorClass;
-                              selectedSensor.isActuator!
-                                  ? actuatorElements.add(Elements(
-                                      isActuator: selectedSensor.isActuator!,
-                                      sensorDescription:
-                                          selectedSensor.sensorDescription!,
-                                      sensorImage: selectedSensor.sensorImage!,
-                                      sensorName: selectedSensor.sensorName!))
-                                  : sensorElements.add(Elements(
-                                      isActuator: selectedSensor.isActuator!,
-                                      sensorDescription:
-                                          selectedSensor.sensorDescription!,
-                                      sensorImage: selectedSensor.sensorImage!,
-                                      sensorName: selectedSensor.sensorName!));
-                              print(selectedSensor);
-                            }
-                          })
                         },
                       )
                     ],
@@ -162,7 +140,7 @@ class DashBoardPageState extends State<DashBoardPage> {
                       Padding(
                           padding: EdgeInsets.fromLTRB(0, 0, 11, 0),
                           child: GestureDetector(
-                            onTap: toggleText,
+                            onTap: isText1Underlined ? () {} : toggleText,
                             child: Text(
                               "Sensor",
                               style: TextStyle(
@@ -174,7 +152,7 @@ class DashBoardPageState extends State<DashBoardPage> {
                             ),
                           )),
                       GestureDetector(
-                        onTap: toggleText,
+                        onTap: isText1Underlined ? toggleText : () {},
                         child: Text(
                           "Actuator",
                           style: TextStyle(
@@ -188,10 +166,16 @@ class DashBoardPageState extends State<DashBoardPage> {
                     ],
                   )),
               isText1Underlined
-                  ? DashboardSensorWidget(
-                      sensorElements: sensorElements,
-                    )
-                  : DashboardActuatorWidget(actuatorElements: actuatorElements)
+                  ? DashboardSensorWidget(onSensorLoaded: (i){
+                    if(!sensorElements.contains(i)){
+                      sensorElements.add(i);
+                    }
+                  }, sensorElements: sensorElements,)
+                  : DashboardActuatorWidget(onActuatorLoaded: (i){
+                    if(!actuatorElements.contains(i)){
+                      actuatorElements.add(i);
+                    }
+                  }),
             ],
           ),
           HelpWidget(),
@@ -199,7 +183,6 @@ class DashBoardPageState extends State<DashBoardPage> {
       ),
     );
   }
-
   @override
   void dispose() {
     closeNotificationStreams();

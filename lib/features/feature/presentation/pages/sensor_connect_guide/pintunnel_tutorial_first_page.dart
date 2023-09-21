@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_back_action.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_ohmio_tutorial.dart';
@@ -14,6 +15,7 @@ class PintunnelTutorialFirstPage extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          SizedBox(height: 30),
           Text("OHMIO Tutorial",
               style: GoogleFonts.inter(
                   textStyle:
@@ -46,7 +48,9 @@ class PintunnelTutorialFirstPage extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                GoRouter.of(context).push("/pintunnelTutorialSecondPage");
+              },
             ),
           ),
         ],

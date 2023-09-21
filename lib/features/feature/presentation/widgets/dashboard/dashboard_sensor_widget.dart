@@ -11,9 +11,10 @@ import 'dashboard_elements.dart';
 import 'grid_item_component.dart';
 
 class DashboardSensorWidget extends StatefulWidget {
-  final List<Elements> sensorElements;
+  final Function onSensorLoaded;
+  final List<SensorClass> sensorElements;
 
-  const DashboardSensorWidget({required this.sensorElements, super.key});
+  const DashboardSensorWidget({required this.onSensorLoaded, required this.sensorElements, super.key});
 
   @override
   State<DashboardSensorWidget> createState() => _DashboardSensorWidgetState();
@@ -21,33 +22,42 @@ class DashboardSensorWidget extends StatefulWidget {
 
 class _DashboardSensorWidgetState extends State<DashboardSensorWidget> {
 
-  final List<SensorClass> sensorItems = [];
+  List<SensorClass> sensorItems = [];
 
   @override
   void initState() {
     //sensorItems = widget.sensorElements;
+    sensorItems = widget.sensorElements;
     super.initState();
+  }
+
+  @override
+  void dispose(){
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<PinTunnelBloc, PinTunnelState>(
-      listener: (context, state) {},
-      builder: (context, state) {
+      listener: (context, state) {
         if (state is SensorsForUserReceivedState) {
           if(state.sensorList.isNotEmpty){
+            sensorItems.clear();
             state.sensorList.forEach((i) {
               if(i.isActuator == false){
                 print("sensor image: ${i.sensorImage}");
                 if(! sensorItems.any((item) => item.sensorDescription == i.sensorDescription)){
                   
                   sensorItems.add(i);
+                  widget.onSensorLoaded(i);
                }
                 //sensorItems.add(Elements(isActuator: i.isActuator!, sensorName: i.sensorName!, sensorImage: i.sensorImage!, sensorDescription: i.sensorDescription!));
               }
             });
           }
         }
+      },
+      builder: (context, state) {
         return Expanded(
           child: CustomScrollView(primary: false, slivers: [
             SliverPadding(

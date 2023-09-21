@@ -282,7 +282,7 @@ class _SensorPageState extends State<SensorPage> {
               )
             ],
           ),
-        ));
+        ),);
   }
 
   void changeChartsBasedOnFilter(String filter) {
