@@ -73,6 +73,7 @@ class DashBoardPageState extends State<DashBoardPage> {
         .add(const GetSensorRange(sensorId: 12345));
 
     if (widget.email != null) {
+      print("DASHBOARD_PAGE email: ${widget.email}");
       BlocProvider.of<PinTunnelBloc>(context)
           .add(GetSensorsForUser(email: "kuba.kolando.02.01@gmail.com"));
       //.add(GetSensorsForUser(email: widget.email!));
