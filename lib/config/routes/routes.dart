@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pin_tunnel_application_production/features/feature/domain/usecases/subscribe_channel_logic.dart';
-import 'package:pin_tunnel_application_production/features/feature/presentation/pages/authentication/login_splash_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/authentication/user_onboarding_personal_username.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/dashboard/choose_sensor_page.dart';
 //Importing page components
@@ -33,7 +32,7 @@ GoRouter router = GoRouter(initialLocation: "/", routes: <GoRoute>[
   GoRoute(
       path: "/",
       builder: (BuildContext context, GoRouterState state) {
-        return const SplashPage();
+        return SplashPage();
       }),
   GoRoute(
       path: "/onboarding",
@@ -41,20 +40,11 @@ GoRouter router = GoRouter(initialLocation: "/", routes: <GoRoute>[
         return const OnBoardingPage();
       }),
   GoRoute(
-      path: "/login",
-      builder: (BuildContext context, GoRouterState state) {
-        return const LogInPage();
-      },
-      routes: [
-        GoRoute(
-            path: "splash/:email",
-            name: "login-splash",
-            builder: (BuildContext context, GoRouterState state) {
-              return BlocProvider.value(
-                  value: BlocProvider.of<PinTunnelBloc>(context),
-                  child: LoginSplashPage(state.pathParameters['email']));
-            })
-      ]),
+    path: "/login",
+    builder: (BuildContext context, GoRouterState state) {
+      return const LogInPage();
+    },
+  ),
   GoRoute(
       path: "/signup",
       builder: (BuildContext context, GoRouterState state) {
@@ -145,8 +135,7 @@ GoRouter router = GoRouter(initialLocation: "/", routes: <GoRoute>[
       builder: (BuildContext context, GoRouterState state) {
         return const PintunnelTutorialFirstPage();
       }),
-
-    GoRoute(
+  GoRoute(
       path: "/pintunnelTutorialSecondPage",
       builder: (BuildContext context, GoRouterState state) {
         return const PintunnelTutorialSecondPage();

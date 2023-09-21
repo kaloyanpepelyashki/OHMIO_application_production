@@ -44,9 +44,7 @@ class _LogInComponentState extends State<LogInPage> {
                 print("DATA PARSED"),
                 OneSignal.login(email),
                 OneSignal.User.addEmail(email),
-                GoRouter.of(context).pushNamed("login-splash", pathParameters: {
-                  "email": email,
-                })
+                GoRouter.of(context).go("/")
               },
           ifLeft: (l) => {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(

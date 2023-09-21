@@ -15,9 +15,11 @@ class RetreiveTunnelMACPage extends StatefulWidget {
 }
 
 class _RetreiveTunnelMACPageState extends State<RetreiveTunnelMACPage> {
+  final _session = supabaseManager.supabaseClient.auth.currentSession;
+
   final TextEditingController _macAddressController = TextEditingController();
 
-  late final dynamic pinTunnelID;
+  late dynamic pinTunnelID;
 
   Future<Either<Exception, bool>> checkMacInDatabase() async {
     try {
@@ -46,7 +48,7 @@ class _RetreiveTunnelMACPageState extends State<RetreiveTunnelMACPage> {
                   await supabaseManager.supabaseClient
                       .from("profiles")
                       .update({"pintunnel_id": pinTunnelID}).eq(
-                          "id", supabaseManager.user?.id),
+                          "id", _session?.user.id),
                   GoRouter.of(context).go("/dashboard/:email")
                 }
             },

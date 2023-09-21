@@ -84,7 +84,6 @@ class User_Profile {
 
         if (parsedData.isEmpty) {
           return Either.left(Exception("No data found for the given ID"));
-        
         }
         final username = parsedData[0]['username'] ?? "";
         final email = parsedData[0]['email'] ?? "";
@@ -101,6 +100,15 @@ class User_Profile {
       print("EXCEPTION FETCH FROM DATABASE $e");
     }
     return Left(Exception("Unexpected error"));
+  }
+
+  Future<Map<String, dynamic>> getUserProfileFromDB(userID) async {
+    final result = await supabaseManager.supabaseClient
+        .from("profiles")
+        .select()
+        .eq("id", userID);
+
+    return result[0];
   }
 
   //Cleans the object (sets the members to be empty)

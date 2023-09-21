@@ -24,6 +24,7 @@ class _OnBoardingPersonalDataPageState
   final TextEditingController _lastNameController = TextEditingController();
 
   final _userProfile = userProfile;
+  final _session = supabaseManager.supabaseClient.auth.currentSession;
 
   void uploadToDatabase() async {
     tz.Location utc = tz.getLocation('UTC');
@@ -32,23 +33,20 @@ class _OnBoardingPersonalDataPageState
       "first_name": _nameController.text.trim(),
       "last_name": _lastNameController.text.trim(),
       "updated_at": tz.TZDateTime.from(DateTime.now(), utc).toIso8601String(),
-    }).eq("id", supabaseManager.user?.id);
-
-    await supabaseManager.supabaseClient.from("tunnels").insert([
-      {"owner_id": supabaseManager.user?.id}
-    ]);
+    }).eq("id", _session?.user.id);
   }
 
   void populateUserProfile() {
     _userProfile.onboarding(
         _nameController.text.trim(),
         _lastNameController.text.trim(),
-        supabaseManager.user?.email,
+        _session?.user.email,
         DateTime.now(),
-        supabaseManager.user?.id);
+        _session?.user.email);
   }
 
   void getPersonalData() async {
+    debugPrint(supabaseManager.user?.id);
     uploadToDatabase();
     populateUserProfile();
     GoRouter.of(context).go("/signup/onboarding-username");

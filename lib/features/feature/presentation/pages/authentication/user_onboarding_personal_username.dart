@@ -16,6 +16,8 @@ class OnBoardingUsernamePage extends StatefulWidget {
 }
 
 class _OnBoardingUsernamePageState extends State<OnBoardingUsernamePage> {
+  final _session = supabaseManager.supabaseClient.auth.currentSession;
+
   final TextEditingController _usernameController = TextEditingController();
 
   Future<Either<Exception, void>> uploadToDatabase() async {
@@ -25,7 +27,7 @@ class _OnBoardingUsernamePageState extends State<OnBoardingUsernamePage> {
         "finishedOnBoarding": true,
       }).eq(
         "id",
-        supabaseManager.user?.id,
+        _session?.user.id,
       );
       return const Either.right(null);
     } catch (e) {
