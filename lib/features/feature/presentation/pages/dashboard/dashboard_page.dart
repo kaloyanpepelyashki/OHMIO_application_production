@@ -12,6 +12,7 @@ import 'package:pin_tunnel_application_production/features/feature/data/data_sou
 import 'package:pin_tunnel_application_production/features/feature/domain/entities/sensor_class.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelBloc.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelEvent.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelState.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/dashboard/dashboard_actuator_widget.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/dashboard/dashboard_sensor_widget.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/drawer_menu.dart';
@@ -100,90 +101,113 @@ class DashBoardPageState extends State<DashBoardPage> {
   @override
   //Widget presentation
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const TopBarBurgerMenu(),
-      backgroundColor: Theme.of(context).colorScheme.background,
-      endDrawer: const DrawerMenuComponent(),
-      body: Stack(
-        children: [
-          Column(
+    return BlocConsumer<PinTunnelBloc, PinTunnelState>(
+      listener: (context, state) {
+        if (state is SensorsForUserReceivedState) {
+          if(state.sensorList.isNotEmpty){
+            state.sensorList.forEach((i) {
+              if(i.isActuator!){
+                print("ACTUATOR ADDED");
+                actuatorElements.add(i);
+              }
+              if(i.isActuator! == false){
+                sensorElements.add(i);
+              }
+            });
+          }
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+          appBar: const TopBarBurgerMenu(),
+          backgroundColor: Theme.of(context).colorScheme.background,
+          endDrawer: const DrawerMenuComponent(),
+          body: Stack(
             children: [
-              Padding(
-                  padding: EdgeInsets.fromLTRB(20, 0, 10, 30),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        "My system",
-                        style: TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      IconButton(
-                        icon: const FaIcon(
-                          FontAwesomeIcons.plus,
-                        ),
-                        onPressed: () => {
-                          GoRouter.of(context)
-                              .push(
-                            "/chooseSensorPage",
+              Column(
+                children: [
+                  Padding(
+                      padding: EdgeInsets.fromLTRB(20, 0, 10, 30),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "My system",
+                            style: TextStyle(
+                              fontSize: 26,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          IconButton(
+                            icon: const FaIcon(
+                              FontAwesomeIcons.plus,
+                            ),
+                            onPressed: () => {
+                              GoRouter.of(context).push(
+                                "/chooseSensorPage",
+                              )
+                            },
                           )
-                        },
-                      )
-                    ],
-                  )),
-              Padding(
-                  padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 11, 0),
-                          child: GestureDetector(
-                            onTap: isText1Underlined ? () {} : toggleText,
+                        ],
+                      )),
+                  Padding(
+                      padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                              padding: EdgeInsets.fromLTRB(0, 0, 11, 0),
+                              child: GestureDetector(
+                                onTap: isText1Underlined ? () {} : toggleText,
+                                child: Text(
+                                  "Sensor",
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    decoration: isText1Underlined
+                                        ? TextDecoration.underline
+                                        : TextDecoration.none,
+                                  ),
+                                ),
+                              )),
+                          GestureDetector(
+                            onTap: isText1Underlined ? toggleText : () {},
                             child: Text(
-                              "Sensor",
+                              "Actuator",
                               style: TextStyle(
                                 fontSize: 17,
                                 decoration: isText1Underlined
-                                    ? TextDecoration.underline
-                                    : TextDecoration.none,
+                                    ? TextDecoration.none
+                                    : TextDecoration.underline,
                               ),
                             ),
-                          )),
-                      GestureDetector(
-                        onTap: isText1Underlined ? toggleText : () {},
-                        child: Text(
-                          "Actuator",
-                          style: TextStyle(
-                            fontSize: 17,
-                            decoration: isText1Underlined
-                                ? TextDecoration.none
-                                : TextDecoration.underline,
                           ),
-                        ),
-                      ),
-                    ],
-                  )),
-              isText1Underlined
-                  ? DashboardSensorWidget(onSensorLoaded: (i){
-                    if(!sensorElements.contains(i)){
-                      sensorElements.add(i);
-                    }
-                  }, sensorElements: sensorElements,)
-                  : DashboardActuatorWidget(onActuatorLoaded: (i){
-                    if(!actuatorElements.contains(i)){
-                      actuatorElements.add(i);
-                    }
-                  }),
+                        ],
+                      )),
+                  isText1Underlined
+                      ? DashboardSensorWidget(
+                          onSensorLoaded: (i) {
+                            if (!sensorElements.contains(i)) {
+                              sensorElements.add(i);
+                            }
+                          },
+                          sensorElements: sensorElements,
+                        )
+                      : DashboardActuatorWidget(onActuatorLoaded: (i) {
+                          if (!actuatorElements.contains(i)) {
+                            actuatorElements.add(i);
+                          }
+                        },
+                        actuatorElements: actuatorElements),
+                ],
+              ),
+              HelpWidget(),
             ],
           ),
-          HelpWidget(),
-        ],
-      ),
+        );
+      },
     );
   }
+
   @override
   void dispose() {
     closeNotificationStreams();

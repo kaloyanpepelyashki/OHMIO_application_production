@@ -12,7 +12,8 @@ import 'grid_item_component.dart';
 
 class DashboardActuatorWidget extends StatefulWidget {
   final Function onActuatorLoaded;
-  const DashboardActuatorWidget({required this.onActuatorLoaded, super.key});
+  final List<SensorClass> actuatorElements;
+  const DashboardActuatorWidget({required this.onActuatorLoaded, required this.actuatorElements, super.key});
 
   @override
   State<DashboardActuatorWidget> createState() =>
@@ -20,10 +21,11 @@ class DashboardActuatorWidget extends StatefulWidget {
 }
 
 class _DashboardActuatorWidgetState extends State<DashboardActuatorWidget> {
-  final List<SensorClass> actuatorItems = [];
+   List<SensorClass> actuatorItems = [];
 
   @override
   void initState() {
+    actuatorItems = widget.actuatorElements;
     super.initState();
   }
 
@@ -31,10 +33,12 @@ class _DashboardActuatorWidgetState extends State<DashboardActuatorWidget> {
   Widget build(BuildContext context) {
     return BlocConsumer<PinTunnelBloc, PinTunnelState>(
       listener: (context, state) {
+        /*
         if (state is SensorsForUserReceivedState) {
           if(state.sensorList.isNotEmpty){
             state.sensorList.forEach((i) {
               if(i.isActuator!){
+
                 if(! actuatorItems.any((item) => item.sensorDescription == i.sensorDescription)){
                   actuatorItems.add(i);
                   widget.onActuatorLoaded(i);
@@ -43,6 +47,7 @@ class _DashboardActuatorWidgetState extends State<DashboardActuatorWidget> {
             });
           }
         }
+        */
       },
       builder: (context, state) {
         

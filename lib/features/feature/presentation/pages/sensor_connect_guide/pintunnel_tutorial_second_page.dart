@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pin_tunnel_application_production/features/feature/data/data_sources/supabase_service.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_ohmio_tutorial.dart';
 
 class PintunnelTutorialSecondPage extends StatelessWidget {
@@ -48,9 +49,7 @@ class PintunnelTutorialSecondPage extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                GoRouter.of(context).pushNamed("dashboard", pathParameters: {
-                  "email": "kuba.kolando.02.01@gmail.com",
-                });
+                goBackToDashboard(context);
               },
             ),
           ),
@@ -58,4 +57,13 @@ class PintunnelTutorialSecondPage extends StatelessWidget {
       ),
     );
   }
+}
+
+void goBackToDashboard(context) {
+  var _session = supabaseManager.supabaseSession;
+ _session = supabaseManager.supabaseClient.auth.currentSession;
+
+  GoRouter.of(context).pushNamed("dashboard", pathParameters: {
+    "email": _session!.user.email!,
+  });
 }

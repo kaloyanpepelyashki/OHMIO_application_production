@@ -40,10 +40,12 @@ class _DashboardSensorWidgetState extends State<DashboardSensorWidget> {
   Widget build(BuildContext context) {
     return BlocConsumer<PinTunnelBloc, PinTunnelState>(
       listener: (context, state) {
+        /*
         if (state is SensorsForUserReceivedState) {
           if(state.sensorList.isNotEmpty){
             sensorItems.clear();
             state.sensorList.forEach((i) {
+              print("SENSOR IN DASHBOARD SENSOR WIDGET $i");
               if(i.isActuator == false){
                 print("sensor image: ${i.sensorImage}");
                 if(! sensorItems.any((item) => item.sensorDescription == i.sensorDescription)){
@@ -56,6 +58,7 @@ class _DashboardSensorWidgetState extends State<DashboardSensorWidget> {
             });
           }
         }
+        */
       },
       builder: (context, state) {
         return Expanded(

@@ -13,34 +13,34 @@ import '../models/sensor_dao.dart';
 class PinTunnelRepository implements IPinTunnelRepository {
   @override
   subscribeToChannel(int sensorId, Function(dynamic) onReceived) async {
-    try{
+    try {
       SupabaseManager supabaseManager = SupabaseManager(
-        supabaseUrl: "https://wruqswjbhpvpikhgwade.supabase.co",
-        token:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndydXFzd2piaHB2cGlraGd3YWRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTI4MzA2NTIsImV4cCI6MjAwODQwNjY1Mn0.XxlesUi6c-Wi7HXidzVotr8DWzljWGvY4LY3BPD-0N0");
-    final response = await supabaseManager.supabaseClient
-        .from('pintunnel_data')
-        .select('''time, data''')
-        .eq('sensor_id', sensorId)
-        .order('time', ascending: false)
-        .limit(10);
-    if(response !=null){
-      onReceived({'sensor_data': response});
-    }
+          supabaseUrl: "https://wruqswjbhpvpikhgwade.supabase.co",
+          token:
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndydXFzd2piaHB2cGlraGd3YWRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTI4MzA2NTIsImV4cCI6MjAwODQwNjY1Mn0.XxlesUi6c-Wi7HXidzVotr8DWzljWGvY4LY3BPD-0N0");
+      final response = await supabaseManager.supabaseClient
+          .from('pintunnel_data')
+          .select('''time, data''')
+          .eq('sensor_id', sensorId)
+          .order('time', ascending: false)
+          .limit(10);
+      if (response != null) {
+        onReceived({'sensor_data': response});
+      }
 
-    supabaseManager.supabaseClient.channel('*').on(
-      RealtimeListenTypes.postgresChanges,
-      ChannelFilter(
-          event: '*',
-          schema: '*',
-          table: 'pintunnel_data',
-          filter: 'sensor_id=eq.$sensorId'),
-      (payload, [ref]) {
-        //print('Change received: ${payload.toString()}');
-        onReceived(payload);
-      },
-    ).subscribe();
-    }catch(e){
+      supabaseManager.supabaseClient.channel('*').on(
+        RealtimeListenTypes.postgresChanges,
+        ChannelFilter(
+            event: '*',
+            schema: '*',
+            table: 'pintunnel_data',
+            filter: 'sensor_id=eq.$sensorId'),
+        (payload, [ref]) {
+          //print('Change received: ${payload.toString()}');
+          onReceived(payload);
+        },
+      ).subscribe();
+    } catch (e) {
       print(e);
     }
   }
@@ -57,7 +57,7 @@ class PinTunnelRepository implements IPinTunnelRepository {
         .eq('sensor_id', sensorId)
         .order('created_at', ascending: false)
         .limit(10);
-    if(response!=null){
+    if (response != null) {
       onReceived({'sensor_data': response});
     }
 
@@ -81,17 +81,17 @@ class PinTunnelRepository implements IPinTunnelRepository {
         supabaseUrl: "https://wruqswjbhpvpikhgwade.supabase.co",
         token:
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndydXFzd2piaHB2cGlraGd3YWRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTI4MzA2NTIsImV4cCI6MjAwODQwNjY1Mn0.XxlesUi6c-Wi7HXidzVotr8DWzljWGvY4LY3BPD-0N0");
-    
+
     final response = await supabaseManager.supabaseClient
         .from('hourly_data')
         .select('''created_at, avg''')
         .eq('sensor_id', sensorId)
         .order('created_at', ascending: false)
         .limit(10);
-    if(response!=null){
+    if (response != null) {
       onReceived({'sensor_data': response});
     }
-    
+
     supabaseManager.supabaseClient.channel('*').on(
       RealtimeListenTypes.postgresChanges,
       ChannelFilter(
@@ -112,17 +112,17 @@ class PinTunnelRepository implements IPinTunnelRepository {
         supabaseUrl: "https://wruqswjbhpvpikhgwade.supabase.co",
         token:
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndydXFzd2piaHB2cGlraGd3YWRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTI4MzA2NTIsImV4cCI6MjAwODQwNjY1Mn0.XxlesUi6c-Wi7HXidzVotr8DWzljWGvY4LY3BPD-0N0");
-    
+
     final response = await supabaseManager.supabaseClient
         .from('daily_data')
         .select('''created_at, avg''')
         .eq('sensor_id', sensorId)
         .order('created_at', ascending: false)
         .limit(10);
-    if(response!=null){
+    if (response != null) {
       onReceived({'sensor_data': response});
     }
-    
+
     supabaseManager.supabaseClient.channel('*').on(
       RealtimeListenTypes.postgresChanges,
       ChannelFilter(
@@ -170,36 +170,48 @@ class PinTunnelRepository implements IPinTunnelRepository {
       final clientId = (await client.from('profiles').select('''
     id
   ''').eq('email', email));
-  print("CLIENT ID IN pintunnel_repository: $clientId");
+      print("CLIENT ID IN pintunnel_repository: $clientId");
 
-      if(clientId.isEmpty || clientId == null){
-        return Left(NotFoundFailure(message: "ClientId not found for given email", statusCode: 404));
+      if (clientId.isEmpty || clientId == null) {
+        return Left(NotFoundFailure(
+            message: "ClientId not found for given email", statusCode: 404));
       }
 
       final pintunnelData = (await client
           .from('pintunnel')
           .select('''id, mac_address''').eq('user_id', clientId[0]['id']));
-      
+
       print("PINTUNNEL DATA IN pintunnel_repository: $pintunnelData");
-      if(pintunnelData.isEmpty || pintunnelData == null){
-        return Left(NotFoundFailure(message: "Pintunnel not found for given email", statusCode: 404));
+      if (pintunnelData.isEmpty || pintunnelData == null) {
+        return Left(NotFoundFailure(
+            message: "Pintunnel not found for given email", statusCode: 404));
       }
 
-     // final sensorData = (await client.from('sensor').select('''cfg_code, id''').eq(
-       //   'pintunnel_id', pintunnelData[0]['id']))[0]['cfg_code'];
+      final sensorData = (await client.from('sensor').select(
+          '''cfg_code, id''').eq('pintunnel_id', pintunnelData[0]['id']));
+      print("SENSOR DATA $sensorData");
+      if (sensorData.isEmpty || sensorData == null) {
+        return Left(
+            NotFoundFailure(message: "Sensor data is null", statusCode: 404));
+      }
 
-      final data = await client.from('sensor_config').select(
-          '''description, isActuator, unit, version, min_value, max_value, image, name''');
+      List<dynamic> cfgCodes =
+          sensorData.map((data) => data['cfg_code'] as int).toList();
+
+      final data = await client
+          .from('sensor_config')
+          .select('''description, isActuator, unit, version, min_value, max_value, image, name''').in_(
+              'cfg_code', cfgCodes);
 
       List<SensorClass> sensorClassList = [];
-      data.forEach((i) =>
-          {
+      data.forEach((i) => {
             sensorClassList.add(SensorDAO.fromJSON(i as Map<String, dynamic>)),
           });
-      if(sensorClassList.isNotEmpty){
+      if (sensorClassList.isNotEmpty) {
         return Right(sensorClassList);
       }
-      return Left(NotFoundFailure(message: "Sensors not found", statusCode: 404));
+      return Left(
+          NotFoundFailure(message: "Sensors not found", statusCode: 404));
     } on APIException catch (e) {
       print("EXCEPTION pin_tunnel_repository $e");
       return Left(APIFailure.fromException(e));
