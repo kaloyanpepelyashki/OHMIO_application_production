@@ -69,16 +69,21 @@ class DashBoardPageState extends State<DashBoardPage> {
     _showNotification();
 
     //BlocProvider.of<PinTunnelBloc>(context)
-      //  .add(const SubscribeHourlyChannel(sensorId: 12345));
-      //  BlocProvider.of<PinTunnelBloc>(context)
-     //   .add(const SubscribeMinuteChannel(sensorId: 12345));
+    //  .add(const SubscribeHourlyChannel(sensorId: 12345));
+    //  BlocProvider.of<PinTunnelBloc>(context)
+    //   .add(const SubscribeMinuteChannel(sensorId: 12345));
     BlocProvider.of<PinTunnelBloc>(context)
+<<<<<<< Updated upstream
        .add(const GetSensorRange(sensorId: 12345));
         
+=======
+        .add(const GetSensorRange(sensorId: 12345));
+
+>>>>>>> Stashed changes
     if (widget.email != null) {
       BlocProvider.of<PinTunnelBloc>(context)
-      .add(GetSensorsForUser(email: "kuba.kolando.02.01@gmail.com"));
-          //.add(GetSensorsForUser(email: widget.email!));
+          .add(GetSensorsForUser(email: "kuba.kolando.02.01@gmail.com"));
+      //.add(GetSensorsForUser(email: widget.email!));
     }
   }
 
@@ -102,8 +107,11 @@ class DashBoardPageState extends State<DashBoardPage> {
   @override
   //Widget presentation
   Widget build(BuildContext context) {
+<<<<<<< Updated upstream
     //Not working yet
     debugPrint("email: ${widget.email}");
+=======
+>>>>>>> Stashed changes
     return Scaffold(
       appBar: const TopBarBurgerMenu(),
       backgroundColor: Theme.of(context).colorScheme.background,
