@@ -65,20 +65,16 @@ class DashBoardPageState extends State<DashBoardPage> {
     configureDidReceiveLocalNotificationSubject(context);
     configureSelectNotificationSubject(context);
     _showNotification();
+        
+    //BlocProvider.of<PinTunnelBloc>(context)
+      //  .add(GetSensorsForUser(email: widget.email!));
 
     //BlocProvider.of<PinTunnelBloc>(context)
     //  .add(const SubscribeHourlyChannel(sensorId: 12345));
     //  BlocProvider.of<PinTunnelBloc>(context)
     //   .add(const SubscribeMinuteChannel(sensorId: 12345));
-    BlocProvider.of<PinTunnelBloc>(context)
-        .add(const GetSensorRange(sensorId: 12345));
-
-    if (widget.email != null) {
-      print("DASHBOARD_PAGE email: ${widget.email}");
-      BlocProvider.of<PinTunnelBloc>(context)
-          .add(GetSensorsForUser(email: "kuba.kolando.02.01@gmail.com"));
-      //.add(GetSensorsForUser(email: widget.email!));
-    }
+    //BlocProvider.of<PinTunnelBloc>(context)
+    //    .add(const GetSensorRange(sensorId: 12345));
   }
 
   Future<void> _checkNotificationPermissions() async {
@@ -104,18 +100,18 @@ class DashBoardPageState extends State<DashBoardPage> {
     return BlocConsumer<PinTunnelBloc, PinTunnelState>(
       listener: (context, state) {
         if (state is SensorsForUserReceivedState) {
-          if(state.sensorList.isNotEmpty){
-            state.sensorList.forEach((i) {
-              if(i.isActuator!){
-                print("ACTUATOR ADDED");
-                actuatorElements.add(i);
-              }
-              if(i.isActuator! == false){
-                sensorElements.add(i);
-              }
-            });
+      if (state.sensorList.isNotEmpty) {
+        state.sensorList.forEach((i) {
+          if (i.isActuator!) {
+            print("ACTUATOR ADDED");
+            actuatorElements.add(i);
           }
-        }
+          if (i.isActuator! == false) {
+            sensorElements.add(i);
+          }
+        });
+      }
+    }
       },
       builder: (context, state) {
         return Scaffold(
@@ -192,12 +188,13 @@ class DashBoardPageState extends State<DashBoardPage> {
                           },
                           sensorElements: sensorElements,
                         )
-                      : DashboardActuatorWidget(onActuatorLoaded: (i) {
-                          if (!actuatorElements.contains(i)) {
-                            actuatorElements.add(i);
-                          }
-                        },
-                        actuatorElements: actuatorElements),
+                      : DashboardActuatorWidget(
+                          onActuatorLoaded: (i) {
+                            if (!actuatorElements.contains(i)) {
+                              actuatorElements.add(i);
+                            }
+                          },
+                          actuatorElements: actuatorElements),
                 ],
               ),
               HelpWidget(),

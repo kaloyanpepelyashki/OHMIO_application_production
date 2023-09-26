@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelBloc.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelEvent.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_blank.dart';
 
 import '../../../data/data_sources/supabase_service.dart';
@@ -33,7 +36,10 @@ class _SplashPageState extends State<SplashPage> {
       if (_userProfileDB["finishedOnBoarding"]) {
         // if the user has finished the onBoarding, they get navigated to the dashboard page
         debugPrint("Going to dashboard");
-        GoRouter.of(context).goNamed("dashboard", pathParameters: {"email": _session!.user.email!});
+BlocProvider.of<PinTunnelBloc>(context)
+                .add(GetSensorsForUser(email: _session!.user.email!));
+        GoRouter.of(context).goNamed("dashboard",
+            pathParameters: {"email": _session!.user.email!});
       } else if (!_userProfileDB["finishedOnBoarding"]) {
         //If the user has not finished the onBoarding, they get navigated to finish the onBoarding
         GoRouter.of(context).go("/signup/onboarding-personal-data");

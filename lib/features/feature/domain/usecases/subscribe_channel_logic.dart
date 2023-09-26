@@ -23,4 +23,11 @@ class SubscribeChannelLogic{
     repository.subscribeToDailyData(sensorId, onReceived);
   }
 
+  void subscribeToWeeklyData(int sensorId, Function(dynamic) onReceived){
+    repository.subscribeToWeeklyData(sensorId, onReceived);
+  }
+
+  void subscribeToMonthlyData(int sensorId, Function(dynamic) onReceived){
+    repository.subscribeToMonthlyData(sensorId, onReceived);
+  }
 }

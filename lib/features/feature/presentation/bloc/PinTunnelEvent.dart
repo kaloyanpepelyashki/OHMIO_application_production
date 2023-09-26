@@ -45,7 +45,23 @@ class SubscribeDailyChannel extends PinTunnelEvent{
   List<Object> get props => [sensorId];
 }
 
+class SubscribeWeeklyChannel extends PinTunnelEvent{
+  final int sensorId;
 
+  const SubscribeWeeklyChannel({required this.sensorId});
+
+  @override
+  List<Object> get props => [sensorId];
+}
+
+class SubscribeMonthlyChannel extends PinTunnelEvent{
+  final int sensorId;
+
+  const SubscribeMonthlyChannel({required this.sensorId});
+
+  @override
+  List<Object> get props => [sensorId];
+}
 
 
 class PayloadReceived extends PinTunnelEvent {
@@ -79,6 +95,24 @@ class DailyPayloadReceived extends PinTunnelEvent {
   final Map<String, dynamic> payload;
 
   const DailyPayloadReceived({required this.payload});
+
+  @override
+  List<Object> get props => [payload];
+}
+
+class WeeklyPayloadReceived extends PinTunnelEvent {
+  final Map<String, dynamic> payload;
+
+  const WeeklyPayloadReceived({required this.payload});
+
+  @override
+  List<Object> get props => [payload];
+}
+
+class MonthlyPayloadReceived extends PinTunnelEvent {
+  final Map<String, dynamic> payload;
+
+  const MonthlyPayloadReceived({required this.payload});
 
   @override
   List<Object> get props => [payload];

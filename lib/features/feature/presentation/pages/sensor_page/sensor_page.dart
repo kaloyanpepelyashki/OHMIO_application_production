@@ -92,51 +92,51 @@ class _SensorPageState extends State<SensorPage> {
                           ),
                           ElevatedButton(
                             onPressed: () {
-                              selectedFilter = 'minute';
-                              changeChartsBasedOnFilter("minute");
-                            },
-                            child: Text("Minute"),
-                            style: selectedFilter == "minute"
-                                ? const ButtonStyle(
-                                    backgroundColor: MaterialStatePropertyAll(
-                                        Color(0xFF551C50)),
-                                    foregroundColor:
-                                        MaterialStatePropertyAll(Colors.white),
-                                  )
-                                : const ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStatePropertyAll(Colors.white),
-                                    foregroundColor:
-                                        MaterialStatePropertyAll(Colors.black),
-                                  ),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              selectedFilter = 'hour';
-                              changeChartsBasedOnFilter("hour");
-                            },
-                            child: Text("Hour"),
-                            style: selectedFilter == "hour"
-                                ? const ButtonStyle(
-                                    backgroundColor: MaterialStatePropertyAll(
-                                        Color(0xFF551C50)),
-                                    foregroundColor:
-                                        MaterialStatePropertyAll(Colors.white),
-                                  )
-                                : const ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStatePropertyAll(Colors.white),
-                                    foregroundColor:
-                                        MaterialStatePropertyAll(Colors.black),
-                                  ),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
                               selectedFilter = 'day';
-                              changeChartsBasedOnFilter("Day");
+                              changeChartsBasedOnFilter("day");
                             },
                             child: Text("Day"),
                             style: selectedFilter == "day"
+                                ? const ButtonStyle(
+                                    backgroundColor: MaterialStatePropertyAll(
+                                        Color(0xFF551C50)),
+                                    foregroundColor:
+                                        MaterialStatePropertyAll(Colors.white),
+                                  )
+                                : const ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStatePropertyAll(Colors.white),
+                                    foregroundColor:
+                                        MaterialStatePropertyAll(Colors.black),
+                                  ),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              selectedFilter = 'week';
+                              changeChartsBasedOnFilter("week");
+                            },
+                            child: Text("Week"),
+                            style: selectedFilter == "week"
+                                ? const ButtonStyle(
+                                    backgroundColor: MaterialStatePropertyAll(
+                                        Color(0xFF551C50)),
+                                    foregroundColor:
+                                        MaterialStatePropertyAll(Colors.white),
+                                  )
+                                : const ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStatePropertyAll(Colors.white),
+                                    foregroundColor:
+                                        MaterialStatePropertyAll(Colors.black),
+                                  ),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              selectedFilter = 'month';
+                              changeChartsBasedOnFilter("month");
+                            },
+                            child: Text("Month"),
+                            style: selectedFilter == "month"
                                 ? const ButtonStyle(
                                     backgroundColor: MaterialStatePropertyAll(
                                         Color(0xFF551C50)),
@@ -227,13 +227,13 @@ class _SensorPageState extends State<SensorPage> {
                                     if (result == "spline chart") {
                                       setState(() {
                                         carouselItems[0] =
-                                            SplineDefault(timeFilter: 'day');
+                                            SplineDefault(timeFilter: 'live');
                                       });
                                     }
                                     if (result == "range area chart") {
                                       setState(() {
                                         carouselItems[0] = RangeArea(
-                                          timeFilter: 'day',
+                                          timeFilter: 'live',
                                         );
                                       });
                                     }

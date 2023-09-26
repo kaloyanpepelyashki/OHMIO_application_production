@@ -26,7 +26,6 @@ dependencies:
   carousel_slider: ^4.2.1
   font_awesome_flutter: ^10.5.0
   syncfusion_flutter_charts: ^22.2.12
-  flutter_windowmanager: ^0.2.0
   flutter_jailbreak_detection: ^1.10.0
   dotted_border: ^2.0.0+3
   google_fonts: ^6.0.0
