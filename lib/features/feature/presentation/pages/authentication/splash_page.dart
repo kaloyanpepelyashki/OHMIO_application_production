@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pin_tunnel_application_production/core/util/notifications/alert_dialog_component.dart';
+import 'package:pin_tunnel_application_production/features/feature/domain/entities/ConnectionStatus.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelBloc.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelEvent.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_blank.dart';
@@ -18,12 +20,7 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   var _session = supabaseManager.supabaseSession;
 
-  Future<void> _redirect() async {
-    await Future.delayed(const Duration(seconds: 5));
-    if (!mounted) {
-      debugPrint("!mounted");
-      return;
-    }
+  void validateSession() async {
     _session = supabaseManager.supabaseClient.auth.currentSession;
 
     //Checks if the session is null or not
@@ -36,8 +33,8 @@ class _SplashPageState extends State<SplashPage> {
       if (_userProfileDB["finishedOnBoarding"]) {
         // if the user has finished the onBoarding, they get navigated to the dashboard page
         debugPrint("Going to dashboard");
-BlocProvider.of<PinTunnelBloc>(context)
-                .add(GetSensorsForUser(email: _session!.user.email!));
+        BlocProvider.of<PinTunnelBloc>(context)
+            .add(GetSensorsForUser(email: _session!.user.email!));
         GoRouter.of(context).goNamed("dashboard",
             pathParameters: {"email": _session!.user.email!});
       } else if (!_userProfileDB["finishedOnBoarding"]) {
@@ -51,9 +48,44 @@ BlocProvider.of<PinTunnelBloc>(context)
     }
   }
 
+  void _checkInternetConnection() async {
+    try {
+      bool hasConnection = await singletonInstance.checkConnection();
+      debugPrint("$hasConnection");
+
+      setState(() {
+        _isInternetPresent = hasConnection;
+      });
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  Future<void> _redirect() async {
+    await Future.delayed(const Duration(seconds: 5));
+    if (!mounted) {
+      debugPrint("!mounted");
+      return;
+    }
+
+    if (_isInternetPresent) {
+      validateSession();
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialogComponent(
+              context, "Fail", "No internet connection present");
+        },
+      );
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    singletonInstance.initialize();
+    _checkInternetConnection();
     _redirect();
   }
 
@@ -61,6 +93,8 @@ BlocProvider.of<PinTunnelBloc>(context)
   void dispose() {
     super.dispose();
   }
+
+  bool _isInternetPresent = false;
 
   @override
   Widget build(BuildContext context) {

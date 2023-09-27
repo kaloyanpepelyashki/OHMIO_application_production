@@ -53,3 +53,6 @@ class ConnectionStatusSingleton {
     return connectedToInternet;
   }
 }
+
+final ConnectionStatusSingleton singletonInstance =
+    ConnectionStatusSingleton.getInstance();
