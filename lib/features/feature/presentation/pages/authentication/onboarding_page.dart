@@ -20,7 +20,6 @@ class OnBoardingPage extends StatelessWidget {
                   image: AssetImage('assets/brandmark-design.png'),
                 ),
                 Container(
-
                     //<=== Controlls the margin of the two buttons
                     margin: const EdgeInsets.fromLTRB(0, 70, 0, 10),
                     child: Column(children: [
@@ -35,15 +34,6 @@ class OnBoardingPage extends StatelessWidget {
                           onPressed: () {
                             GoRouter.of(context).push("/signup");
                           }),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.fromLTRB(30, 7, 30, 7)),
-                        onPressed: () {
-                          GoRouter.of(context).push("/binaryEncoderPage");
-                        },
-                        child: const Text('Blinker',
-                            style: TextStyle(fontSize: 30)),
-                      ),
                     ]))
               ]))),
     );

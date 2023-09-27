@@ -104,13 +104,13 @@ class DashBoardPageState extends State<DashBoardPage> {
     return BlocConsumer<PinTunnelBloc, PinTunnelState>(
       listener: (context, state) {
         if (state is SensorsForUserReceivedState) {
-          if(state.sensorList.isNotEmpty){
+          if (state.sensorList.isNotEmpty) {
             state.sensorList.forEach((i) {
-              if(i.isActuator!){
+              if (i.isActuator!) {
                 print("ACTUATOR ADDED");
                 actuatorElements.add(i);
               }
-              if(i.isActuator! == false){
+              if (i.isActuator! == false) {
                 sensorElements.add(i);
               }
             });
@@ -192,12 +192,13 @@ class DashBoardPageState extends State<DashBoardPage> {
                           },
                           sensorElements: sensorElements,
                         )
-                      : DashboardActuatorWidget(onActuatorLoaded: (i) {
-                          if (!actuatorElements.contains(i)) {
-                            actuatorElements.add(i);
-                          }
-                        },
-                        actuatorElements: actuatorElements),
+                      : DashboardActuatorWidget(
+                          onActuatorLoaded: (i) {
+                            if (!actuatorElements.contains(i)) {
+                              actuatorElements.add(i);
+                            }
+                          },
+                          actuatorElements: actuatorElements),
                 ],
               ),
               HelpWidget(),
