@@ -67,18 +67,14 @@ class DashBoardPageState extends State<DashBoardPage> {
     _showNotification();
 
     //BlocProvider.of<PinTunnelBloc>(context)
+    //  .add(GetSensorsForUser(email: widget.email!));
+
+    //BlocProvider.of<PinTunnelBloc>(context)
     //  .add(const SubscribeHourlyChannel(sensorId: 12345));
     //  BlocProvider.of<PinTunnelBloc>(context)
     //   .add(const SubscribeMinuteChannel(sensorId: 12345));
-    BlocProvider.of<PinTunnelBloc>(context)
-        .add(const GetSensorRange(sensorId: 12345));
-
-    if (widget.email != null) {
-      print("DASHBOARD_PAGE email: ${widget.email}");
-      BlocProvider.of<PinTunnelBloc>(context)
-          .add(GetSensorsForUser(email: "kuba.kolando.02.01@gmail.com"));
-      //.add(GetSensorsForUser(email: widget.email!));
-    }
+    //BlocProvider.of<PinTunnelBloc>(context)
+    //    .add(const GetSensorRange(sensorId: 12345));
   }
 
   Future<void> _checkNotificationPermissions() async {

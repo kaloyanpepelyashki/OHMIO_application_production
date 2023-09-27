@@ -65,35 +65,6 @@ class _ChartFullScreenPageState extends State<ChartFullScreenPage> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      _openWidget("minute");
-                      selectedFilter = "minute";
-                    },
-                    style: selectedFilter == "minute" ? const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(Color(0xFF551C50)),
-                      foregroundColor: MaterialStatePropertyAll(Colors.white),
-                    ) : const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(Colors.white),
-                      foregroundColor: MaterialStatePropertyAll(Colors.black),
-                    ),
-                    child: Text("Minute"),
-                  ),
-                
-                  ElevatedButton(
-                    onPressed: () {
-                      _openWidget("hour");
-                      selectedFilter = "hour";
-                    },
-                   style: selectedFilter =="hour" ? const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(Color(0xFF551C50)),
-                      foregroundColor: MaterialStatePropertyAll(Colors.white),
-                    ) : const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(Colors.white),
-                      foregroundColor: MaterialStatePropertyAll(Colors.black),
-                    ),
-                    child: Text("hour"),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
                       _openWidget("day");
                       selectedFilter = "day";
                       
@@ -108,7 +79,35 @@ class _ChartFullScreenPageState extends State<ChartFullScreenPage> {
                     ),
                     child: Text("Day"),
                   ),
-                  
+                  ElevatedButton(
+                    onPressed: () {
+                      _openWidget("week");
+                      selectedFilter = "week";
+                    },
+                    style: selectedFilter == "week" ? const ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Color(0xFF551C50)),
+                      foregroundColor: MaterialStatePropertyAll(Colors.white),
+                    ) : const ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Colors.white),
+                      foregroundColor: MaterialStatePropertyAll(Colors.black),
+                    ),
+                    child: Text("Week"),
+                  ),
+                
+                  ElevatedButton(
+                    onPressed: () {
+                      _openWidget("month");
+                      selectedFilter = "month";
+                    },
+                   style: selectedFilter =="month" ? const ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Color(0xFF551C50)),
+                      foregroundColor: MaterialStatePropertyAll(Colors.white),
+                    ) : const ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Colors.white),
+                      foregroundColor: MaterialStatePropertyAll(Colors.black),
+                    ),
+                    child: Text("Month"),
+                  ),      
                 ],
               ),
             ),

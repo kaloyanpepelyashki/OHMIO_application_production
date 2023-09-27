@@ -9,8 +9,7 @@ import 'PinTunnelEvent.dart';
 import 'PinTunnelState.dart';
 
 class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
-
-  String? email; 
+  String? email;
 
   final SubscribeChannelLogic subscribeChannelLogic;
   final SensorLogic sensorLogic;
@@ -19,6 +18,8 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
   final minutePayloadController = StreamController<Map<String, dynamic>>();
   final hourlyPayloadController = StreamController<Map<String, dynamic>>();
   final dailyPayloadController = StreamController<Map<String, dynamic>>();
+  final weeklyPayloadController = StreamController<Map<String, dynamic>>();
+  final monthlyPayloadController = StreamController<Map<String, dynamic>>();
 
   PinTunnelBloc(
       {required this.subscribeChannelLogic, required this.sensorLogic})
@@ -39,14 +40,27 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
       add(DailyPayloadReceived(payload: payload));
     });
 
+    weeklyPayloadController.stream.listen((payload) {
+      add(WeeklyPayloadReceived(payload: payload));
+    });
+
+    monthlyPayloadController.stream.listen((payload) {
+      add(MonthlyPayloadReceived(payload: payload));
+    });
+
     on<SubscribeChannel>(_onSubscribeChannel);
     on<SubscribeMinuteChannel>(_onSubscribeMinuteChannel);
     on<SubscribeHourlyChannel>(_onSubscribeHourlyChannel);
     on<SubscribeDailyChannel>(_onSubscribeDailyChannel);
+    on<SubscribeWeeklyChannel>(_onSubscribeWeeklyChannel);
+    on<SubscribeMonthlyChannel>(_onSubscribeMonthlyChannel);
+
     on<PayloadReceived>(_onPayloadReceived);
     on<MinutePayloadReceived>(_onMinutePayloadReceived);
     on<HourlyPayloadReceived>(_onHourlyPayloadReceived);
     on<DailyPayloadReceived>(_onDailyPayloadReceived);
+    on<WeeklyPayloadReceived>(_onWeeklyPayloadReceived);
+    on<MonthlyPayloadReceived>(_onMonthlyPayloadReceived);
 
     on<GetSensorRange>(_onGetSensorRange);
     on<GetSensorsForUser>(_onGetSensorsForUser);
@@ -92,13 +106,31 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
     });
   }
 
+  void _onSubscribeWeeklyChannel(
+    SubscribeWeeklyChannel event,
+    Emitter<PinTunnelState> emit,
+  ) async {
+    subscribeChannelLogic.subscribeToWeeklyData(event.sensorId, (payload) {
+      weeklyPayloadController.sink.add(payload);
+    });
+  }
+
+  void _onSubscribeMonthlyChannel(
+    SubscribeMonthlyChannel event,
+    Emitter<PinTunnelState> emit,
+  ) async {
+    subscribeChannelLogic.subscribeToMonthlyData(event.sensorId, (payload) {
+      monthlyPayloadController.sink.add(payload);
+    });
+  }
+
   void _onPayloadReceived(
     PayloadReceived event,
     Emitter<PinTunnelState> emit,
   ) {
     print("EVENT.PAYLOAD ${event.payload}");
-      emit(PayloadReceivedState(event.payload));
-   // print('payloadReceived emmited $event.payload');
+    emit(PayloadReceivedState(event.payload));
+    // print('payloadReceived emmited $event.payload');
   }
 
   void _onMinutePayloadReceived(
@@ -125,6 +157,22 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
     print('dailyPayloadReceivedState emmited $event.payload');
   }
 
+  void _onWeeklyPayloadReceived(
+    WeeklyPayloadReceived event,
+    Emitter<PinTunnelState> emit,
+  ) {
+    emit(WeeklyPayloadReceivedState(event.payload));
+    print('weeklyPayloadReceivedState emmited $event.payload');
+  }
+
+  void _onMonthlyPayloadReceived(
+    MonthlyPayloadReceived event,
+    Emitter<PinTunnelState> emit,
+  ) {
+    emit(MonthlyPayloadReceivedState(event.payload));
+    print('monthlyPayloadReceivedState emmited $event.payload');
+  }
+
   void _onGetSensorRange(
     GetSensorRange event,
     Emitter<PinTunnelState> emit,
@@ -144,10 +192,8 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
     result.fold(
       ifLeft: (value) => print(value),
       ifRight: (value) => {
-        if(value.isNotEmpty) {
-          emit(SensorsForUserReceivedState(value))
-        }
-        },
+        if (value.isNotEmpty) {emit(SensorsForUserReceivedState(value))}
+      },
     );
   }
 

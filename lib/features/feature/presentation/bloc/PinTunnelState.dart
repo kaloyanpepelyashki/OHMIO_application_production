@@ -54,6 +54,24 @@ class DailyPayloadReceivedState extends PinTunnelState{
   List<Object> get props =>[payload];
 }
 
+class WeeklyPayloadReceivedState extends PinTunnelState{
+  final dynamic payload;
+
+  const WeeklyPayloadReceivedState(this.payload);
+
+  @override
+  List<Object> get props =>[payload];
+}
+
+class MonthlyPayloadReceivedState extends PinTunnelState{
+  final dynamic payload;
+
+  const MonthlyPayloadReceivedState(this.payload);
+
+  @override
+  List<Object> get props =>[payload];
+}
+
 class SensorRangeReceivedState extends PinTunnelState{
 
   final SensorRange sensorRange;
