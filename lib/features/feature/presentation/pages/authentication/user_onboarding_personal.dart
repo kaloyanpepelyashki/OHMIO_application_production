@@ -79,10 +79,11 @@ class _OnBoardingPersonalDataPageState
                 heightFactor: 0.8,
                 child: Column(
                   children: [
-                    const Text(
-                      "Title",
-                      style: TextStyle(fontSize: 40, letterSpacing: 17),
-                    ),
+                    Padding(
+                        padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
+                        child: const Image(
+                          image: AssetImage('assets/brandmark-design.png'),
+                        )),
                     Container(
                         margin: const EdgeInsets.fromLTRB(0, 70, 0, 10),
                         child: Column(children: [

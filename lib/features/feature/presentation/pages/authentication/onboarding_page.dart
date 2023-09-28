@@ -16,9 +16,11 @@ class OnBoardingPage extends StatelessWidget {
               widthFactor: 0.9,
               heightFactor: 0.8,
               child: Column(children: [
-                const Image(
-                  image: AssetImage('assets/brandmark-design.png'),
-                ),
+                Padding(
+                    padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
+                    child: const Image(
+                      image: AssetImage('assets/brandmark-design.png'),
+                    )),
                 Container(
                     //<=== Controlls the margin of the two buttons
                     margin: const EdgeInsets.fromLTRB(0, 70, 0, 10),

@@ -68,16 +68,20 @@ class _SplashPageState extends State<SplashPage> {
       return;
     }
 
-    if (_isInternetPresent) {
-      validateSession();
-    } else {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialogComponent(
-              context, "Fail", "No internet connection present");
-        },
-      );
+    try {
+      if (_isInternetPresent) {
+        validateSession();
+      } else {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialogComponent(
+                context, "Fail", "No internet connection present");
+          },
+        );
+      }
+    } catch (e) {
+      debugPrint(e.toString());
     }
   }
 
@@ -98,17 +102,25 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircularProgressIndicator(),
-              ],
-            ),
+            Padding(
+                padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      child: Image(
+                        image: AssetImage('assets/brandmark-design.png'),
+                      ),
+                      margin: EdgeInsets.fromLTRB(0, 0, 0, 40),
+                    ),
+                    CircularProgressIndicator(),
+                  ],
+                )),
           ],
         ),
       ),

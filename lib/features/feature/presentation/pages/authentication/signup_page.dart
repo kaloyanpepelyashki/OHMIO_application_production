@@ -68,10 +68,11 @@ class _SignUpComponentState extends State<SignUpPage> {
           heightFactor: 0.8,
           child: Column(
             children: [
-              const Text(
-                "Title",
-                style: TextStyle(fontSize: 40, letterSpacing: 17),
-              ),
+              Padding(
+                  padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
+                  child: const Image(
+                    image: AssetImage('assets/brandmark-design.png'),
+                  )),
               Expanded(
                 child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
