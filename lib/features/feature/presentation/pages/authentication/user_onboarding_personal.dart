@@ -1,3 +1,4 @@
+import 'package:dart_either/dart_either.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -19,25 +20,29 @@ class OnBoardingPersonalDataPage extends StatefulWidget {
 
 class _OnBoardingPersonalDataPageState
     extends State<OnBoardingPersonalDataPage> {
-  //Inut field TextEditing controllers
+  //Ipnut field TextEditing controllers
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
 
   final _userProfile = userProfile;
   final _session = supabaseManager.supabaseClient.auth.currentSession;
 
-  void uploadToDatabase() async {
-    tz.Location utc = tz.getLocation('UTC');
-    await supabaseManager.supabaseClient.from("profiles").update({
-      "email": supabaseManager.user?.email,
-      "first_name": _nameController.text.trim(),
-      "last_name": _lastNameController.text.trim(),
-      "updated_at": tz.TZDateTime.from(DateTime.now(), utc).toIso8601String(),
-    }).eq("id", supabaseManager.user?.id);
-
-    await supabaseManager.supabaseClient.from("pintunnel").insert([
-      {"user_id": supabaseManager.user?.id}
-    ]);
+  //Uploads the user data to the databse
+  Future<Either<Exception, void>> uploadToDatabase() async {
+    try {
+      tz.Location utc = tz.getLocation('UTC');
+      await supabaseManager.supabaseClient.from("profiles").update({
+        "email": supabaseManager.user?.email,
+        "first_name": _nameController.text.trim(),
+        "last_name": _lastNameController.text.trim(),
+        "updated_at": tz.TZDateTime.from(DateTime.now(), utc).toIso8601String(),
+      }).eq("id", supabaseManager.user?.id);
+      return const Either.right(null);
+    } catch (e) {
+      debugPrint(e.toString());
+      return Either.left(
+          Exception("Unexpected error occured while uploading data"));
+    }
   }
 
   void populateUserProfile() {
@@ -51,9 +56,32 @@ class _OnBoardingPersonalDataPageState
 
   void getPersonalData() async {
     debugPrint(supabaseManager.user?.id);
-    uploadToDatabase();
-    populateUserProfile();
-    GoRouter.of(context).go("/signup/onboarding-username");
+    try {
+      //Checks if the input field have been filled out by the user.
+      if (_nameController.text.isNotEmpty &&
+          _lastNameController.text.isNotEmpty) {
+        final uploadResult = await uploadToDatabase();
+        uploadResult.fold(
+            ifLeft: (l) => {
+                  populateUserProfile(),
+                  GoRouter.of(context).go("/signup/onboarding-username")
+                },
+            ifRight: (r) => {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text("Please fill out all fields"),
+                    backgroundColor: Color.fromARGB(156, 255, 1, 1),
+                  ))
+                });
+      } else {
+        //If the input field haven't been filled out by the user it throws an alert on screen
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("Please fill out all fields"),
+          backgroundColor: Color.fromARGB(156, 255, 1, 1),
+        ));
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 
   @override

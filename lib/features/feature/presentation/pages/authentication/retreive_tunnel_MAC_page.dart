@@ -39,25 +39,33 @@ class _RetreiveTunnelMACPageState extends State<RetreiveTunnelMACPage> {
   }
 
   void updateProfile() async {
-    final Either databaseResponse = await checkMacInDatabase();
+    if (_macAddressController.text.isNotEmpty) {
+      final Either databaseResponse = await checkMacInDatabase();
 
-    databaseResponse.fold(
-        ifRight: (r) async => {
-              if (r)
-                {
-                  await supabaseManager.supabaseClient
-                      .from("profiles")
-                      .update({"pintunnel_id": pinTunnelID}).eq(
-                          "id", _session?.user.id),
-                  GoRouter.of(context).go("/dashboard/:email")
-                }
-            },
-        ifLeft: (l) => {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(l.toString()),
-                backgroundColor: const Color.fromARGB(156, 255, 1, 1),
-              ))
-            });
+      databaseResponse.fold(
+          ifRight: (r) async => {
+                if (r)
+                  {
+                    await supabaseManager.supabaseClient
+                        .from("profiles")
+                        .update({"pintunnel_id": pinTunnelID}).eq(
+                            "id", _session?.user.id),
+                    GoRouter.of(context).go("/dashboard/:email")
+                  }
+              },
+          ifLeft: (l) => {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(l.toString()),
+                  backgroundColor: const Color.fromARGB(156, 255, 1, 1),
+                ))
+              });
+    } else {
+      //If the input field haven't been filled out by the user it throws an alert on screen
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Please provide a device's mac address"),
+        backgroundColor: Color.fromARGB(156, 255, 1, 1),
+      ));
+    }
   }
 
   @override

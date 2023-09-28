@@ -37,16 +37,23 @@ class _OnBoardingUsernamePageState extends State<OnBoardingUsernamePage> {
   }
 
   void getUsername() async {
-    final uploadResult = await uploadToDatabase();
-    uploadResult.fold(
-        ifRight: (r) =>
-            {GoRouter.of(context).go("/signup/onboarding-tunnel-mac")},
-        ifLeft: (l) => {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(l.toString()),
-                backgroundColor: const Color.fromARGB(156, 255, 1, 1),
-              ))
-            });
+    if (_usernameController.text.isNotEmpty) {
+      final uploadResult = await uploadToDatabase();
+      uploadResult.fold(
+          ifRight: (r) =>
+              {GoRouter.of(context).go("/signup/onboarding-tunnel-mac")},
+          ifLeft: (l) => {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(l.toString()),
+                  backgroundColor: const Color.fromARGB(156, 255, 1, 1),
+                ))
+              });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Please choose a username"),
+        backgroundColor: Color.fromARGB(156, 255, 1, 1),
+      ));
+    }
   }
 
   @override
