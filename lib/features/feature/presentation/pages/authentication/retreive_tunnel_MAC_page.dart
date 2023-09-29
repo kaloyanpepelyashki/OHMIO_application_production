@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:dart_either/dart_either.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../data/data_sources/supabase_service.dart';
 import '../../widgets/elevated_button_component.dart';
@@ -27,12 +30,17 @@ class _RetreiveTunnelMACPageState extends State<RetreiveTunnelMACPage> {
           .from("pintunnel")
           .select()
           .eq("mac_address", _macAddressController.text);
+
       if (databaseResponse.length == 0) {
-        throw Either.left(Exception("No device with such a MAC address"));
+        return Either.left(Exception("No device with such a MAC address"));
       } else {
         pinTunnelID = databaseResponse[0]["id"];
         return Either.right(databaseResponse.length > 0);
       }
+    } on SocketException {
+      return Either.left(Exception("Internet Error"));
+    } on PostgrestException catch (e) {
+      return Either.left(Exception(e.toString()));
     } catch (e) {
       return Either.left(Exception(e.toString()));
     }
@@ -55,7 +63,7 @@ class _RetreiveTunnelMACPageState extends State<RetreiveTunnelMACPage> {
               },
           ifLeft: (l) => {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(l.toString()),
+                  content: Text("$l"),
                   backgroundColor: const Color.fromARGB(156, 255, 1, 1),
                 ))
               });
@@ -88,7 +96,7 @@ class _RetreiveTunnelMACPageState extends State<RetreiveTunnelMACPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Connect a tunnel",
+                            "Connect a device",
                             style: TextStyle(fontSize: 25, letterSpacing: 4),
                           )
                         ]),
@@ -98,10 +106,10 @@ class _RetreiveTunnelMACPageState extends State<RetreiveTunnelMACPage> {
                           Container(
                               margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                               child: InputFieldWithHeading(
-                                controller: _macAddressController,
-                                heading: "Let's find your device",
-                                placeHolder: "MAC Address",
-                              )),
+                                  controller: _macAddressController,
+                                  heading: "Let's find your device",
+                                  placeHolder: "MAC Address",
+                                  obscureText: false)),
                         ])),
                     Container(
                         margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
