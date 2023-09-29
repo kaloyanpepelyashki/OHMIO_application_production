@@ -16,7 +16,10 @@ import '../../widgets/sensor_page/charts/spline_default.dart';
 import '../../widgets/top_bar_back_action.dart';
 
 class SensorPage extends StatefulWidget {
+  final String? mac_address;
+
   const SensorPage({
+    required this.mac_address,
     Key? key,
   }) : super(key: key);
 
@@ -47,7 +50,7 @@ class _SensorPageState extends State<SensorPage> {
     rangeArea = RangeArea(
       timeFilter: selectedFilter, /*key: rangeAreaKey*/
     );
-    splineDefault = SplineDefault(timeFilter: selectedFilter);
+    splineDefault = SplineDefault(timeFilter: selectedFilter, mac_address: widget.mac_address!);
     carouselItems = [splineDefault, temperatureSensorWidget];
   }
 
@@ -73,7 +76,7 @@ class _SensorPageState extends State<SensorPage> {
                           ElevatedButton(
                             onPressed: () {
                               selectedFilter = 'live';
-                              changeChartsBasedOnFilter("live");
+                              changeChartsBasedOnFilter("live", widget.mac_address!);
                             },
                             child: Text("Live"),
                             style: selectedFilter == "live"
@@ -93,7 +96,7 @@ class _SensorPageState extends State<SensorPage> {
                           ElevatedButton(
                             onPressed: () {
                               selectedFilter = 'day';
-                              changeChartsBasedOnFilter("day");
+                              changeChartsBasedOnFilter("day",widget.mac_address!);
                             },
                             child: Text("Day"),
                             style: selectedFilter == "day"
@@ -113,7 +116,7 @@ class _SensorPageState extends State<SensorPage> {
                           ElevatedButton(
                             onPressed: () {
                               selectedFilter = 'week';
-                              changeChartsBasedOnFilter("week");
+                              changeChartsBasedOnFilter("week", widget.mac_address!);
                             },
                             child: Text("Week"),
                             style: selectedFilter == "week"
@@ -133,7 +136,7 @@ class _SensorPageState extends State<SensorPage> {
                           ElevatedButton(
                             onPressed: () {
                               selectedFilter = 'month';
-                              changeChartsBasedOnFilter("month");
+                              changeChartsBasedOnFilter("month", widget.mac_address!);
                             },
                             child: Text("Month"),
                             style: selectedFilter == "month"
@@ -210,7 +213,7 @@ class _SensorPageState extends State<SensorPage> {
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => ChartFullScreenPage(
-                                          chartWidget: carouselItems[0])));
+                                          chartWidget: carouselItems[0], mac_address: widget.mac_address!)));
                                 },
                               ),
                               IconButton(
@@ -227,7 +230,7 @@ class _SensorPageState extends State<SensorPage> {
                                     if (result == "spline chart") {
                                       setState(() {
                                         carouselItems[0] =
-                                            SplineDefault(timeFilter: 'live');
+                                            SplineDefault(timeFilter: 'live', mac_address: widget.mac_address!);
                                       });
                                     }
                                     if (result == "range area chart") {
@@ -285,13 +288,13 @@ class _SensorPageState extends State<SensorPage> {
         ),);
   }
 
-  void changeChartsBasedOnFilter(String filter) {
+  void changeChartsBasedOnFilter(String filter, String mac_address) {
     GlobalKey<SplineDefaultState> splineDefaultKey =
         GlobalKey<SplineDefaultState>();
     if (carouselItems[0] is SplineDefault) {
       setState(() {
         carouselItems[0] =
-            SplineDefault(key: splineDefaultKey, timeFilter: filter);
+            SplineDefault(key: splineDefaultKey, timeFilter: filter, mac_address: mac_address);
       });
     } else if (carouselItems[0] is RangeArea) {
       setState(() {

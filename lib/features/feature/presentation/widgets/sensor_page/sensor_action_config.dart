@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/sensor_page/action_popup.dart';
 
 import '../../../domain/entities/action_class.dart';
@@ -129,28 +130,7 @@ class _SensorActionConfigState extends State<SensorActionConfig> {
                         size: 30,
                       ),
                       onPressed: () async {
-                        final actionClass = await showDialog(
-                            context: context,
-                            barrierDismissible: true,
-                            builder: (BuildContext context) =>
-                                ActionPopup(context: context));
-                        if (actionClass != null) {
-                          setState(
-                            () => actions.add(
-                              ActionWidget(
-                                  actionClass: actionClass,
-                                  actionNumber: actions.length + 1,
-                                  context: context,
-                                  onDelete: (index) {
-                                    setState(() {
-                                      actions.removeAt(index);
-                                    });
-                                    if (index > 0) updateActionNumbers(index);
-                                  }),
-                            ),
-                          );
-                          sendActionToDatabase(actionClass);
-                        }
+                        GoRouter.of(context).push("/dependencyChooseSensor");
                       },
                     ),
                   ],

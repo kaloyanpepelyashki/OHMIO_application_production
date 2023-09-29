@@ -11,9 +11,10 @@ class SensorClass extends Equatable {
   final String? version;
   final String? minValue;
   final String? maxValue;
-  final String? sensorId;
+  String? sensorMac;
+  double? latestValue;
 
-  const SensorClass({
+  SensorClass({
     this.tunnelMacAddress,
     this.sensorName,
     this.isConnected,
@@ -24,7 +25,8 @@ class SensorClass extends Equatable {
     this.version,
     this.minValue,
     this.maxValue,
-    this.sensorId,
+    this.sensorMac,
+    this.latestValue
   });
 
   @override
@@ -39,6 +41,6 @@ class SensorClass extends Equatable {
         version,
         minValue,
         maxValue,
-        sensorId,
+        sensorMac,
       ];
 }

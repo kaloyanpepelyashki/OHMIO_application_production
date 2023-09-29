@@ -52,20 +52,10 @@ class _TemperatureSensorWidgetState extends State<TemperatureSensorWidget> {
         return SizedBox(
           width: 500,
           height: 500,
-          child: Row(
-            children: [
-              const Expanded(
-                child: Icon(Icons.ac_unit, color: Colors.blue, size: 50),
-              ),
-              Expanded(
-                child: Center(
-                    child: CustomCircle(
-                        minValue: minValue, maxValue: maxValue, value: value)),
-              ),
-              const Expanded(
-                child: Icon(Icons.whatshot, color: Colors.red, size: 50),
-              )
-            ],
+          child: Expanded(
+            child: Center(
+                child: CustomCircle(
+                    minValue: minValue, maxValue: maxValue, value: value)),
           ),
         );
       },

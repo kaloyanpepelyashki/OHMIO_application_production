@@ -102,6 +102,8 @@ class DashBoardPageState extends State<DashBoardPage> {
         if (state is SensorsForUserReceivedState) {
           if (state.sensorList.isNotEmpty) {
             state.sensorList.forEach((i) {
+              BlocProvider.of<PinTunnelBloc>(context)
+                  .add(GetLatestData(sensorMac: int.parse(i.sensorMac!)));
               if (i.isActuator!) {
                 print("ACTUATOR ADDED");
                 actuatorElements.add(i);
@@ -110,6 +112,28 @@ class DashBoardPageState extends State<DashBoardPage> {
                 sensorElements.add(i);
               }
             });
+          }
+        }
+        if (state is LatestDataReceivedState) {
+           if (sensorElements.isNotEmpty) {
+            for (SensorClass element in sensorElements) {
+              print("ELEMENT -sensor: ${int.parse(element.sensorMac!)}");
+              print("state.data.sensorMac-sensor: ${state.data.sensorMac}");
+              if (int.parse(element.sensorMac!) == state.data.sensorMac) {
+                print("SUCCESSFULY ADDED TO sensors");
+                element.latestValue = state.data.value;
+              }
+            }
+          }
+          if (actuatorElements.isNotEmpty) {
+            for (SensorClass element in actuatorElements) {
+              print("ELEMENT -actuator: ${int.parse(element.sensorMac!)}");
+              print("state.data.sensorMac-actuator: ${state.data.sensorMac}");
+              if (int.parse(element.sensorMac!) == state.data.sensorMac) {
+                print("SUCCESSFULY ADDED TO actuators");
+                element.latestValue = state.data.value;
+              }
+            }
           }
         }
       },

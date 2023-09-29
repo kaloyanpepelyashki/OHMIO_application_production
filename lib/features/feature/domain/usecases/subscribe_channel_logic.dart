@@ -1,3 +1,8 @@
+import 'package:dart_either/dart_either.dart';
+import 'package:pin_tunnel_application_production/core/errors/failure.dart';
+import 'package:pin_tunnel_application_production/features/feature/domain/entities/chart_data.dart';
+import 'package:pin_tunnel_application_production/features/feature/domain/entities/latest_data.dart';
+
 import '../repository/i_pin_tunnel_repository.dart';
 
 class SubscribeChannelLogic{
@@ -10,24 +15,19 @@ class SubscribeChannelLogic{
     repository.subscribeToChannel(sensorId, onReceived);
   }
 
-  void subscribeToMinuteData(int sensorId, Function(dynamic) onReceived){
-    repository.subscribeToMinuteData(sensorId, onReceived);
+   Future<Either<Failure, LatestData>> getLatestData(int sensorMac) async{
+    return await repository.getLatestData(sensorMac);
+   }
+
+  Future<Either<Failure, List<ChartData>>> getDailyData(int sensorId) async{
+    return await repository.getDailyData(sensorId);
   }
 
-  void subscribeToHourlyData(int sensorId, Function(dynamic) onReceived){
-    repository.subscribeToHourlyData(sensorId, onReceived);
+  Future<Either<Failure, List<ChartData>>> getWeeklyData(int sensorId) async{
+    return await repository.getWeeklyData(sensorId);
   }
 
-
-  void subscribeToDailyData(int sensorId, Function(dynamic) onReceived){
-    repository.subscribeToDailyData(sensorId, onReceived);
-  }
-
-  void subscribeToWeeklyData(int sensorId, Function(dynamic) onReceived){
-    repository.subscribeToWeeklyData(sensorId, onReceived);
-  }
-
-  void subscribeToMonthlyData(int sensorId, Function(dynamic) onReceived){
-    repository.subscribeToMonthlyData(sensorId, onReceived);
+  Future<Either<Failure, List<ChartData>>> getMonthlyData(int sensorId) async{
+    return repository.getMonthlyData(sensorId);
   }
 }

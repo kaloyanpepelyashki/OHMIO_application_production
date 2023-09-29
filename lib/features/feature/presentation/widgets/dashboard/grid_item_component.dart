@@ -12,6 +12,7 @@ class GridItem extends StatefulWidget {
   final String? sensorName;
   final String? sensorImage;
   final String? sensorDescription;
+  final double? latestValue;
 
   const GridItem(
       {super.key,
@@ -19,7 +20,8 @@ class GridItem extends StatefulWidget {
       this.isActuator,
       this.sensorName,
       this.sensorImage,
-      this.sensorDescription});
+      this.sensorDescription,
+      this.latestValue});
 
   @override
   State<GridItem> createState() => _GridItemState();
@@ -31,8 +33,10 @@ class _GridItemState extends State<GridItem> {
 
   @override
   void initState() {
-    BlocProvider.of<PinTunnelBloc>(context)
-        .add(const SubscribeChannel(sensorId: 12345));
+    print("WIDGET.ID IN GRID_ITEM_COMP: ${widget.id}");
+   // BlocProvider.of<PinTunnelBloc>(context)
+     //   .add(SubscribeChannel(sensorId: widget.id!));
+     valueString = widget.latestValue.toString();
     super.initState();
   }
 
@@ -43,7 +47,9 @@ class _GridItemState extends State<GridItem> {
       builder: (context, state) {
         if (state is PayloadReceivedState) {
           if (state.payload.containsKey('sensor_data')) {
-            valueString = state.payload['sensor_data'][state.payload['sensor_data'].length-1]['data'].toString();
+            valueString = state.payload['sensor_data']
+                    [state.payload['sensor_data'].length - 1]['data']
+                .toString();
           } else {
             valueString = state.payload['new']['data'].toString();
             //    _chartSeriesController?.updateDataSource(
@@ -53,7 +59,10 @@ class _GridItemState extends State<GridItem> {
         }
         return GestureDetector(
             child: Container(
-              color: const Color(0xFFF1F1F1),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: const Color(0xFFF1F1F1),
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -79,14 +88,11 @@ class _GridItemState extends State<GridItem> {
                   Text(
                     widget.sensorName == null ? "" : widget.sensorName!,
                   ),
-                  Text(widget.sensorDescription == null
-                      ? ""
-                      : widget.sensorDescription!)
                 ],
               ),
             ),
             onTap: () {
-              GoRouter.of(context).push("/sensorPage");
+              GoRouter.of(context).pushNamed("sensorPage", pathParameters: {'id':widget.id.toString()});
             });
       },
     );

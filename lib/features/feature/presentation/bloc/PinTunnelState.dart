@@ -1,4 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:pin_tunnel_application_production/features/feature/domain/entities/chart_data.dart';
+import 'package:pin_tunnel_application_production/features/feature/domain/entities/latest_data.dart';
 import 'package:pin_tunnel_application_production/features/feature/domain/entities/sensor_range.dart';
 
 import '../../domain/entities/action_class.dart';
@@ -27,49 +29,37 @@ class PayloadReceivedState extends PinTunnelState{
   List<Object> get props =>[payload];
 }
 
-class MinutePayloadReceivedState extends PinTunnelState{
-  final dynamic payload;
+class LatestDataReceivedState extends PinTunnelState{
+  final LatestData data;
 
-  const MinutePayloadReceivedState(this.payload);
-
-  @override
-  List<Object> get props =>[payload];
+  const LatestDataReceivedState(this.data);
 }
 
-class HourlyPayloadReceivedState extends PinTunnelState{
-  final dynamic payload;
+class DailyDataReceivedState extends PinTunnelState{
+  final List<ChartData> data;
 
-  const HourlyPayloadReceivedState(this.payload);
+  const DailyDataReceivedState(this.data);
 
   @override
-  List<Object> get props =>[payload];
+  List<Object> get props =>[data];
 }
 
-class DailyPayloadReceivedState extends PinTunnelState{
-  final dynamic payload;
+class WeeklyDataReceivedState extends PinTunnelState{
+  final List<ChartData> data;
 
-  const DailyPayloadReceivedState(this.payload);
+  const WeeklyDataReceivedState(this.data);
 
   @override
-  List<Object> get props =>[payload];
+  List<Object> get props =>[data];
 }
 
-class WeeklyPayloadReceivedState extends PinTunnelState{
-  final dynamic payload;
+class MonthlyDataReceivedState extends PinTunnelState{
+  final List<ChartData> data;
 
-  const WeeklyPayloadReceivedState(this.payload);
-
-  @override
-  List<Object> get props =>[payload];
-}
-
-class MonthlyPayloadReceivedState extends PinTunnelState{
-  final dynamic payload;
-
-  const MonthlyPayloadReceivedState(this.payload);
+  const MonthlyDataReceivedState(this.data);
 
   @override
-  List<Object> get props =>[payload];
+  List<Object> get props =>[data];
 }
 
 class SensorRangeReceivedState extends PinTunnelState{

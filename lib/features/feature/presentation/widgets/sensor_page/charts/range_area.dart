@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pin_tunnel_application_production/features/feature/domain/entities/chart_data.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../bloc/PinTunnelBloc.dart';
@@ -47,6 +48,7 @@ class RangeAreaState extends State<RangeArea> {
     return BlocConsumer<PinTunnelBloc, PinTunnelState>(
       listener: (context, state) {},
       builder: (context, state) {
+        /*
         if (state is PayloadReceivedState &&
             timeFilter.toUpperCase() == "LIVE" &&
             state.payload != null) {
@@ -76,7 +78,7 @@ class RangeAreaState extends State<RangeArea> {
           }
         }
 
-        if (state is DailyPayloadReceivedState &&
+        if (state is DailyDataReceivedState &&
             timeFilter.toUpperCase() == "DAY" &&
             state.payload != null) {
           print("SPLINE_DEFAULT: DAILY PAYLOAD ");
@@ -91,7 +93,7 @@ class RangeAreaState extends State<RangeArea> {
               //     addedDataIndexes: <int>[chartData.length - 1],
               //  );
             }
-            chartData.sort((a, b) => a.x.compareTo(b.x));
+            chartData.sort((a, b) => a.dateTime.compareTo(b.dateTime));
           } else {
             DateTime dateTime =
                 DateTime.parse(state.payload['new']['created_at']);
@@ -105,7 +107,7 @@ class RangeAreaState extends State<RangeArea> {
           }
         }
 
-        if (state is WeeklyPayloadReceivedState &&
+        if (state is WeeklyDataReceivedState &&
             timeFilter.toUpperCase() == "WEEK" &&
             state.payload != null) {
           print("WEEKLY PAYLOAD SPLIE DEFAULT ${state.payload}");
@@ -119,7 +121,7 @@ class RangeAreaState extends State<RangeArea> {
               //     addedDataIndexes: <int>[chartData.length - 1],
               //    );
             }
-            chartData.sort((a, b) => a.x.compareTo(b.x));
+            chartData.sort((a, b) => a.dateTime.compareTo(b.dateTime));
           } else {
             DateTime dateTime =
                 DateTime.parse(state.payload['new']['created_at']);
@@ -132,7 +134,7 @@ class RangeAreaState extends State<RangeArea> {
           }
         }
 
-        if (state is MonthlyPayloadReceivedState &&
+        if (state is MonthlyDataReceivedState &&
             timeFilter.toUpperCase() == "MONTH" &&
             state.payload != null) {
           if (state.payload.containsKey('sensor_data')) {
@@ -144,7 +146,7 @@ class RangeAreaState extends State<RangeArea> {
               //      addedDataIndexes: <int>[chartData.length - 1],
               //   );
             }
-            chartData.sort((a, b) => a.x.compareTo(b.x));
+            chartData.sort((a, b) => a.dateTime.compareTo(b.dateTime));
           } else {
             DateTime dateTime =
                 DateTime.parse(state.payload['new']['created_at']);
@@ -155,6 +157,7 @@ class RangeAreaState extends State<RangeArea> {
             ///  );
           }
         }
+        */
         return Center(
           child: Container(
             width: 500,
@@ -216,8 +219,8 @@ class RangeAreaState extends State<RangeArea> {
                           showCumulativeValues: true,
                           isVisible: true,
                           color: Colors.blue),
-                      xValueMapper: (ChartData data, _) => data.x,
-                      yValueMapper: (ChartData data, _) => data.y),
+                      xValueMapper: (ChartData data, _) => data.dateTime,
+                      yValueMapper: (ChartData data, _) => data.value),
                   //animationDuration: 1000
                 ],
             ),
@@ -226,10 +229,4 @@ class RangeAreaState extends State<RangeArea> {
       },
     );
   }
-}
-
-class ChartData {
-  ChartData(this.x, this.y);
-  final DateTime x;
-  final double y;
 }

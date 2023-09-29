@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pin_tunnel_application_production/features/feature/domain/entities/chart_data.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../bloc/PinTunnelBloc.dart';
@@ -7,8 +8,11 @@ import '../../../bloc/PinTunnelEvent.dart';
 import '../../../bloc/PinTunnelState.dart';
 
 class SplineDefault extends StatefulWidget {
+  final String mac_address;
   final String timeFilter;
-  SplineDefault({required this.timeFilter, super.key});
+
+  SplineDefault(
+      {required this.mac_address, required this.timeFilter, super.key});
 
   @override
   State<SplineDefault> createState() => SplineDefaultState();
@@ -34,21 +38,22 @@ class SplineDefaultState extends State<SplineDefault> {
       zoomMode: ZoomMode.x,
     );
     chartData.clear();
-    if(timeFilter.toUpperCase() == "LIVE"){
+    // if(timeFilter.toUpperCase() == "LIVE"){
+    // BlocProvider.of<PinTunnelBloc>(context)
+    //    .add(const SubscribeChannel(sensorId: 12345));
+    //}
+    if (timeFilter.toUpperCase() == "DAY") {
+      print(widget.mac_address);
       BlocProvider.of<PinTunnelBloc>(context)
-        .add(const SubscribeChannel(sensorId: 12345));
+          .add(GetDailyData(sensorId: int.parse(widget.mac_address)));
     }
-    if(timeFilter.toUpperCase() == "DAY"){
+    if (timeFilter.toUpperCase() == "WEEK") {
       BlocProvider.of<PinTunnelBloc>(context)
-        .add(const SubscribeDailyChannel(sensorId: 12345));
+          .add(GetWeeklyData(sensorId: int.parse(widget.mac_address)));
     }
-    if(timeFilter.toUpperCase() == "WEEK"){
+    if (timeFilter.toUpperCase() == "MONTH") {
       BlocProvider.of<PinTunnelBloc>(context)
-        .add(const SubscribeWeeklyChannel(sensorId: 12345));
-    }
-    if(timeFilter.toUpperCase() == "MONTH"){
-      BlocProvider.of<PinTunnelBloc>(context)
-        .add(const SubscribeMonthlyChannel(sensorId: 12345));
+          .add(GetMonthlyData(sensorId: int.parse(widget.mac_address)));
     }
     super.initState();
   }
@@ -58,6 +63,7 @@ class SplineDefaultState extends State<SplineDefault> {
     return BlocConsumer<PinTunnelBloc, PinTunnelState>(
       listener: (context, state) {},
       builder: (context, state) {
+        /*
         if (state is PayloadReceivedState &&
             timeFilter.toUpperCase() == "LIVE" &&
             state.payload != null) {
@@ -66,9 +72,9 @@ class SplineDefaultState extends State<SplineDefault> {
               DateTime dateTime = DateTime.parse(record['time']);
               chartData.add(
                 ChartData(
-                  DateTime(dateTime.year, dateTime.month, dateTime.day,
+                  dateTime: DateTime(dateTime.year, dateTime.month, dateTime.day,
                       dateTime.hour, dateTime.minute, dateTime.second),
-                  double.parse(
+                  value: double.parse(
                     record['data'].toString(),
                   ),
                 ),
@@ -78,95 +84,43 @@ class SplineDefaultState extends State<SplineDefault> {
             DateTime dateTime = DateTime.parse(state.payload['new']['time']);
             print("STATE PAYLOAD ${state.payload['new']['data']}");
             chartData.add(ChartData(
-                DateTime(dateTime.year, dateTime.month, dateTime.day,
+                dateTime: DateTime(dateTime.year, dateTime.month, dateTime.day,
                     dateTime.hour, dateTime.minute, dateTime.second),
-                state.payload['new']['data']));
+                value: state.payload['new']['data']));
         //    _chartSeriesController?.updateDataSource(
           //    addedDataIndexes: <int>[chartData.length - 1],
           //  );
           }
         }
+        */
 
-        if (state is DailyPayloadReceivedState &&
+        if (state is DailyDataReceivedState &&
             timeFilter.toUpperCase() == "DAY" &&
-            state.payload != null) {
-              print("SPLINE_DEFAULT: DAILY PAYLOAD ");
-           if (state.payload.containsKey('sensor_data')) {
-            for (var record in state.payload['sensor_data']) {
-              DateTime dateTime = DateTime.parse(record['created_at']);
-              chartData.add(ChartData(
-                  DateTime(dateTime.year, dateTime.month, dateTime.day,
-                      dateTime.hour, dateTime.minute, dateTime.second),
-                  double.parse(record['avg'].toString())));
-           //   _chartSeriesController?.updateDataSource(
-           //     addedDataIndexes: <int>[chartData.length - 1],
-            //  );
-            }
-            chartData.sort((a, b) => a.x.compareTo(b.x));
-          } else {
-            DateTime dateTime =
-                DateTime.parse(state.payload['new']['created_at']);
-            chartData.add(ChartData(
-                DateTime(dateTime.year, dateTime.month, dateTime.day,
-                    dateTime.hour, dateTime.minute, dateTime.second),
-                state.payload['new']['avg']));
-           // _chartSeriesController?.updateDataSource(
-          //    addedDataIndexes: <int>[chartData.length - 1],
-          //  );
+            state.data.isNotEmpty) {
+          print("SPLINE_DEFAULT: DAILY PAYLOAD ");
+          for (var record in state.data) {
+            chartData.add(record);
           }
+          //chartData.sort((a, b) => a.dateTime.compareTo(b.dateTime));
         }
 
-        if (state is WeeklyPayloadReceivedState &&
+        if (state is WeeklyDataReceivedState &&
             timeFilter.toUpperCase() == "WEEK" &&
-            state.payload != null) {
-          print("WEEKLY PAYLOAD SPLIE DEFAULT ${state.payload}");
-          if (state.payload.containsKey('sensor_data')) {
-            for (var record in state.payload['sensor_data']) {
-              DateTime dateTime = DateTime.parse(record['created_at']);
-              chartData.add(ChartData(
-                  DateTime(dateTime.year, dateTime.month, dateTime.day),
-                  double.parse(record['avg'].toString())));
-          //    _chartSeriesController?.updateDataSource(
-           //     addedDataIndexes: <int>[chartData.length - 1],
-          //    );
-            }
-            chartData.sort((a, b) => a.x.compareTo(b.x));
-          } else {
-            DateTime dateTime =
-                DateTime.parse(state.payload['new']['created_at']);
-            chartData.add(ChartData(
-                DateTime(dateTime.year, dateTime.month, dateTime.day),
-                state.payload['new']['avg']));
-          //  _chartSeriesController?.updateDataSource(
-          //    addedDataIndexes: <int>[chartData.length - 1],
-          //  );
+            state.data.isNotEmpty) {
+          for (var record in state.data) {
+            print("WEEKLY RECORD: ${record.dateTime}");
+            chartData.add(record);
           }
+          //chartData.sort((a, b) => a.dateTime.compareTo(b.dateTime));
         }
 
-        if (state is MonthlyPayloadReceivedState &&
+        if (state is MonthlyDataReceivedState &&
             timeFilter.toUpperCase() == "MONTH" &&
-            state.payload != null) {
-          if (state.payload.containsKey('sensor_data')) {
-            for (var record in state.payload['sensor_data']) {
-              DateTime dateTime = DateTime.parse(record['created_at']);
-              chartData.add(ChartData(
-                  DateTime(dateTime.year, dateTime.month),
-                  double.parse(record['avg'].toString())));
-           //   _chartSeriesController?.updateDataSource(
-          //      addedDataIndexes: <int>[chartData.length - 1],
-           //   );
-            }
-            chartData.sort((a, b) => a.x.compareTo(b.x));
-          } else {
-            DateTime dateTime =
-                DateTime.parse(state.payload['new']['created_at']);
-            chartData.add(ChartData(
-                DateTime(dateTime.year, dateTime.month),
-                state.payload['new']['avg']));
-          //  _chartSeriesController?.updateDataSource(
-          //    addedDataIndexes: <int>[chartData.length - 1],
-          ///  );
+            state.data.isNotEmpty) {
+          for (var record in state.data) {
+            chartData.add(record);
           }
+          //  chartData.sort((a, b) => a.dateTime.compareTo(b.dateTime));
         }
         return Scaffold(
           body: Center(
@@ -213,8 +167,8 @@ class SplineDefaultState extends State<SplineDefault> {
                           showCumulativeValues: true,
                           isVisible: true,
                           color: Colors.blue),
-                      xValueMapper: (ChartData data, _) => data.x,
-                      yValueMapper: (ChartData data, _) => data.y),
+                      xValueMapper: (ChartData data, _) => data.dateTime,
+                      yValueMapper: (ChartData data, _) => data.value),
                   //animationDuration: 1000
                 ],
               ),
@@ -224,10 +178,4 @@ class SplineDefaultState extends State<SplineDefault> {
       },
     );
   }
-}
-
-class ChartData {
-  ChartData(this.x, this.y);
-  final DateTime x;
-  final double y;
 }

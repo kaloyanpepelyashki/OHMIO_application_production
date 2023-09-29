@@ -8,8 +8,9 @@ import '../../widgets/top_bar_rotated_back_action.dart';
 
 class ChartFullScreenPage extends StatefulWidget {
   final Widget chartWidget;
+  final String mac_address;
 
-  const ChartFullScreenPage({required this.chartWidget, super.key});
+  const ChartFullScreenPage({required this.mac_address, required this.chartWidget, super.key});
 
   @override
   State<ChartFullScreenPage> createState() => _ChartFullScreenPageState();
@@ -130,7 +131,7 @@ class _ChartFullScreenPageState extends State<ChartFullScreenPage> {
     if(widget.chartWidget is SplineDefault){
       GlobalKey<SplineDefaultState> rangeAreaKey = GlobalKey<SplineDefaultState>();
       setState(() {
-        chartToDisplay = SplineDefault(key: rangeAreaKey, timeFilter: filter);
+        chartToDisplay = SplineDefault(key: rangeAreaKey, timeFilter: filter, mac_address: widget.mac_address,);
       });
     }
   }

@@ -1,7 +1,13 @@
 import 'package:dart_either/dart_either.dart';
 import 'package:pin_tunnel_application_production/features/feature/data/data_sources/supabase_service.dart';
+import 'package:pin_tunnel_application_production/features/feature/data/models/chart_data/daily_chart_data_dao.dart';
+import 'package:pin_tunnel_application_production/features/feature/data/models/chart_data/monthly_chart_data_dao.dart';
+import 'package:pin_tunnel_application_production/features/feature/data/models/chart_data/weekly_chart_data_dao.dart';
+import 'package:pin_tunnel_application_production/features/feature/data/models/latest_data_dao.dart';
 import 'package:pin_tunnel_application_production/features/feature/data/models/sensor_range_dao.dart';
 import 'package:pin_tunnel_application_production/features/feature/domain/entities/action_class.dart';
+import 'package:pin_tunnel_application_production/features/feature/domain/entities/chart_data.dart';
+import 'package:pin_tunnel_application_production/features/feature/domain/entities/latest_data.dart';
 import 'package:pin_tunnel_application_production/features/feature/domain/repository/i_pin_tunnel_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -21,9 +27,12 @@ class PinTunnelRepository implements IPinTunnelRepository {
       final response = await supabaseManager.supabaseClient
           .from('pintunnel_data')
           .select('''time, data''')
-          .eq('sensor_id', sensorId)
+          .eq('sensor_mac', sensorId)
           .order('time', ascending: false)
           .limit(10);
+
+      print(sensorId);
+      print("RESPONSE: $response");
       if (response != null) {
         onReceived({'sensor_data': response});
       }
@@ -46,132 +55,92 @@ class PinTunnelRepository implements IPinTunnelRepository {
   }
 
   @override
-  subscribeToMinuteData(int sensorId, Function(dynamic) onReceived) async {
-    SupabaseManager supabaseManager = SupabaseManager(
-        supabaseUrl: "https://wruqswjbhpvpikhgwade.supabase.co",
-        token:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndydXFzd2piaHB2cGlraGd3YWRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTI4MzA2NTIsImV4cCI6MjAwODQwNjY1Mn0.XxlesUi6c-Wi7HXidzVotr8DWzljWGvY4LY3BPD-0N0");
-    final response = await supabaseManager.supabaseClient
-        .from('per_minute_data')
-        .select('''created_at, avg''')
-        .eq('sensor_id', sensorId)
-        .order('created_at', ascending: false)
-        .limit(10);
-    if (response != null) {
-      onReceived({'sensor_data': response});
-    }
-
-    supabaseManager.supabaseClient.channel('*').on(
-      RealtimeListenTypes.postgresChanges,
-      ChannelFilter(
-          event: '*',
-          schema: '*',
-          table: 'per_minute_data',
-          filter: 'sensor_id=eq.$sensorId'),
-      (payload, [ref]) {
-        print('Minute payload received: ${payload.toString()}');
-        onReceived(payload);
-      },
-    ).subscribe();
-  }
-
-  @override
-  subscribeToHourlyData(int sensorId, Function(dynamic) onReceived) async {
+  Future<Either<Failure, LatestData>> getLatestData(int sensorMac) async {
     SupabaseManager supabaseManager = SupabaseManager(
         supabaseUrl: "https://wruqswjbhpvpikhgwade.supabase.co",
         token:
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndydXFzd2piaHB2cGlraGd3YWRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTI4MzA2NTIsImV4cCI6MjAwODQwNjY1Mn0.XxlesUi6c-Wi7HXidzVotr8DWzljWGvY4LY3BPD-0N0");
 
-    final response = await supabaseManager.supabaseClient
-        .from('hourly_data')
-        .select('''created_at, avg''')
-        .eq('sensor_id', sensorId)
-        .order('created_at', ascending: false)
-        .limit(10);
-    if (response != null) {
-      onReceived({'sensor_data': response});
-    }
-
-    supabaseManager.supabaseClient.channel('*').on(
-      RealtimeListenTypes.postgresChanges,
-      ChannelFilter(
-          event: '*',
-          schema: '*',
-          table: 'hourly_data',
-          filter: 'sensor_id=eq.$sensorId'),
-      (payload, [ref]) {
-        //print('Change received: ${payload.toString()}');
-        onReceived(payload);
-      },
-    ).subscribe();
-  }
-
-  @override
-  subscribeToDailyData(int sensorId, Function(dynamic) onReceived) async {
-    SupabaseManager supabaseManager = SupabaseManager(
-        supabaseUrl: "https://wruqswjbhpvpikhgwade.supabase.co",
-        token:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndydXFzd2piaHB2cGlraGd3YWRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTI4MzA2NTIsImV4cCI6MjAwODQwNjY1Mn0.XxlesUi6c-Wi7HXidzVotr8DWzljWGvY4LY3BPD-0N0");
-
-    final response = await supabaseManager.supabaseClient
+    try {
+      final response = await supabaseManager.supabaseClient
         .from('daily_data')
-        .select('''created_at, avg''')
-        .eq('sensor_id', sensorId)
-        .order('created_at', ascending: false)
-        .limit(10);
-    if (response != null) {
-      onReceived({'sensor_data': response});
+        .select('''created_at, avg, sensor_id''')
+        .eq('sensor_id', sensorMac)
+        .limit(1);
+      final latestData = LatestDataDao.fromJSON(response[0]);
+      return Right(latestData);
+    } catch (e) {
+      return const Left(
+          NotFoundFailure(message: "Daily data not found", statusCode: 404));
     }
-
-    supabaseManager.supabaseClient.channel('*').on(
-      RealtimeListenTypes.postgresChanges,
-      ChannelFilter(
-          event: '*',
-          schema: '*',
-          table: 'daily_data',
-          filter: 'sensor_id=eq.$sensorId'),
-      (payload, [ref]) {
-        //print('Change received: ${payload.toString()}');
-        onReceived(payload);
-      },
-    ).subscribe();
   }
 
-
   @override
-  subscribeToWeeklyData(int sensorId, Function(dynamic) onReceived) async {
+  Future<Either<Failure, List<ChartData>>> getDailyData(int sensorMac) async {
     SupabaseManager supabaseManager = SupabaseManager(
         supabaseUrl: "https://wruqswjbhpvpikhgwade.supabase.co",
         token:
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndydXFzd2piaHB2cGlraGd3YWRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTI4MzA2NTIsImV4cCI6MjAwODQwNjY1Mn0.XxlesUi6c-Wi7HXidzVotr8DWzljWGvY4LY3BPD-0N0");
-    print("SENSOR ID IN SUBSCRIBETOWEEKLYDATA: $sensorId");
+
+    try {
+      final response = await supabaseManager.supabaseClient
+          .from('daily_data')
+          .select('''created_at, avg''')
+          .eq('sensor_id', sensorMac)
+          .order('created_at', ascending: false);
+
+      print("RESPONSE FROM DAILY DATA: $response");
+      List<ChartData> chartDataList = [];
+      for (int index = 0; index < response.length; index++) {
+        final chartData =
+            DailyChartDataDao.fromJSON(response[index] as Map<String, dynamic>);
+        chartDataList.add(chartData);
+      }
+      if (chartDataList.isNotEmpty) {
+        return Right(chartDataList);
+      }
+
+      return const Left(
+          NotFoundFailure(message: "Daily data not found", statusCode: 404));
+    } catch (e) {
+      print(e);
+      return const Left(
+          NotFoundFailure(message: "Unknown exception", statusCode: 404));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<ChartData>>> getWeeklyData(int sensorMac) async {
+    SupabaseManager supabaseManager = SupabaseManager(
+        supabaseUrl: "https://wruqswjbhpvpikhgwade.supabase.co",
+        token:
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndydXFzd2piaHB2cGlraGd3YWRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTI4MzA2NTIsImV4cCI6MjAwODQwNjY1Mn0.XxlesUi6c-Wi7HXidzVotr8DWzljWGvY4LY3BPD-0N0");
+    print("SENSOR ID IN SUBSCRIBETOWEEKLYDATA: $sensorMac");
 
     final response = await supabaseManager.supabaseClient
         .from('weekly_data')
         .select('''created_at, avg''')
-        .eq('sensor_id', sensorId)
-        .order('created_at', ascending: false)
-        .limit(10);
-    if (response != null) {
-      onReceived({'sensor_data': response});
-    }
+        .eq('sensor_id', sensorMac)
+        .order('created_at', ascending: false);
 
-    supabaseManager.supabaseClient.channel('*').on(
-      RealtimeListenTypes.postgresChanges,
-      ChannelFilter(
-          event: '*',
-          schema: '*',
-          table: 'weekly_data',
-          filter: 'sensor_id=eq.$sensorId'),
-      (payload, [ref]) {
-        //print('Change received: ${payload.toString()}');
-        onReceived(payload);
-      },
-    ).subscribe();
+    print("WEEKLY DATA RESPONSE: $response");
+
+    List<ChartData> chartDataList = [];
+    for (int index = 0; index < response.length; index++) {
+      final chartData =
+          WeeklyChartDataDao.fromJSON(response[index] as Map<String, dynamic>);
+      chartDataList.add(chartData);
+    }
+    print("WEEKLY CHART DATA LIST - $chartDataList");
+    if (chartDataList.isNotEmpty) {
+      return Right(chartDataList);
+    }
+    return Left(
+        NotFoundFailure(message: "Weekly data not found", statusCode: 404));
   }
 
   @override
-  subscribeToMonthlyData(int sensorId, Function(dynamic) onReceived) async {
+  Future<Either<Failure, List<ChartData>>> getMonthlyData(int sensorMac) async {
     SupabaseManager supabaseManager = SupabaseManager(
         supabaseUrl: "https://wruqswjbhpvpikhgwade.supabase.co",
         token:
@@ -180,25 +149,20 @@ class PinTunnelRepository implements IPinTunnelRepository {
     final response = await supabaseManager.supabaseClient
         .from('monthly_data')
         .select('''created_at, avg''')
-        .eq('sensor_id', sensorId)
-        .order('created_at', ascending: false)
-        .limit(10);
-    if (response != null) {
-      onReceived({'sensor_data': response});
-    }
+        .eq('sensor_id', sensorMac)
+        .order('created_at', ascending: false);
 
-    supabaseManager.supabaseClient.channel('*').on(
-      RealtimeListenTypes.postgresChanges,
-      ChannelFilter(
-          event: '*',
-          schema: '*',
-          table: 'monthly_data',
-          filter: 'sensor_id=eq.$sensorId'),
-      (payload, [ref]) {
-        //print('Change received: ${payload.toString()}');
-        onReceived(payload);
-      },
-    ).subscribe();
+    List<ChartData> chartDataList = [];
+    for (int index = 0; index < response.length; index++) {
+      final chartData =
+          DailyChartDataDao.fromJSON(response[index] as Map<String, dynamic>);
+      chartDataList.add(chartData);
+    }
+    if (chartDataList.isNotEmpty) {
+      return Right(chartDataList);
+    }
+    return Left(
+        NotFoundFailure(message: "Monthly data not found", statusCode: 404));
   }
 
   @override
@@ -241,18 +205,19 @@ class PinTunnelRepository implements IPinTunnelRepository {
             message: "ClientId not found for given email", statusCode: 404));
       }
 
-      final pintunnelData = (await client
-          .from('pintunnel')
-          .select('''id, mac_address''').eq('user_id', clientId[0]['id']));
+      print(clientId[0]['id']);
+/*
+      final pintunnelData = (await client.from('pintunnel').select('''mac_address''').eq('user_id','e7a9f8ae-b687-450f-8a1b-894634877df7'));
 
       print("PINTUNNEL DATA IN pintunnel_repository: $pintunnelData");
-      if (pintunnelData.isEmpty || pintunnelData == null) {
+      if (pintunnelData.isEmpty) {
         return Left(NotFoundFailure(
             message: "Pintunnel not found for given email", statusCode: 404));
       }
-
-      final sensorData = (await client.from('sensor').select(
-          '''cfg_code, id''').eq('pintunnel_id', pintunnelData[0]['id']));
+*/
+      final sensorData = (await client
+          .from('sensor')
+          .select('''cfg_code, sensor_mac''').eq('mac_address', '123456789'));
       print("SENSOR DATA $sensorData");
       if (sensorData.isEmpty || sensorData == null) {
         return Left(
@@ -268,9 +233,11 @@ class PinTunnelRepository implements IPinTunnelRepository {
               'cfg_code', cfgCodes);
 
       List<SensorClass> sensorClassList = [];
-      data.forEach((i) => {
-            sensorClassList.add(SensorDAO.fromJSON(i as Map<String, dynamic>)),
-          });
+      for (int index = 0; index < data.length; index++) {
+        final sensor = SensorDAO.fromJSON(data[index] as Map<String, dynamic>);
+        sensor.sensorMac = sensorData[index]['sensor_mac'].toString();
+        sensorClassList.add(sensor);
+      }
       if (sensorClassList.isNotEmpty) {
         return Right(sensorClassList);
       }

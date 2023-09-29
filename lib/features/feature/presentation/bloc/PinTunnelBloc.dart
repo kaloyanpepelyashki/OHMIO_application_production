@@ -28,39 +28,15 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
       add(PayloadReceived(payload: payload));
     });
 
-    minutePayloadController.stream.listen((payload) {
-      add(MinutePayloadReceived(payload: payload));
-    });
-
-    hourlyPayloadController.stream.listen((payload) {
-      add(HourlyPayloadReceived(payload: payload));
-    });
-
-    dailyPayloadController.stream.listen((payload) {
-      add(DailyPayloadReceived(payload: payload));
-    });
-
-    weeklyPayloadController.stream.listen((payload) {
-      add(WeeklyPayloadReceived(payload: payload));
-    });
-
-    monthlyPayloadController.stream.listen((payload) {
-      add(MonthlyPayloadReceived(payload: payload));
-    });
-
     on<SubscribeChannel>(_onSubscribeChannel);
-    on<SubscribeMinuteChannel>(_onSubscribeMinuteChannel);
-    on<SubscribeHourlyChannel>(_onSubscribeHourlyChannel);
-    on<SubscribeDailyChannel>(_onSubscribeDailyChannel);
-    on<SubscribeWeeklyChannel>(_onSubscribeWeeklyChannel);
-    on<SubscribeMonthlyChannel>(_onSubscribeMonthlyChannel);
+
+    on<GetLatestData>(_onGetLatestData);
+
+    on<GetDailyData>(_onGetDailyData);
+    on<GetWeeklyData>(_onGetWeeklyData);
+    on<GetMonthlyData>(_onGetMonthlyData);
 
     on<PayloadReceived>(_onPayloadReceived);
-    on<MinutePayloadReceived>(_onMinutePayloadReceived);
-    on<HourlyPayloadReceived>(_onHourlyPayloadReceived);
-    on<DailyPayloadReceived>(_onDailyPayloadReceived);
-    on<WeeklyPayloadReceived>(_onWeeklyPayloadReceived);
-    on<MonthlyPayloadReceived>(_onMonthlyPayloadReceived);
 
     on<GetSensorRange>(_onGetSensorRange);
     on<GetSensorsForUser>(_onGetSensorsForUser);
@@ -72,105 +48,69 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
     Emitter<PinTunnelState> emit,
   ) async {
     subscribeChannelLogic.subscribeToChannel(event.sensorId, (payload) {
-      //print("change received: ${jsonEncode(payload)}");
-      payloadController.sink.add(payload);
+      if(payload != []){
+        print("change received: ${jsonEncode(payload)[0]}");
+        payloadController.sink.add(payload);
+      }
     });
   }
 
-  void _onSubscribeMinuteChannel(
-    SubscribeMinuteChannel event,
+  void _onGetLatestData(
+    GetLatestData event,
     Emitter<PinTunnelState> emit,
   ) async {
-    subscribeChannelLogic.subscribeToMinuteData(event.sensorId, (payload) {
-      minutePayloadController.sink.add(payload);
-    });
+    final data = await subscribeChannelLogic.getLatestData(event.sensorMac);
+    data.fold(
+      ifLeft: (value)=>print(value),
+      ifRight: (value)=>{
+        print("Latest data received state $value"),
+        emit(LatestDataReceivedState(value))});
   }
 
-  void _onSubscribeHourlyChannel(
-    SubscribeHourlyChannel event,
+  void _onGetDailyData(
+    GetDailyData event,
     Emitter<PinTunnelState> emit,
   ) async {
-    subscribeChannelLogic.subscribeToHourlyData(event.sensorId, (payload) {
-//print("change received: ${jsonEncode(payload)}");
-      hourlyPayloadController.sink.add(payload);
-    });
+    final data = await subscribeChannelLogic.getDailyData(event.sensorId);
+    data.fold(
+      ifLeft: (value)=>print(value),
+      ifRight: (value)=>{
+        print("DAILY DATA RCEIVED STATE $value"),
+        emit(DailyDataReceivedState(value))});
   }
 
-  void _onSubscribeDailyChannel(
-    SubscribeDailyChannel event,
+  void _onGetWeeklyData(
+    GetWeeklyData event,
     Emitter<PinTunnelState> emit,
   ) async {
-    subscribeChannelLogic.subscribeToDailyData(event.sensorId, (payload) {
-//print("change received: ${jsonEncode(payload)}");
-      dailyPayloadController.sink.add(payload);
-    });
+    final data = await subscribeChannelLogic.getWeeklyData(event.sensorId);
+    data.fold(
+      ifLeft: (value)=>print(value),
+      ifRight: (value)=>{
+        print("WEEKLY DATA RECEIVED STATE $value"),
+        emit(WeeklyDataReceivedState(value))});
   }
 
-  void _onSubscribeWeeklyChannel(
-    SubscribeWeeklyChannel event,
+  void _onGetMonthlyData(
+    GetMonthlyData event,
     Emitter<PinTunnelState> emit,
   ) async {
-    subscribeChannelLogic.subscribeToWeeklyData(event.sensorId, (payload) {
-      weeklyPayloadController.sink.add(payload);
-    });
-  }
-
-  void _onSubscribeMonthlyChannel(
-    SubscribeMonthlyChannel event,
-    Emitter<PinTunnelState> emit,
-  ) async {
-    subscribeChannelLogic.subscribeToMonthlyData(event.sensorId, (payload) {
-      monthlyPayloadController.sink.add(payload);
-    });
+    final data = await subscribeChannelLogic.getMonthlyData(event.sensorId);
+    data.fold(
+      ifLeft: (value)=> print(value),
+      ifRight: (value)=>{ emit(MonthlyDataReceivedState(value))},
+    );
   }
 
   void _onPayloadReceived(
     PayloadReceived event,
     Emitter<PinTunnelState> emit,
   ) {
-    print("EVENT.PAYLOAD ${event.payload}");
-    emit(PayloadReceivedState(event.payload));
+    if(event.payload!=[]){
+      print("EVENT.PAYLOAD ${event.payload[0]}");
+      emit(PayloadReceivedState(event.payload));
+    }
     // print('payloadReceived emmited $event.payload');
-  }
-
-  void _onMinutePayloadReceived(
-    MinutePayloadReceived event,
-    Emitter<PinTunnelState> emit,
-  ) {
-    emit(MinutePayloadReceivedState(event.payload));
-    print('minutePayloadReceivedState emmited ${event.payload}');
-  }
-
-  void _onHourlyPayloadReceived(
-    HourlyPayloadReceived event,
-    Emitter<PinTunnelState> emit,
-  ) {
-    emit(HourlyPayloadReceivedState(event.payload));
-    print('hourlyPayloadReceivedState emmited ${event.payload}');
-  }
-
-  void _onDailyPayloadReceived(
-    DailyPayloadReceived event,
-    Emitter<PinTunnelState> emit,
-  ) {
-    emit(DailyPayloadReceivedState(event.payload));
-    print('dailyPayloadReceivedState emmited $event.payload');
-  }
-
-  void _onWeeklyPayloadReceived(
-    WeeklyPayloadReceived event,
-    Emitter<PinTunnelState> emit,
-  ) {
-    emit(WeeklyPayloadReceivedState(event.payload));
-    print('weeklyPayloadReceivedState emmited $event.payload');
-  }
-
-  void _onMonthlyPayloadReceived(
-    MonthlyPayloadReceived event,
-    Emitter<PinTunnelState> emit,
-  ) {
-    emit(MonthlyPayloadReceivedState(event.payload));
-    print('monthlyPayloadReceivedState emmited $event.payload');
   }
 
   void _onGetSensorRange(

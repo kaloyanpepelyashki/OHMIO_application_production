@@ -74,10 +74,12 @@ class _DashboardSensorWidgetState extends State<DashboardSensorWidget> {
                   if (sensorItems.isNotEmpty)
                     for (final el in sensorItems)
                       GridItem(
+                        id: int.parse(el.sensorMac!),
                         isActuator: el.isActuator!,
                         sensorName: el.sensorName,
                         sensorImage: el.sensorImage,
                         sensorDescription: el.sensorDescription!,
+                        latestValue: el.latestValue == null ? 0 : el.latestValue,
                       ),
                   DottedBorder(
 

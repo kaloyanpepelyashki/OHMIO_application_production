@@ -1,4 +1,6 @@
 import 'package:dart_either/dart_either.dart';
+import 'package:pin_tunnel_application_production/features/feature/domain/entities/chart_data.dart';
+import 'package:pin_tunnel_application_production/features/feature/domain/entities/latest_data.dart';
 import 'package:pin_tunnel_application_production/features/feature/domain/entities/sensor_class.dart';
 
 import '../../../../core/errors/failure.dart';
@@ -8,11 +10,10 @@ import '../entities/action_class.dart';
 
 abstract class IPinTunnelRepository{
   subscribeToChannel(int sensorId, Function(dynamic) onReceived);
-  subscribeToMinuteData(int sensorId, Function(dynamic) onReceived);
-  subscribeToHourlyData(int sensorId, Function(dynamic) onReceived);
-  subscribeToDailyData(int sensorId, Function(dynamic) onReceived);
-  subscribeToWeeklyData(int sensorId, Function(dynamic) onReceived);
-  subscribeToMonthlyData(int sensorId, Function(dynamic) onReceived);
+  Future<Either<Failure, LatestData>> getLatestData(int sensorMac);
+  Future<Either<Failure, List<ChartData>>> getDailyData(int sensorId);
+  Future<Either<Failure, List<ChartData>>> getWeeklyData(int sensorId);
+  Future<Either<Failure, List<ChartData>>> getMonthlyData(int sensorId);
   Future<Either<Failure,SensorRangeDAO>> getRangeForSensor(int sensorId);
   Future<Either<Failure, List<SensorClass>>> getSensorsForUser(String email);
   void addAction(ActionClass actionClass);

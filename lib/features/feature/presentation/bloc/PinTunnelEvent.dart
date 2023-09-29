@@ -18,46 +18,34 @@ class SubscribeChannel extends PinTunnelEvent{
   List<Object> get props => [sensorId];
 }
 
-class SubscribeMinuteChannel extends PinTunnelEvent{
+class GetLatestData extends PinTunnelEvent{
+  final int sensorMac;
+
+  const GetLatestData({required this.sensorMac});
+}
+
+class GetDailyData extends PinTunnelEvent{
   final int sensorId;
 
-  const SubscribeMinuteChannel({required this.sensorId});
+  const GetDailyData({required this.sensorId});
 
   @override
   List<Object> get props => [sensorId];
 }
 
-class SubscribeHourlyChannel extends PinTunnelEvent{
+class GetWeeklyData extends PinTunnelEvent{
   final int sensorId;
 
-  const SubscribeHourlyChannel({required this.sensorId});
+  const GetWeeklyData({required this.sensorId});
 
   @override
   List<Object> get props => [sensorId];
 }
 
-class SubscribeDailyChannel extends PinTunnelEvent{
+class GetMonthlyData extends PinTunnelEvent{
   final int sensorId;
 
-  const SubscribeDailyChannel({required this.sensorId});
-
-  @override
-  List<Object> get props => [sensorId];
-}
-
-class SubscribeWeeklyChannel extends PinTunnelEvent{
-  final int sensorId;
-
-  const SubscribeWeeklyChannel({required this.sensorId});
-
-  @override
-  List<Object> get props => [sensorId];
-}
-
-class SubscribeMonthlyChannel extends PinTunnelEvent{
-  final int sensorId;
-
-  const SubscribeMonthlyChannel({required this.sensorId});
+  const GetMonthlyData({required this.sensorId});
 
   @override
   List<Object> get props => [sensorId];
@@ -68,24 +56,6 @@ class PayloadReceived extends PinTunnelEvent {
   final Map<String, dynamic> payload;
 
   const PayloadReceived({required this.payload});
-
-  @override
-  List<Object> get props => [payload];
-}
-
-class MinutePayloadReceived extends PinTunnelEvent {
-  final Map<String, dynamic> payload;
-
-  const MinutePayloadReceived({required this.payload});
-
-  @override
-  List<Object> get props => [payload];
-}
-
-class HourlyPayloadReceived extends PinTunnelEvent {
-  final Map<String, dynamic> payload;
-
-  const HourlyPayloadReceived({required this.payload});
 
   @override
   List<Object> get props => [payload];

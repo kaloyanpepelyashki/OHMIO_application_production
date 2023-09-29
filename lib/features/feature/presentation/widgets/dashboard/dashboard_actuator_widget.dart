@@ -13,7 +13,10 @@ import 'grid_item_component.dart';
 class DashboardActuatorWidget extends StatefulWidget {
   final Function onActuatorLoaded;
   final List<SensorClass> actuatorElements;
-  const DashboardActuatorWidget({required this.onActuatorLoaded, required this.actuatorElements, super.key});
+  const DashboardActuatorWidget(
+      {required this.onActuatorLoaded,
+      required this.actuatorElements,
+      super.key});
 
   @override
   State<DashboardActuatorWidget> createState() =>
@@ -21,7 +24,7 @@ class DashboardActuatorWidget extends StatefulWidget {
 }
 
 class _DashboardActuatorWidgetState extends State<DashboardActuatorWidget> {
-   List<SensorClass> actuatorItems = [];
+  List<SensorClass> actuatorItems = [];
 
   @override
   void initState() {
@@ -50,7 +53,6 @@ class _DashboardActuatorWidgetState extends State<DashboardActuatorWidget> {
         */
       },
       builder: (context, state) {
-        
         return Expanded(
           child: CustomScrollView(primary: false, slivers: [
             SliverPadding(
@@ -60,7 +62,7 @@ class _DashboardActuatorWidgetState extends State<DashboardActuatorWidget> {
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
                 //set size of grid item
-                childAspectRatio: 3/4,
+                childAspectRatio: 3 / 4,
                 children: [
                   if (actuatorItems.isNotEmpty)
                     for (final el in actuatorItems)
@@ -69,29 +71,32 @@ class _DashboardActuatorWidgetState extends State<DashboardActuatorWidget> {
                         sensorDescription: el.sensorDescription,
                         sensorImage: el.sensorImage,
                         sensorName: el.sensorName,
+                        latestValue: el.latestValue == null ? 0 : el.latestValue,
                       ),
                   DottedBorder(
-
                     strokeWidth: 1,
+                    radius: Radius.circular(20),
                     padding: EdgeInsets.all(4),
                     child: Container(
-                      color:const Color(0xFFF1F1F1),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: const Color(0xFFF1F1F1),
+                      ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                  
-                            Container(
-                              width: 90,
-                              height: 90,
-                              child: IconButton(
-                                icon: const FaIcon(FontAwesomeIcons.plus,
-                                    size: 90,
-                                    color: Colors.black),
-                                onPressed: () =>
-                                    {GoRouter.of(context).push("/chooseSensorPage")},
-                              ),
+                          Container(
+                            width: 90,
+                            height: 90,
+                            child: IconButton(
+                              icon: const FaIcon(FontAwesomeIcons.plus,
+                                  size: 90, color: Colors.black),
+                              onPressed: () => {
+                                GoRouter.of(context).push("/chooseSensorPage")
+                              },
                             ),
-                            SizedBox(height: 20),
+                          ),
+                          SizedBox(height: 20),
                           const Text("Add New Device",
                               style: TextStyle(fontSize: 20)),
                         ],

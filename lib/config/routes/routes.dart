@@ -13,6 +13,8 @@ import 'package:pin_tunnel_application_production/features/feature/presentation/
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/sensor_connect_guide/pintunnel_tutorial_first_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/sensor_connect_guide/pintunnel_tutorial_second_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/sensor_page/chart_full_screen_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/sensor_page/dependency_choose_sensor.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/sensor_page/dependency_condition_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/sensor_page/sensor_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/authentication/signup_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/authentication/user_onboarding_personal.dart';
@@ -91,11 +93,12 @@ GoRouter router = GoRouter(initialLocation: "/", routes: <GoRoute>[
         );
       }),
   GoRoute(
-      path: "/sensorPage",
+      path: "/sensorPage/:id",
+      name: "sensorPage",
       builder: (BuildContext context, GoRouterState state) {
         return BlocProvider.value(
           value: BlocProvider.of<PinTunnelBloc>(context),
-          child: const SensorPage(),
+          child: SensorPage(mac_address: state.pathParameters['id'],),
         );
       }),
   GoRoute(
@@ -139,7 +142,18 @@ GoRouter router = GoRouter(initialLocation: "/", routes: <GoRoute>[
       path: "/pintunnelTutorialSecondPage",
       builder: (BuildContext context, GoRouterState state) {
         return const PintunnelTutorialSecondPage();
-      })
+      }),
+  GoRoute(
+      path: "/dependencyChooseSensor",
+      builder: (BuildContext context, GoRouterState state) {
+        return const DependencyChooseSensor();
+      }),
+  GoRoute(
+      path: "/dependencyCondition",
+      name: "dependencyCondition",
+      builder: (BuildContext context, GoRouterState state) {
+        return const DependencyConditionPage();
+      }),
 ]);
 
 void clearNavigationStack(context, String path) {

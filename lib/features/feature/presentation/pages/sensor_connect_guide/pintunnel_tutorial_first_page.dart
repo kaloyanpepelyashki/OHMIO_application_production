@@ -26,7 +26,7 @@ class PintunnelTutorialFirstPage extends StatelessWidget {
             height: 260,
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(0,10,10,0),
+            padding: const EdgeInsets.fromLTRB(0, 10, 10, 0),
             child: Text(
               "Press the button to see the information of sensor in detail",
               textAlign: TextAlign.center,
