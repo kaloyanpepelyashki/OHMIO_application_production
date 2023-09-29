@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelBloc.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelEvent.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/inputField_with_heading.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../data/data_sources/supabase_service.dart';
@@ -89,21 +90,19 @@ class _LogInComponentState extends State<LogInPage> {
                       child: Column(children: [
                         Container(
                             margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                            child: TextField(
-                                //key for testing purpose
-                                key: const Key('emailField'),
-                                controller: _emailController,
-                                decoration: const InputDecoration(
-                                    hintText: "Email",
-                                    enabledBorder: OutlineInputBorder()))),
+                            child: InputFieldWithHeading(
+                              key: Key("emailField"),
+                              controller: _emailController,
+                              placeHolder: "Email",
+                              obscureText: false,
+                            )),
                         Container(
                             margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                            child: TextField(
-                                key: const Key('passwordField'),
+                            child: InputFieldWithHeading(
+                                key: Key("passwordField"),
                                 controller: _passwordController,
-                                decoration: const InputDecoration(
-                                    hintText: "Password",
-                                    enabledBorder: OutlineInputBorder())))
+                                placeHolder: "Password",
+                                obscureText: true))
                       ])),
                   Container(
                       margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),

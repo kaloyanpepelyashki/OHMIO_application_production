@@ -63,16 +63,17 @@ class _OnBoardingPersonalDataPageState
         final uploadResult = await uploadToDatabase();
         uploadResult.fold(
             ifLeft: (l) => {
-                  populateUserProfile(),
-                  GoRouter.of(context).go("/signup/onboarding-username")
-                },
-            ifRight: (r) => {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text("Please fill out all fields"),
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text("$l"),
                     backgroundColor: Color.fromARGB(156, 255, 1, 1),
                   ))
+                },
+            ifRight: (r) => {
+                  populateUserProfile(),
+                  GoRouter.of(context).go("/signup/onboarding-username")
                 });
-      } else {
+      } else if (_nameController.text.isEmpty &&
+          _lastNameController.text.isEmpty) {
         //If the input field haven't been filled out by the user it throws an alert on screen
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text("Please fill out all fields"),
@@ -121,6 +122,7 @@ class _OnBoardingPersonalDataPageState
                                 controller: _nameController,
                                 heading: "A little bit about you",
                                 placeHolder: "Name",
+                                obscureText: false,
                               )),
                           Container(
                               margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),

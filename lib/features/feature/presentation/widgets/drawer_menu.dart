@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../data/data_sources/supabase_service.dart';
 
-
 class DrawerMenuComponent extends StatelessWidget {
   const DrawerMenuComponent({super.key});
 
@@ -24,36 +23,31 @@ class DrawerMenuComponent extends StatelessWidget {
         child: Column(children: [
       const DrawerHeader(child: Text("header")),
       Expanded(
-        child: ListView(padding: const EdgeInsets.fromLTRB(45, 10, 0, 0), children: [
-          Padding(
-              padding: const EdgeInsets.fromLTRB(0, 20, 0, 50),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ElevatedButton(
-                      child: const Text("Go"),
-                      onPressed: () {
-                        GoRouter.of(context)
-                            .go("/signup/onboarding-personal-data");
-                      },
-                    ),
-                    const Text("Test list item",
-                        style: TextStyle(
-                          fontSize: 20,
-                        )),
-                    const Text("Second test list item",
-                        style: TextStyle(
-                          fontSize: 20,
-                        ))
-                  ])),
-          InkWell(
-            onTap: handleSignOut,
-            child: const Text("Log out",
-                style: TextStyle(
-                  fontSize: 20,
-                )),
-          )
-        ]),
+        child: ListView(
+            padding: const EdgeInsets.fromLTRB(45, 10, 0, 0),
+            children: [
+              Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 50),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text("Test list item",
+                            style: TextStyle(
+                              fontSize: 20,
+                            )),
+                        const Text("Second test list item",
+                            style: TextStyle(
+                              fontSize: 20,
+                            ))
+                      ])),
+              InkWell(
+                onTap: handleSignOut,
+                child: const Text("Log out",
+                    style: TextStyle(
+                      fontSize: 20,
+                    )),
+              )
+            ]),
       )
     ]));
   }

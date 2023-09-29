@@ -76,11 +76,13 @@ class _LogInPageGhostState extends State<LogInPageGhost> {
                               controller: _emailController,
                               heading: "Let's log you in",
                               placeHolder: "Email",
+                              obscureText: false,
                             )),
                         Container(
                             margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                             child: TextField(
                                 controller: _passwordController,
+                                obscureText: true,
                                 decoration: const InputDecoration(
                                     hintText: "Password",
                                     enabledBorder: OutlineInputBorder())))

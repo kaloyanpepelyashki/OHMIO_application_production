@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/elevated_button_component.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/inputField_with_heading.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_back_action.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -85,26 +86,24 @@ class _SignUpComponentState extends State<SignUpPage> {
                             //<=== | Text fields | ===>
                             Container(
                                 margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                                child: TextField(
-                                    controller: _emailController,
-                                    decoration: const InputDecoration(
-                                        hintText: "Email",
-                                        enabledBorder: OutlineInputBorder()))),
-
+                                child: InputFieldWithHeading(
+                                  controller: _emailController,
+                                  placeHolder: "Email",
+                                  obscureText: false,
+                                )),
                             Container(
                                 margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                                child: TextField(
+                                child: InputFieldWithHeading(
                                     controller: _passwordController,
-                                    decoration: const InputDecoration(
-                                        hintText: "Password",
-                                        enabledBorder: OutlineInputBorder()))),
+                                    placeHolder: "* Password",
+                                    obscureText: true)),
                             Container(
                                 margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                                child: TextField(
-                                    controller: _repeatPasswordController,
-                                    decoration: const InputDecoration(
-                                        hintText: "Repeat Password",
-                                        enabledBorder: OutlineInputBorder())))
+                                child: InputFieldWithHeading(
+                                  controller: _repeatPasswordController,
+                                  placeHolder: "* Repeat password",
+                                  obscureText: true,
+                                ))
                           ],
                         ),
                       ),
