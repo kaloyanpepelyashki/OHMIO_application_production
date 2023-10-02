@@ -32,12 +32,12 @@ class _OnBoardingPersonalDataPageState
     try {
       tz.Location utc = tz.getLocation('UTC');
       await supabaseManager.supabaseClient.from("profiles").update({
-        "email": supabaseManager.user?.email,
+        "email": _session!.user.email,
         "first_name": _nameController.text.trim(),
         "last_name": _lastNameController.text.trim(),
         "updated_at": tz.TZDateTime.from(DateTime.now(), utc).toIso8601String(),
-      }).eq("id", supabaseManager.user?.id);
-      return const Either.right(null);
+      }).eq("id", supabaseManager.supabaseSession!.user.id);
+      return const Right(Future);
     } catch (e) {
       debugPrint(e.toString());
       return Either.left(

@@ -28,13 +28,16 @@ class _RetreiveTunnelMACPageState extends State<RetreiveTunnelMACPage> {
     try {
       final databaseResponse = await supabaseManager.supabaseClient
           .from("pintunnel")
-          .select()
+          .select('''mac_address''')
           .eq("mac_address", _macAddressController.text);
+
+      print(_macAddressController.text);
+      print("DATABASE RESPONSE $databaseResponse");
 
       if (databaseResponse.length == 0) {
         return Either.left(Exception("No device with such a MAC address"));
       } else {
-        pinTunnelID = databaseResponse[0]["id"];
+        pinTunnelID = databaseResponse[0]["mac_address"];
         return Either.right(databaseResponse.length > 0);
       }
     } on SocketException {
@@ -55,9 +58,9 @@ class _RetreiveTunnelMACPageState extends State<RetreiveTunnelMACPage> {
                 if (r)
                   {
                     await supabaseManager.supabaseClient
-                        .from("profiles")
-                        .update({"pintunnel_id": pinTunnelID}).eq(
-                            "id", _session?.user.id),
+                        .from("pintunnel")
+                        .update({"user_id": _session?.user.id}).eq(
+                            "mac_address", pinTunnelID),
                     GoRouter.of(context).go("/dashboard/:email")
                   }
               },
