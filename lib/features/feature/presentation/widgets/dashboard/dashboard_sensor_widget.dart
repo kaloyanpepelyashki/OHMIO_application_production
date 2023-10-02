@@ -14,14 +14,14 @@ class DashboardSensorWidget extends StatefulWidget {
   final Function onSensorLoaded;
   final List<SensorClass> sensorElements;
 
-  const DashboardSensorWidget({required this.onSensorLoaded, required this.sensorElements, super.key});
+  const DashboardSensorWidget(
+      {required this.onSensorLoaded, required this.sensorElements, super.key});
 
   @override
   State<DashboardSensorWidget> createState() => _DashboardSensorWidgetState();
 }
 
 class _DashboardSensorWidgetState extends State<DashboardSensorWidget> {
-
   List<SensorClass> sensorItems = [];
 
   @override
@@ -32,7 +32,7 @@ class _DashboardSensorWidgetState extends State<DashboardSensorWidget> {
   }
 
   @override
-  void dispose(){
+  void dispose() {
     super.dispose();
   }
 
@@ -61,7 +61,9 @@ class _DashboardSensorWidgetState extends State<DashboardSensorWidget> {
         */
       },
       builder: (context, state) {
-        return Expanded(
+        return Container(
+          height: 500,
+          width: 500,
           child: CustomScrollView(primary: false, slivers: [
             SliverPadding(
               padding: const EdgeInsets.all(20),
@@ -69,7 +71,7 @@ class _DashboardSensorWidgetState extends State<DashboardSensorWidget> {
                 crossAxisCount: 2,
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
-                childAspectRatio: 3/4,
+                childAspectRatio: 3 / 4,
                 children: [
                   if (sensorItems.isNotEmpty)
                     for (final el in sensorItems)
@@ -79,30 +81,29 @@ class _DashboardSensorWidgetState extends State<DashboardSensorWidget> {
                         sensorName: el.sensorName,
                         sensorImage: el.sensorImage,
                         sensorDescription: el.sensorDescription!,
-                        latestValue: el.latestValue == null ? 0 : el.latestValue,
+                        latestValue:
+                            el.latestValue == null ? 0 : el.latestValue,
                       ),
                   DottedBorder(
-
                     strokeWidth: 1,
                     padding: EdgeInsets.all(4),
                     child: Container(
-                      color:const Color(0xFFF1F1F1),
+                      color: const Color(0xFFF1F1F1),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                  
-                            Container(
-                              width: 90,
-                              height: 90,
-                              child: IconButton(
-                                icon: const FaIcon(FontAwesomeIcons.plus,
-                                    size: 90,
-                                    color: Colors.black),
-                                onPressed: () =>
-                                    {GoRouter.of(context).push("/chooseSensorPage")},
-                              ),
+                          Container(
+                            width: 90,
+                            height: 90,
+                            child: IconButton(
+                              icon: const FaIcon(FontAwesomeIcons.plus,
+                                  size: 90, color: Colors.black),
+                              onPressed: () => {
+                                GoRouter.of(context).push("/chooseSensorPage")
+                              },
                             ),
-                            SizedBox(height: 20),
+                          ),
+                          SizedBox(height: 20),
                           const Text("Add New Device",
                               style: TextStyle(fontSize: 20)),
                         ],

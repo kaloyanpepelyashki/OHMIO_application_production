@@ -53,7 +53,9 @@ class _DashboardActuatorWidgetState extends State<DashboardActuatorWidget> {
         */
       },
       builder: (context, state) {
-        return Expanded(
+        return Container(
+          width: 500,
+          height: 500,
           child: CustomScrollView(primary: false, slivers: [
             SliverPadding(
               padding: const EdgeInsets.all(20),
@@ -71,7 +73,8 @@ class _DashboardActuatorWidgetState extends State<DashboardActuatorWidget> {
                         sensorDescription: el.sensorDescription,
                         sensorImage: el.sensorImage,
                         sensorName: el.sensorName,
-                        latestValue: el.latestValue == null ? 0 : el.latestValue,
+                        latestValue:
+                            el.latestValue == null ? 0 : el.latestValue,
                       ),
                   DottedBorder(
                     strokeWidth: 1,
