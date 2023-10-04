@@ -20,10 +20,6 @@ class PinTunnelRepository implements IPinTunnelRepository {
   @override
   subscribeToChannel(int sensorId, Function(dynamic) onReceived) async {
     try {
-      SupabaseManager supabaseManager = SupabaseManager(
-          supabaseUrl: "https://wruqswjbhpvpikhgwade.supabase.co",
-          token:
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndydXFzd2piaHB2cGlraGd3YWRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTI4MzA2NTIsImV4cCI6MjAwODQwNjY1Mn0.XxlesUi6c-Wi7HXidzVotr8DWzljWGvY4LY3BPD-0N0");
       final response = await supabaseManager.supabaseClient
           .from('pintunnel_data')
           .select('''time, data''')
@@ -56,17 +52,12 @@ class PinTunnelRepository implements IPinTunnelRepository {
 
   @override
   Future<Either<Failure, LatestData>> getLatestData(int sensorMac) async {
-    SupabaseManager supabaseManager = SupabaseManager(
-        supabaseUrl: "https://wruqswjbhpvpikhgwade.supabase.co",
-        token:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndydXFzd2piaHB2cGlraGd3YWRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTI4MzA2NTIsImV4cCI6MjAwODQwNjY1Mn0.XxlesUi6c-Wi7HXidzVotr8DWzljWGvY4LY3BPD-0N0");
-
     try {
       final response = await supabaseManager.supabaseClient
-        .from('daily_data')
-        .select('''created_at, avg, sensor_id''')
-        .eq('sensor_id', sensorMac)
-        .limit(1);
+          .from('daily_data')
+          .select('''created_at, avg, sensor_id''')
+          .eq('sensor_id', sensorMac)
+          .limit(1);
       final latestData = LatestDataDao.fromJSON(response[0]);
       return Right(latestData);
     } catch (e) {
@@ -77,10 +68,6 @@ class PinTunnelRepository implements IPinTunnelRepository {
 
   @override
   Future<Either<Failure, List<ChartData>>> getDailyData(int sensorMac) async {
-    SupabaseManager supabaseManager = SupabaseManager(
-        supabaseUrl: "https://wruqswjbhpvpikhgwade.supabase.co",
-        token:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndydXFzd2piaHB2cGlraGd3YWRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTI4MzA2NTIsImV4cCI6MjAwODQwNjY1Mn0.XxlesUi6c-Wi7HXidzVotr8DWzljWGvY4LY3BPD-0N0");
 
     try {
       final response = await supabaseManager.supabaseClient
@@ -111,10 +98,6 @@ class PinTunnelRepository implements IPinTunnelRepository {
 
   @override
   Future<Either<Failure, List<ChartData>>> getWeeklyData(int sensorMac) async {
-    SupabaseManager supabaseManager = SupabaseManager(
-        supabaseUrl: "https://wruqswjbhpvpikhgwade.supabase.co",
-        token:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndydXFzd2piaHB2cGlraGd3YWRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTI4MzA2NTIsImV4cCI6MjAwODQwNjY1Mn0.XxlesUi6c-Wi7HXidzVotr8DWzljWGvY4LY3BPD-0N0");
     print("SENSOR ID IN SUBSCRIBETOWEEKLYDATA: $sensorMac");
 
     final response = await supabaseManager.supabaseClient
@@ -141,10 +124,6 @@ class PinTunnelRepository implements IPinTunnelRepository {
 
   @override
   Future<Either<Failure, List<ChartData>>> getMonthlyData(int sensorMac) async {
-    SupabaseManager supabaseManager = SupabaseManager(
-        supabaseUrl: "https://wruqswjbhpvpikhgwade.supabase.co",
-        token:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndydXFzd2piaHB2cGlraGd3YWRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTI4MzA2NTIsImV4cCI6MjAwODQwNjY1Mn0.XxlesUi6c-Wi7HXidzVotr8DWzljWGvY4LY3BPD-0N0");
 
     final response = await supabaseManager.supabaseClient
         .from('monthly_data')
@@ -168,12 +147,9 @@ class PinTunnelRepository implements IPinTunnelRepository {
   @override
   Future<Either<Failure, SensorRangeDAO>> getRangeForSensor(
       int sensorId) async {
-    SupabaseClient client = SupabaseClient(
-        "https://wruqswjbhpvpikhgwade.supabase.co",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndydXFzd2piaHB2cGlraGd3YWRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTI4MzA2NTIsImV4cCI6MjAwODQwNjY1Mn0.XxlesUi6c-Wi7HXidzVotr8DWzljWGvY4LY3BPD-0N0");
 
     try {
-      final data = await client.from('range').select('''
+      final data = await supabaseManager.supabaseClient.from('range').select('''
     min_value,
     max_value
   ''').eq('sensor_id', sensorId);
@@ -190,12 +166,9 @@ class PinTunnelRepository implements IPinTunnelRepository {
   @override
   Future<Either<Failure, List<SensorClass>>> getSensorsForUser(
       String email) async {
-    SupabaseClient client = SupabaseClient(
-        "https://wruqswjbhpvpikhgwade.supabase.co",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndydXFzd2piaHB2cGlraGd3YWRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTI4MzA2NTIsImV4cCI6MjAwODQwNjY1Mn0.XxlesUi6c-Wi7HXidzVotr8DWzljWGvY4LY3BPD-0N0");
 
     try {
-      final clientId = (await client.from('profiles').select('''
+      final clientId = (await supabaseManager.supabaseClient.from('profiles').select('''
     id
   ''').eq('email', email));
       print("CLIENT ID IN pintunnel_repository: $clientId");
@@ -206,16 +179,27 @@ class PinTunnelRepository implements IPinTunnelRepository {
       }
 
       print(clientId[0]['id']);
-/*
-      final pintunnelData = (await client.from('pintunnel').select('''mac_address''').eq('user_id','e7a9f8ae-b687-450f-8a1b-894634877df7'));
+
+      final session = supabaseManager.supabaseClient.auth.currentSession;
+
+      if (session != null) {
+        print('User is authenticated with user id: ${session.user.id}');
+      } else {
+        print('User is anonymous (not authenticated)');
+      }
+
+      final pintunnelData = await supabaseManager.supabaseClient
+          .from('pintunnel')
+          .select('mac_address')
+          .eq('user_id', clientId[0]['id']);
 
       print("PINTUNNEL DATA IN pintunnel_repository: $pintunnelData");
       if (pintunnelData.isEmpty) {
         return Left(NotFoundFailure(
             message: "Pintunnel not found for given email", statusCode: 404));
       }
-*/
-      final sensorData = (await client
+
+      final sensorData = (await supabaseManager.supabaseClient
           .from('sensor')
           .select('''cfg_code, sensor_mac''').eq('mac_address', '123456789'));
       print("SENSOR DATA $sensorData");
@@ -227,7 +211,7 @@ class PinTunnelRepository implements IPinTunnelRepository {
       List<dynamic> cfgCodes =
           sensorData.map((data) => data['cfg_code'] as int).toList();
 
-      final data = await client
+      final data = await supabaseManager.supabaseClient
           .from('sensor_config')
           .select('''description, isActuator, unit, version, min_value, max_value, image, name''').in_(
               'cfg_code', cfgCodes);
@@ -251,9 +235,6 @@ class PinTunnelRepository implements IPinTunnelRepository {
 
   @override
   void addAction(ActionClass actionClass) async {
-    SupabaseClient client = SupabaseClient(
-        "https://wruqswjbhpvpikhgwade.supabase.co",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndydXFzd2piaHB2cGlraGd3YWRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTI4MzA2NTIsImV4cCI6MjAwODQwNjY1Mn0.XxlesUi6c-Wi7HXidzVotr8DWzljWGvY4LY3BPD-0N0");
 
     print("In repository addAction");
     print(actionClass.action);
@@ -268,7 +249,7 @@ class PinTunnelRepository implements IPinTunnelRepository {
         'action_condition_value': 23.5,
         'independent_sensor_id': 12345,
       });*/
-      await client.from('dependency').insert({
+      await supabaseManager.supabaseClient.from('dependency').insert({
         'action_logic': actionClass.action,
         'action_condition': actionClass.condition,
         'action_condition_value': actionClass.conditionValue,

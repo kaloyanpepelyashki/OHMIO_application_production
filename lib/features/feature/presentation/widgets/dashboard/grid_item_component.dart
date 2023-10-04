@@ -29,14 +29,13 @@ class GridItem extends StatefulWidget {
 
 class _GridItemState extends State<GridItem> {
   final symbolList = ['° C', '%'];
-  String valueString = '0';
+  double latestValue = 0;
 
   @override
   void initState() {
     print("WIDGET.ID IN GRID_ITEM_COMP: ${widget.id}");
    // BlocProvider.of<PinTunnelBloc>(context)
      //   .add(SubscribeChannel(sensorId: widget.id!));
-     valueString = widget.latestValue.toString();
     super.initState();
   }
 
@@ -45,17 +44,13 @@ class _GridItemState extends State<GridItem> {
     return BlocConsumer<PinTunnelBloc, PinTunnelState>(
       listener: (context, state) {},
       builder: (context, state) {
-        if (state is PayloadReceivedState) {
-          if (state.payload.containsKey('sensor_data')) {
-            valueString = state.payload['sensor_data']
-                    [state.payload['sensor_data'].length - 1]['data']
-                .toString();
-          } else {
-            valueString = state.payload['new']['data'].toString();
-            //    _chartSeriesController?.updateDataSource(
-            //    addedDataIndexes: <int>[chartData.length - 1],
-            //  );
-          }
+        if (state is LatestDataReceivedState) {
+              if (widget.id == state.data.sensorMac) {
+                print("SUCCESSFULY ADDED TO sensors");
+                if(state.data.value != null){
+                  latestValue = state.data.value!;
+                }
+              }
         }
         return GestureDetector(
             child: Container(
@@ -70,7 +65,7 @@ class _GridItemState extends State<GridItem> {
                     //mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        valueString,
+                        latestValue.toString(),
                         style: const TextStyle(
                             fontSize: 30, fontWeight: FontWeight.bold),
                       ),

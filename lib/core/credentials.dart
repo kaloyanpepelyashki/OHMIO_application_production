@@ -1,0 +1,1 @@
+const releaseKeyPassword = 'Ebits_08';

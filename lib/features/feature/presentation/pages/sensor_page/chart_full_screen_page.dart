@@ -19,7 +19,7 @@ class ChartFullScreenPage extends StatefulWidget {
 class _ChartFullScreenPageState extends State<ChartFullScreenPage> {
 
   late dynamic chartToDisplay;
-  String selectedFilter = 'live';
+  String selectedFilter = 'day';
   
   @override
   void initState(){
@@ -50,20 +50,6 @@ class _ChartFullScreenPageState extends State<ChartFullScreenPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      _openWidget("live");
-                      selectedFilter = "live";
-                    },
-                    style: selectedFilter == "live" ? const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(Color(0xFF551C50)),
-                      foregroundColor: MaterialStatePropertyAll(Colors.white),
-                    ) : const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(Colors.white),
-                      foregroundColor: MaterialStatePropertyAll(Colors.black),
-                    ),
-                    child: Text("Live"),
-                  ),
                   ElevatedButton(
                     onPressed: () {
                       _openWidget("day");

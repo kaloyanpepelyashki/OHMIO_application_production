@@ -41,109 +41,108 @@ class SensorDetailPage extends StatelessWidget {
     return Scaffold(
       appBar: const TopBarBackAction(),
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20.0, 20, 20.0, 0),
-            child: Column(
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(20.0, 20, 20.0, 0),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    sensorImage != null
-                        ? Image(
-                            image: AssetImage('assets/${sensorImage}'),
-                            width: 140,
-                            height: 140,
-                          )
-                        : SizedBox(),
-                    Container(
-                      width: 166,
-                      height: 150,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(5, 8, 0, 0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                sensorImage != null
+                    ? Image(
+                        image: AssetImage('assets/${sensorImage}'),
+                        width: 140,
+                        height: 140,
+                      )
+                    : SizedBox(),
+                Container(
+                  width: 166,
+                  height: 150,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(5, 8, 0, 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          sensorName,
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.inter(
+                            textStyle: const TextStyle(
+                              fontSize: 23,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 0.4,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
                           children: [
                             Text(
-                              sensorName,
-                              textAlign: TextAlign.center,
+                              "Type: ",
+                              textAlign: TextAlign.left,
                               style: GoogleFonts.inter(
                                 textStyle: const TextStyle(
-                                  fontSize: 23,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 0.4,
-                                ),
+                                    fontSize: 15,
+                                    letterSpacing: 0.4,
+                                    fontWeight: FontWeight.w400),
                               ),
                             ),
-                            const SizedBox(height: 10),
-                            Row(
-                              children: [
-                                Text(
-                                  "Type: ",
-                                  textAlign: TextAlign.left,
-                                  style: GoogleFonts.inter(
-                                    textStyle: const TextStyle(
-                                        fontSize: 15,
-                                        letterSpacing: 0.4,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ),
-                                Text(
-                                  isActuator == null
-                                      ? ""
-                                      : (isActuator!.toUpperCase() == "TRUE"
-                                          ? "actuator"
-                                          : "sensor"),
-                                  style: GoogleFonts.inter(
-                                    textStyle: const TextStyle(
-                                        fontSize: 15,
-                                        letterSpacing: 0.4,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  "Max sensitivity: ",
-                                  textAlign: TextAlign.left,
-                                  style: GoogleFonts.inter(
-                                    textStyle: const TextStyle(
-                                        fontSize: 15,
-                                        letterSpacing: 0.4,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ),
-                                Text(""),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  "Output: ",
-                                  textAlign: TextAlign.left,
-                                  style: GoogleFonts.inter(
-                                    textStyle: const TextStyle(
-                                      fontSize: 15,
-                                      letterSpacing: 0.4,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                            Text(
+                              isActuator == null
+                                  ? ""
+                                  : (isActuator!.toUpperCase() == "TRUE"
+                                      ? "actuator"
+                                      : "sensor"),
+                              style: GoogleFonts.inter(
+                                textStyle: const TextStyle(
+                                    fontSize: 15,
+                                    letterSpacing: 0.4,
+                                    fontWeight: FontWeight.w400),
+                              ),
                             ),
                           ],
                         ),
-                      ),
-                    )
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(8.0,0,0,0),
-                  child: Column(children: [
-                Container(
+                        Row(
+                          children: [
+                            Text(
+                              "Max sensitivity: ",
+                              textAlign: TextAlign.left,
+                              style: GoogleFonts.inter(
+                                textStyle: const TextStyle(
+                                    fontSize: 15,
+                                    letterSpacing: 0.4,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                            ),
+                            Text(""),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "Output: ",
+                              textAlign: TextAlign.left,
+                              style: GoogleFonts.inter(
+                                textStyle: const TextStyle(
+                                  fontSize: 15,
+                                  letterSpacing: 0.4,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
+              child: Column(
+                children: [
+                  Container(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       "Description",
@@ -167,56 +166,56 @@ class SensorDetailPage extends StatelessWidget {
                               fontWeight: FontWeight.w400),
                         ),
                       )),
-                  ],),
-                ),
-            
-                SizedBox(height: 50),
-                Container(
-                  width: 194,
-                  height: 44,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      GoRouter.of(context).push("/sensorConnectFirstPage");
-                    },
-                    child: Text(
-                      "Connect",
-                      style: GoogleFonts.inter(
-                        textStyle: const TextStyle(
-                          fontSize: 29,
-                          letterSpacing: 0,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 15),
-                Container(
-                  width: 194,
-                  height: 44,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStatePropertyAll(Color(0xFFDF9C1E)),
-                    ),
-                    onPressed: ()=> launchUrl(Uri.https('ebits.dk', 'products/temperatur-sensor-analog')),
-                    child: Text(
-                      "Buy",
-                      style: GoogleFonts.inter(
-                        textStyle: const TextStyle(
-                          fontSize: 29,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          HelpWidget(),
-        ],
+            SizedBox(height: 50),
+            Container(
+              width: 194,
+              height: 44,
+              child: ElevatedButton(
+                onPressed: () {
+                  GoRouter.of(context).push("/sensorConnectFirstPage");
+                },
+                child: Text(
+                  "Connect",
+                  style: GoogleFonts.inter(
+                    textStyle: const TextStyle(
+                      fontSize: 29,
+                      letterSpacing: 0,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 15),
+            Container(
+              width: 194,
+              height: 44,
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(Color(0xFFDF9C1E)),
+                ),
+                onPressed: () => launchUrl(
+                    Uri.https('ebits.dk', 'products/temperatur-sensor-analog')),
+                child: Text(
+                  "Buy",
+                  style: GoogleFonts.inter(
+                    textStyle: const TextStyle(
+                      fontSize: 29,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
+      //  HelpWidget(),
+      //],
+      // ),
     );
   }
 }

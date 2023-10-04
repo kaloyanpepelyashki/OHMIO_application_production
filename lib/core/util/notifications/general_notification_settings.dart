@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pin_tunnel_application_production/features/feature/data/data_sources/supabase_service.dart';
 
 
 int id = 0;
@@ -65,7 +66,7 @@ Future<void> configureDidReceiveLocalNotificationSubject(
           CupertinoDialogAction(
             isDefaultAction: true,
             onPressed: () async {
-              GoRouter.of(context).push("/sensorPage");
+              goToSensorPage(context);
             },
             child: const Text('Ok'),
           )
@@ -77,9 +78,24 @@ Future<void> configureDidReceiveLocalNotificationSubject(
 
 Future<void> configureSelectNotificationSubject(BuildContext context) async {
   selectNotificationStream.stream.listen((String? payload) async {
-   GoRouter.of(context).push("/sensorPage");
+   var _session = supabaseManager.supabaseSession;
+ _session = supabaseManager.supabaseClient.auth.currentSession;
+
+  GoRouter.of(context).pushNamed("sensorPage", pathParameters: {
+    "id": "13456789",
+  });
   });
 }
+
+void goToSensorPage(context) {
+  var _session = supabaseManager.supabaseSession;
+ _session = supabaseManager.supabaseClient.auth.currentSession;
+
+  GoRouter.of(context).pushNamed("sensorPage", pathParameters: {
+    "id": "13456789",
+  });
+}
+
 
 void closeNotificationStreams() {
   didReceiveLocalNotificationStream.close();

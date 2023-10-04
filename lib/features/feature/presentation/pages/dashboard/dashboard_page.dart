@@ -66,8 +66,8 @@ class DashBoardPageState extends State<DashBoardPage> {
     configureSelectNotificationSubject(context);
     _showNotification();
 
-    //BlocProvider.of<PinTunnelBloc>(context)
-    //  .add(GetSensorsForUser(email: widget.email!));
+    BlocProvider.of<PinTunnelBloc>(context)
+      .add(GetSensorsForUser(email: widget.email!));
 
     //BlocProvider.of<PinTunnelBloc>(context)
     //  .add(const SubscribeHourlyChannel(sensorId: 12345));
@@ -142,9 +142,9 @@ class DashBoardPageState extends State<DashBoardPage> {
           appBar: const TopBarBurgerMenu(),
           backgroundColor: Theme.of(context).colorScheme.background,
           endDrawer: const DrawerMenuComponent(),
-          body: Stack(
-            children: [
-              Column(
+        //  body: Stack(
+           // children: [
+            body: Column(
                 children: [
                   Padding(
                       padding: EdgeInsets.fromLTRB(20, 0, 10, 30),
@@ -221,9 +221,9 @@ class DashBoardPageState extends State<DashBoardPage> {
                           actuatorElements: actuatorElements),
                 ],
               ),
-              HelpWidget(),
-            ],
-          ),
+          //    HelpWidget(),
+        //    ],
+        //  ),
         );
       },
     );

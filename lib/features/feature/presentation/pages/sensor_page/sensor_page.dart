@@ -40,7 +40,7 @@ class _SensorPageState extends State<SensorPage> {
 
   bool isChartPage = true;
 
-  String selectedFilter = 'live';
+  String selectedFilter = 'day';
 
   double carouselSliderHeight = 400;
 
@@ -73,26 +73,6 @@ class _SensorPageState extends State<SensorPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              selectedFilter = 'live';
-                              changeChartsBasedOnFilter("live", widget.mac_address!);
-                            },
-                            child: Text("Live"),
-                            style: selectedFilter == "live"
-                                ? const ButtonStyle(
-                                    backgroundColor: MaterialStatePropertyAll(
-                                        Color(0xFF551C50)),
-                                    foregroundColor:
-                                        MaterialStatePropertyAll(Colors.white),
-                                  )
-                                : const ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStatePropertyAll(Colors.white),
-                                    foregroundColor:
-                                        MaterialStatePropertyAll(Colors.black),
-                                  ),
-                          ),
                           ElevatedButton(
                             onPressed: () {
                               selectedFilter = 'day';
