@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_blank.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../data/data_sources/supabase_service.dart';
@@ -59,7 +60,7 @@ class _LogInPageGhostState extends State<LogInPageGhost> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const TopBarBackAction(),
+        appBar: const TopBarBlank(),
         backgroundColor: Theme.of(context).colorScheme.background,
         body: Center(
           child: FractionallySizedBox(
@@ -89,13 +90,20 @@ class _LogInPageGhostState extends State<LogInPageGhost> {
                       ])),
                   Container(
                       margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                      child: ElevatedButtonComponent(
-                        onPressed: () {
-                          _handleSignIn(context, _emailController.text.trim(),
-                              _passwordController.text);
-                        },
-                        text: "Ok",
-                      ))
+                      child: Column(children: [
+                        ElevatedButtonComponent(
+                          onPressed: () {
+                            _handleSignIn(context, _emailController.text.trim(),
+                                _passwordController.text);
+                          },
+                          text: "Ok",
+                        ),
+                        TextButton(
+                            onPressed: () {
+                              GoRouter.of(context).go("/onboarding");
+                            },
+                            child: const Text("Cancel"))
+                      ]))
                 ],
               )),
         ));

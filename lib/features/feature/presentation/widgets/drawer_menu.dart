@@ -26,16 +26,16 @@ class DrawerMenuComponent extends StatelessWidget {
         child: ListView(
             padding: const EdgeInsets.fromLTRB(45, 10, 0, 0),
             children: [
-              Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 50),
+              const Padding(
+                  padding: EdgeInsets.fromLTRB(0, 20, 0, 50),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text("Test list item",
+                        Text("Test list item",
                             style: TextStyle(
                               fontSize: 20,
                             )),
-                        const Text("Second test list item",
+                        Text("Second test list item",
                             style: TextStyle(
                               fontSize: 20,
                             ))
@@ -46,7 +46,15 @@ class DrawerMenuComponent extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 20,
                     )),
-              )
+              ),
+              InkWell(
+                  onTap: () {
+                    GoRouter.of(context).go("/signup/login-ghost");
+                  },
+                  child: const Text("Go to Ghost",
+                      style: TextStyle(
+                        fontSize: 20,
+                      )))
             ]),
       )
     ]));

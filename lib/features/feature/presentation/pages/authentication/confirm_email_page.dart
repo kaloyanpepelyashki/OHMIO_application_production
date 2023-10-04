@@ -5,8 +5,6 @@ import 'package:pin_tunnel_application_production/features/feature/presentation/
 
 import '../../../data/data_sources/supabase_service.dart';
 
-
-
 class ConfirmEmailPage extends StatefulWidget {
   const ConfirmEmailPage({super.key});
 
@@ -15,49 +13,12 @@ class ConfirmEmailPage extends StatefulWidget {
 }
 
 class _ConfirmEmailPageState extends State<ConfirmEmailPage> {
-  //The function that whatches for changes in the AuthState
-  //! The method doesn't work as intended!
-  void watchEmailConfirmationState() {
-    debugPrint("got inside watchEmailConfirmationState");
-    debugPrint("supabaseSession: ${supabaseManager.supabaseSession}");
-    debugPrint(
-        "supabaseSession.user: ${supabaseManager.supabaseSession?.user.id}");
-
-    //Creates a stream to listen for changes in the AuthState
-    //!There is a problem here
-    supabaseManager.supabaseClient.auth.onAuthStateChange.listen((event) {
-      debugPrint("onAuthStateChange event triggered");
-      final userConfirmationState = event.session?.user.emailConfirmedAt;
-      if (userConfirmationState != null) {
-        debugPrint("email confirmed");
-        GoRouter.of(context).go("/dashboard");
-      }
-    });
-  }
-
-  //Transfers to dashboard on click
-  //! To be removed after the watchEmailConfirmationState() method is fixed
-  // transferOnConfirmation() async {
-  //   final User? _user = supabaseManager.user;
-
-  //   debugPrint("${_user?.email}");
-
-  //   if (_user?.emailConfirmedAt != null) {
-  //     debugPrint("email confirmed");
-  //     GoRouter.of(context).go("/dashboard");
-  //   } else {
-  //     const snackbar = SnackBar(content: Text("Please confirm your email"));
-  //     ScaffoldMessenger.of(context).showSnackBar(snackbar);
-  //   }
-  // }
-
   void navigateToLogIn() {
     GoRouter.of(context).go("/signup/login-ghost");
   }
 
   @override
   void initState() {
-    watchEmailConfirmationState();
     super.initState();
   }
 
@@ -72,14 +33,20 @@ class _ConfirmEmailPageState extends State<ConfirmEmailPage> {
         appBar: const TopBarBlank(),
         body: Center(
             child: FractionallySizedBox(
-                widthFactor: 1.0,
+                widthFactor: 1,
                 heightFactor: 0.52,
                 child: Column(children: [
-                  const Text(
-                    "Open your mail box and confirm email",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    textWidthBasis: TextWidthBasis.parent,
-                  ),
+                  const Padding(
+                      padding: EdgeInsets.fromLTRB(25, 0, 25, 65),
+                      child: Text(
+                        "Open your mail box and confirm your email",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 19,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textWidthBasis: TextWidthBasis.parent,
+                      )),
                   Container(
                       margin: const EdgeInsets.fromLTRB(0, 35, 0, 10),
                       child: Column(children: [

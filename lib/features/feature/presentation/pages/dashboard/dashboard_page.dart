@@ -115,7 +115,7 @@ class DashBoardPageState extends State<DashBoardPage> {
           }
         }
         if (state is LatestDataReceivedState) {
-           if (sensorElements.isNotEmpty) {
+          if (sensorElements.isNotEmpty) {
             for (SensorClass element in sensorElements) {
               print("ELEMENT -sensor: ${int.parse(element.sensorMac!)}");
               print("state.data.sensorMac-sensor: ${state.data.sensorMac}");
@@ -143,8 +143,10 @@ class DashBoardPageState extends State<DashBoardPage> {
           backgroundColor: Theme.of(context).colorScheme.background,
           endDrawer: const DrawerMenuComponent(),
           body: Stack(
+            fit: StackFit.expand,
             children: [
-              Column(
+              Positioned(
+                  child: Column(
                 children: [
                   Padding(
                       padding: EdgeInsets.fromLTRB(20, 0, 10, 30),
@@ -220,8 +222,10 @@ class DashBoardPageState extends State<DashBoardPage> {
                           },
                           actuatorElements: actuatorElements),
                 ],
-              ),
-              HelpWidget(),
+              )),
+              const Positioned(
+                child: HelpWidget(),
+              )
             ],
           ),
         );
