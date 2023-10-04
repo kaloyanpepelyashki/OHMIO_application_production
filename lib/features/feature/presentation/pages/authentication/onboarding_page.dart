@@ -14,10 +14,10 @@ class OnBoardingPage extends StatelessWidget {
       body: Center(
           child: FractionallySizedBox(
               widthFactor: 0.9,
-              heightFactor: 0.8,
+              heightFactor: 0.7,
               child: Column(children: [
                 Padding(
-                    padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
+                    padding: EdgeInsets.fromLTRB(25, 0, 25, 20),
                     child: const Image(
                       image: AssetImage('assets/brandmark-design.png'),
                     )),
