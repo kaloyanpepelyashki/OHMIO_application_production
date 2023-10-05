@@ -51,18 +51,30 @@ class PinTunnelRepository implements IPinTunnelRepository {
   }
 
   @override
-  Future<Either<Failure, LatestData>> getLatestData(int sensorMac) async {
+  Future<Either<Failure, List<LatestData>>> getLatestData(List<int> listOfMacs) async {
+    print(listOfMacs);
     try {
       final response = await supabaseManager.supabaseClient
           .from('daily_data')
           .select('''created_at, avg, sensor_id''')
-          .eq('sensor_id', sensorMac)
-          .limit(1);
-      final latestData = LatestDataDao.fromJSON(response[0]);
-      return Right(latestData);
-    } catch (e) {
-      return const Left(
+          .in_('sensor_id', listOfMacs);
+      
+      print("Latest data response: $response");
+
+      final List<LatestData> listOfLatestData = [];
+      for(int i=0; i<response.length; i++){
+        final latestData = LatestDataDao.fromJSON(response[i]);
+        listOfLatestData.add(latestData);
+      }
+      if(listOfLatestData.isNotEmpty){
+        return Right(listOfLatestData);
+      }else{
+        return Left(
           NotFoundFailure(message: "Daily data not found", statusCode: 404));
+      }
+    } catch (e) {
+      return Left(
+          NotFoundFailure(message: "Exception ${e.toString()}", statusCode: 404));
     }
   }
 
@@ -134,7 +146,7 @@ class PinTunnelRepository implements IPinTunnelRepository {
     List<ChartData> chartDataList = [];
     for (int index = 0; index < response.length; index++) {
       final chartData =
-          DailyChartDataDao.fromJSON(response[index] as Map<String, dynamic>);
+          MonthlyChartDataDao.fromJSON(response[index] as Map<String, dynamic>);
       chartDataList.add(chartData);
     }
     if (chartDataList.isNotEmpty) {

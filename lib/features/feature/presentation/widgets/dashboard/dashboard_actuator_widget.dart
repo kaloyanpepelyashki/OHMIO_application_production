@@ -69,6 +69,7 @@ class _DashboardActuatorWidgetState extends State<DashboardActuatorWidget> {
                   if (actuatorItems.isNotEmpty)
                     for (final el in actuatorItems)
                       GridItem(
+                        id: int.parse(el.sensorMac!),
                         isActuator: el.isActuator,
                         sensorDescription: el.sensorDescription,
                         sensorImage: el.sensorImage,

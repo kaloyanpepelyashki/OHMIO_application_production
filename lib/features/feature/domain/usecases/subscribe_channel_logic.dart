@@ -15,8 +15,8 @@ class SubscribeChannelLogic{
     repository.subscribeToChannel(sensorId, onReceived);
   }
 
-   Future<Either<Failure, LatestData>> getLatestData(int sensorMac) async{
-    return await repository.getLatestData(sensorMac);
+   Future<Either<Failure, List<LatestData>>> getLatestData(List<int> listOfMacs) async{
+    return await repository.getLatestData(listOfMacs);
    }
 
   Future<Either<Failure, List<ChartData>>> getDailyData(int sensorId) async{

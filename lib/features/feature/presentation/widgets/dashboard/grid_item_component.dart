@@ -42,15 +42,19 @@ class _GridItemState extends State<GridItem> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<PinTunnelBloc, PinTunnelState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+      },
       builder: (context, state) {
         if (state is LatestDataReceivedState) {
-              if (widget.id == state.data.sensorMac) {
-                print("SUCCESSFULY ADDED TO sensors");
-                if(state.data.value != null){
-                  latestValue = state.data.value!;
+          for(int i=0; i<state.listOfLatestData.length; i++){
+            if(widget.id == state.listOfLatestData[i].sensorMac){
+              print("Latest value $i: ${state.listOfLatestData[i]}");
+              print("SUCCESSFULY ADDED TO sensors");
+                if(state.listOfLatestData[i].value != null){
+                  latestValue = state.listOfLatestData[i].value!;
                 }
-              }
+            }
+          }
         }
         return GestureDetector(
             child: Container(

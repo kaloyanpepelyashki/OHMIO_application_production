@@ -59,7 +59,7 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
     GetLatestData event,
     Emitter<PinTunnelState> emit,
   ) async {
-    final data = await subscribeChannelLogic.getLatestData(event.sensorMac);
+    final data = await subscribeChannelLogic.getLatestData(event.listOfMacs);
     data.fold(
       ifLeft: (value)=>print(value),
       ifRight: (value)=>{

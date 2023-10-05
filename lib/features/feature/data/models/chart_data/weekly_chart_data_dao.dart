@@ -5,7 +5,7 @@ class WeeklyChartDataDao extends ChartData {
     DateTime dateTime = DateTime.parse(json['created_at']);
 
     return ChartData(
-      dateTime: DateTime(dateTime.year, dateTime.month, dateTime.day, dateTime.hour, dateTime.minute),
+      dateTime: DateTime(dateTime.year, dateTime.month, dateTime.day, dateTime.hour),
       value: (json['avg'] as num).toDouble(),
     );
   }

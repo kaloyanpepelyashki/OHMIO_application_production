@@ -30,9 +30,9 @@ class PayloadReceivedState extends PinTunnelState{
 }
 
 class LatestDataReceivedState extends PinTunnelState{
-  final LatestData data;
+  final List<LatestData> listOfLatestData;
 
-  const LatestDataReceivedState(this.data);
+  const LatestDataReceivedState(this.listOfLatestData);
 }
 
 class DailyDataReceivedState extends PinTunnelState{

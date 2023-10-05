@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,12 +15,10 @@ import 'package:pin_tunnel_application_production/features/feature/presentation/
 import "package:provider/provider.dart";
 import 'package:supabase_flutter/supabase_flutter.dart';
 import "package:timezone/data/latest.dart" as tz;
-
 import 'core/util/notifications/android_notification_settings.dart';
 import 'core/util/notifications/general_notification_settings.dart';
 import 'core/util/notifications/ios_notification_settings.dart';
 import 'dependency_injection.dart';
-
 import 'dependency_injection.dart' as di;
 import 'features/feature/data/data_sources/supabase_service.dart';
 

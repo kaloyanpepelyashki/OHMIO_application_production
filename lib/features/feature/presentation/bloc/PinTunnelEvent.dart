@@ -19,9 +19,9 @@ class SubscribeChannel extends PinTunnelEvent{
 }
 
 class GetLatestData extends PinTunnelEvent{
-  final int sensorMac;
+  final List<int> listOfMacs;
 
-  const GetLatestData({required this.sensorMac});
+  const GetLatestData({required this.listOfMacs});
 }
 
 class GetDailyData extends PinTunnelEvent{

@@ -10,7 +10,7 @@ import '../entities/action_class.dart';
 
 abstract class IPinTunnelRepository{
   subscribeToChannel(int sensorId, Function(dynamic) onReceived);
-  Future<Either<Failure, LatestData>> getLatestData(int sensorMac);
+  Future<Either<Failure, List<LatestData>>> getLatestData(List<int> listOfMacs);
   Future<Either<Failure, List<ChartData>>> getDailyData(int sensorId);
   Future<Either<Failure, List<ChartData>>> getWeeklyData(int sensorId);
   Future<Either<Failure, List<ChartData>>> getMonthlyData(int sensorId);
