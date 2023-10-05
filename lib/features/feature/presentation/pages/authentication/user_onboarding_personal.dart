@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/inputField_with_heading.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_back_action.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_blank.dart';
 import "package:timezone/standalone.dart" as tz;
 
 import '../../../data/data_sources/supabase_service.dart';
@@ -37,11 +38,11 @@ class _OnBoardingPersonalDataPageState
         "last_name": _lastNameController.text.trim(),
         "updated_at": tz.TZDateTime.from(DateTime.now(), utc).toIso8601String(),
       }).eq("id", supabaseManager.supabaseSession!.user.id);
-      return const Right(Future);
+      return const Right(null);
     } catch (e) {
       debugPrint(e.toString());
       return Either.left(
-          Exception("Unexpected error occured while uploading data"));
+          Exception("Unexpected error occured while uploading data: $e"));
     }
   }
 
@@ -55,7 +56,6 @@ class _OnBoardingPersonalDataPageState
   }
 
   void getPersonalData() async {
-    debugPrint(supabaseManager.user?.id);
     try {
       //Checks if the input field have been filled out by the user.
       if (_nameController.text.isNotEmpty &&
@@ -70,7 +70,7 @@ class _OnBoardingPersonalDataPageState
                 },
             ifRight: (r) => {
                   populateUserProfile(),
-                  GoRouter.of(context).go("/signup/onboarding-username")
+                  GoRouter.of(context).push("/signup/onboarding-username")
                 });
       } else if (_nameController.text.isEmpty &&
           _lastNameController.text.isEmpty) {
@@ -101,16 +101,16 @@ class _OnBoardingPersonalDataPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const TopBarBackAction(),
+        appBar: const TopBarBlank(),
         body: Center(
             child: FractionallySizedBox(
                 widthFactor: 0.9,
                 heightFactor: 0.8,
                 child: Column(
                   children: [
-                    Padding(
+                    const Padding(
                         padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
-                        child: const Image(
+                        child: Image(
                           image: AssetImage('assets/brandmark-design.png'),
                         )),
                     Container(

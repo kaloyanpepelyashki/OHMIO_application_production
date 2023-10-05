@@ -6,6 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../data/data_sources/supabase_service.dart';
 import '../../widgets/elevated_button_component.dart';
 import '../../widgets/inputField_with_heading.dart';
+import '../../widgets/text_button_component.dart';
 import '../../widgets/top_bar_back_action.dart';
 
 class LogInPageGhost extends StatefulWidget {
@@ -68,8 +69,13 @@ class _LogInPageGhostState extends State<LogInPageGhost> {
               heightFactor: 0.8,
               child: Column(
                 children: [
+                  const Padding(
+                      padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
+                      child: Image(
+                        image: AssetImage('assets/brandmark-design.png'),
+                      )),
                   Container(
-                      margin: const EdgeInsets.fromLTRB(0, 70, 0, 10),
+                      margin: const EdgeInsets.fromLTRB(0, 40, 0, 10),
                       child: Column(children: [
                         Container(
                             margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
@@ -98,11 +104,11 @@ class _LogInPageGhostState extends State<LogInPageGhost> {
                           },
                           text: "Ok",
                         ),
-                        TextButton(
+                        TextButtonComponent(
                             onPressed: () {
                               GoRouter.of(context).go("/onboarding");
                             },
-                            child: const Text("Cancel"))
+                            text: "Cancel")
                       ]))
                 ],
               )),

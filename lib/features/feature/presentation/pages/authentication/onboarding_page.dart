@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/elevated_button_component.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_blank.dart';
 
+import '../../widgets/text_button_component.dart';
+
 class OnBoardingPage extends StatelessWidget {
   const OnBoardingPage({super.key});
 
@@ -16,9 +18,9 @@ class OnBoardingPage extends StatelessWidget {
               widthFactor: 0.9,
               heightFactor: 0.7,
               child: Column(children: [
-                Padding(
+                const Padding(
                     padding: EdgeInsets.fromLTRB(25, 0, 25, 20),
-                    child: const Image(
+                    child: Image(
                       image: AssetImage('assets/brandmark-design.png'),
                     )),
                 Container(
@@ -30,12 +32,11 @@ class OnBoardingPage extends StatelessWidget {
                             GoRouter.of(context).push("/login");
                           },
                           text: "Log in"),
-                      TextButton(
-                          child: const Text('Sign up',
-                              style: TextStyle(fontSize: 18)),
+                      TextButtonComponent(
                           onPressed: () {
                             GoRouter.of(context).push("/signup");
-                          }),
+                          },
+                          text: "Sign up"),
                     ]))
               ]))),
     );

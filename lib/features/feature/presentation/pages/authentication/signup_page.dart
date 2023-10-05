@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/elevated_button_component.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/inputField_with_heading.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/text_button_component.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_back_action.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -69,9 +70,9 @@ class _SignUpComponentState extends State<SignUpPage> {
           heightFactor: 0.8,
           child: Column(
             children: [
-              Padding(
+              const Padding(
                   padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
-                  child: const Image(
+                  child: Image(
                     image: AssetImage('assets/brandmark-design.png'),
                   )),
               Expanded(
@@ -109,15 +110,22 @@ class _SignUpComponentState extends State<SignUpPage> {
                       ),
                       Container(
                         margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                        child: ElevatedButtonComponent(
-                            onPressed: () {
-                              _handleSignUp(
-                                  context,
-                                  _emailController.text,
-                                  _passwordController.text,
-                                  _repeatPasswordController.text);
-                            },
-                            text: "Ok"),
+                        child: Column(children: [
+                          ElevatedButtonComponent(
+                              onPressed: () {
+                                _handleSignUp(
+                                    context,
+                                    _emailController.text,
+                                    _passwordController.text,
+                                    _repeatPasswordController.text);
+                              },
+                              text: "Ok"),
+                          TextButtonComponent(
+                              onPressed: () {
+                                GoRouter.of(context).go("/onboarding");
+                              },
+                              text: "Cancel")
+                        ]),
                       ),
                     ],
                   ),
