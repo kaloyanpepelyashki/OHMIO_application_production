@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/text_button_component.dart';
 
 //<== Initial first screen of the application (Landing page)
 class InitialLandingPage extends StatelessWidget {
@@ -35,12 +36,11 @@ class InitialLandingPage extends StatelessWidget {
                         child: const Text('Log in',
                             style: TextStyle(fontSize: 30)),
                       ),
-                      TextButton(
-                          child: const Text('Sign up',
-                              style: TextStyle(fontSize: 18)),
+                      TextButtonComponent(
                           onPressed: () {
-                            context.push("/signup");
-                          }),
+                            GoRouter.of(context).go("/signup");
+                          },
+                          text: "Sign up"),
                     ]))
               ]))),
     );
