@@ -31,6 +31,8 @@ class DrawerMenuComponent extends StatelessWidget {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Text("VERSION: 1.0.0"),
+                        SizedBox(height: 40),
                         Text("Test list item",
                             style: TextStyle(
                               fontSize: 20,

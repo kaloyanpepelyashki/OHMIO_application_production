@@ -17,4 +17,5 @@ abstract class IPinTunnelRepository{
   Future<Either<Failure,SensorRangeDAO>> getRangeForSensor(int sensorId);
   Future<Either<Failure, List<SensorClass>>> getSensorsForUser(String email);
   void addAction(ActionClass actionClass);
+  void updateUserStatus(String status, String email);
 }

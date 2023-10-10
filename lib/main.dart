@@ -6,11 +6,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_jailbreak_detection/flutter_jailbreak_detection.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:pin_tunnel_application_production/Providers/global_data_provider.dart';
 import 'package:pin_tunnel_application_production/config/routes/routes.dart';
 import 'package:pin_tunnel_application_production/config/themes/main_theme.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelBloc.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelEvent.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/dashboard/dashboard_page.dart';
 import "package:provider/provider.dart";
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -97,6 +99,10 @@ Future<void> main() async {
   supabaseManager.supabaseSession =
       supabaseManager.supabaseClient.auth.currentSession;
 
+  FlutterError.onError = (FlutterErrorDetails details){
+    _showError(details.exception.toString());
+  };
+
   runApp(
     MultiProvider(
       providers: [
@@ -113,6 +119,17 @@ Future<void> main() async {
  // });
 }
 
+void _showError(String error){
+  Fluttertoast.showToast(
+    msg: error,
+    gravity: ToastGravity.BOTTOM,
+    timeInSecForIosWeb: 5,
+    backgroundColor: Colors.red,
+    textColor: Colors.white,
+    fontSize: 18,
+  );
+}
+
 class MyApp extends StatefulWidget {
   const MyApp({
     Key? key,
@@ -122,7 +139,7 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
   bool? _jailbroken;
   bool? _developerMode;
 
@@ -130,7 +147,32 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initPlatformState();
+    WidgetsBinding.instance.addObserver(this);
   }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    String email = supabaseManager.supabaseSession!.user!.email!;
+    switch(state){
+      case AppLifecycleState.paused:
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.detached:
+           BlocProvider.of<PinTunnelBloc>(context).add(UpdateUserStatus(status: "OFFLINE", email: email));
+           break;
+      case AppLifecycleState.resumed:
+           BlocProvider.of<PinTunnelBloc>(context).add(UpdateUserStatus(status: "ONLINE", email: email));
+           break;
+      default:
+          break;
+    }
+  }
+
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
@@ -159,6 +201,10 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
     return _jailbroken == true
         ? Text("JAILBROKEN DEVICE")
         : MaterialApp.router(

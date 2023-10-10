@@ -20,7 +20,7 @@ class PinTunnelRepository implements IPinTunnelRepository {
   @override
   subscribeToChannel(int sensorId, Function(dynamic) onReceived) async {
     try {
-      final response = await supabaseManager.supabaseClient
+      /*final response = await supabaseManager.supabaseClient
           .from('pintunnel_data')
           .select('''time, data''')
           .eq('sensor_mac', sensorId)
@@ -31,7 +31,7 @@ class PinTunnelRepository implements IPinTunnelRepository {
       print("RESPONSE: $response");
       if (response != null) {
         onReceived({'sensor_data': response});
-      }
+      }*/
 
       supabaseManager.supabaseClient.channel('*').on(
         RealtimeListenTypes.postgresChanges,
@@ -54,16 +54,17 @@ class PinTunnelRepository implements IPinTunnelRepository {
   Future<Either<Failure, List<LatestData>>> getLatestData(List<int> listOfMacs) async {
     print(listOfMacs);
     try {
-      final response = await supabaseManager.supabaseClient
-          .from('daily_data')
-          .select('''created_at, avg, sensor_id''')
-          .in_('sensor_id', listOfMacs);
-      
-      print("Latest data response: $response");
 
       final List<LatestData> listOfLatestData = [];
-      for(int i=0; i<response.length; i++){
-        final latestData = LatestDataDao.fromJSON(response[i]);
+      for(int i=0; i<listOfMacs.length; i++){
+        final response = await supabaseManager.supabaseClient
+          .from('daily_data')
+          .select('''created_at, avg, sensor_id''')
+          .eq('sensor_id', listOfMacs[i])
+          .order('created_at', ascending: false)
+          .limit(1);
+
+        final latestData = LatestDataDao.fromJSON(response[0]);
         listOfLatestData.add(latestData);
       }
       if(listOfLatestData.isNotEmpty){
@@ -213,7 +214,7 @@ class PinTunnelRepository implements IPinTunnelRepository {
 
       final sensorData = (await supabaseManager.supabaseClient
           .from('sensor')
-          .select('''cfg_code, sensor_mac''').eq('mac_address', '123456789'));
+          .select('''cfg_code, sensor_mac''').eq('mac_address', pintunnelData[0]['mac_address']));
       print("SENSOR DATA $sensorData");
       if (sensorData.isEmpty || sensorData == null) {
         return Left(
@@ -242,6 +243,21 @@ class PinTunnelRepository implements IPinTunnelRepository {
     } on APIException catch (e) {
       print("EXCEPTION pin_tunnel_repository $e");
       return Left(APIFailure.fromException(e));
+    }
+  }
+
+  void updateUserStatus(String status, String email) async{
+    if(status.toUpperCase() == "ONLINE" ){
+       final response = await supabaseManager.supabaseClient
+        .from('profiles')
+        .update({'status': "ONLINE"})
+        .match({'email': email});
+    }
+    if(status.toUpperCase() == "OFFLINE"){
+       final response = await supabaseManager.supabaseClient
+        .from('profiles')
+        .update({'status': 'OFFLINE'})
+        .match({'email': email});
     }
   }
 

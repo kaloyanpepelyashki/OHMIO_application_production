@@ -13,8 +13,10 @@ import 'package:pin_tunnel_application_production/features/feature/domain/entiti
 import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelBloc.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelEvent.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelState.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/dahboard_top_bar_burger_menu.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/dashboard/dashboard_actuator_widget.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/dashboard/dashboard_sensor_widget.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/dashboard/dashboard_sensors_actuators_widget.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/drawer_menu.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/help_widget.dart';
 
@@ -42,21 +44,10 @@ class DashBoardPage extends StatefulWidget {
 
 class DashBoardPageState extends State<DashBoardPage> {
   bool _notificationsEnabled = false;
-  List<SensorClass> sensorElements = [
-    //Elements("Test item 4", 440)
-  ];
 
-  List<SensorClass> actuatorElements = [];
-
-  bool isText1Underlined = true;
+  List<SensorClass> sensorsActuatorsElements = [];
 
   late SensorClass selectedSensor;
-
-  void toggleText() {
-    setState(() {
-      isText1Underlined = !isText1Underlined;
-    });
-  }
 
   @override
   void initState() {
@@ -67,14 +58,8 @@ class DashBoardPageState extends State<DashBoardPage> {
     _showNotification();
 
     BlocProvider.of<PinTunnelBloc>(context)
-      .add(GetSensorsForUser(email: widget.email!));
+        .add(GetSensorsForUser(email: widget.email!));
 
-    //BlocProvider.of<PinTunnelBloc>(context)
-    //  .add(const SubscribeHourlyChannel(sensorId: 12345));
-    //  BlocProvider.of<PinTunnelBloc>(context)
-    //   .add(const SubscribeMinuteChannel(sensorId: 12345));
-    //BlocProvider.of<PinTunnelBloc>(context)
-    //    .add(const GetSensorRange(sensorId: 12345));
   }
 
   Future<void> _checkNotificationPermissions() async {
@@ -103,107 +88,27 @@ class DashBoardPageState extends State<DashBoardPage> {
           if (state.sensorList.isNotEmpty) {
             List<int> listOfMacs = [];
             state.sensorList.forEach((i) {
-            listOfMacs.add(int.parse(i.sensorMac!));
-              if (i.isActuator!) {
-                print("ACTUATOR ADDED");
-                actuatorElements.add(i);
-              }
-              if (i.isActuator! == false) {
-                sensorElements.add(i);
-              }
+              listOfMacs.add(int.parse(i.sensorMac!));
+              sensorsActuatorsElements.add(i);
             });
             BlocProvider.of<PinTunnelBloc>(context)
-                  .add(GetLatestData(listOfMacs: listOfMacs));
+                .add(GetLatestData(listOfMacs: listOfMacs));
           }
         }
-        
       },
       builder: (context, state) {
         return Scaffold(
-          appBar: const TopBarBurgerMenu(),
+          appBar: const DashboardTopBarBurgerMenu(),
           backgroundColor: Theme.of(context).colorScheme.background,
           endDrawer: const DrawerMenuComponent(),
           body: Stack(
             fit: StackFit.expand,
             children: [
-              Positioned(
-                  child: Column(
+              Column(
                 children: [
-                  Padding(
-                      padding: EdgeInsets.fromLTRB(20, 0, 10, 30),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            "My system",
-                            style: TextStyle(
-                              fontSize: 26,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          IconButton(
-                            icon: const FaIcon(
-                              FontAwesomeIcons.plus,
-                            ),
-                            onPressed: () => {
-                              GoRouter.of(context).push(
-                                "/chooseSensorPage",
-                              )
-                            },
-                          )
-                        ],
-                      )),
-                  Padding(
-                      padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                              padding: EdgeInsets.fromLTRB(0, 0, 11, 0),
-                              child: GestureDetector(
-                                onTap: isText1Underlined ? () {} : toggleText,
-                                child: Text(
-                                  "Sensor",
-                                  style: TextStyle(
-                                    fontSize: 17,
-                                    decoration: isText1Underlined
-                                        ? TextDecoration.underline
-                                        : TextDecoration.none,
-                                  ),
-                                ),
-                              )),
-                          GestureDetector(
-                            onTap: isText1Underlined ? toggleText : () {},
-                            child: Text(
-                              "Actuator",
-                              style: TextStyle(
-                                fontSize: 17,
-                                decoration: isText1Underlined
-                                    ? TextDecoration.none
-                                    : TextDecoration.underline,
-                              ),
-                            ),
-                          ),
-                        ],
-                      )),
-                  isText1Underlined
-                      ? DashboardSensorWidget(
-                          onSensorLoaded: (i) {
-                            if (!sensorElements.contains(i)) {
-                              sensorElements.add(i);
-                            }
-                          },
-                          sensorElements: sensorElements,
-                        )
-                      : DashboardActuatorWidget(
-                          onActuatorLoaded: (i) {
-                            if (!actuatorElements.contains(i)) {
-                              actuatorElements.add(i);
-                            }
-                          },
-                          actuatorElements: actuatorElements),
+                  DashboardSensorsActuatorsWidget(sensorsActuatorsElements: sensorsActuatorsElements),
                 ],
-              )),
+              ),
               const Positioned(
                 child: HelpWidget(),
               )

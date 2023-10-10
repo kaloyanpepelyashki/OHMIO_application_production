@@ -41,6 +41,8 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
     on<GetSensorRange>(_onGetSensorRange);
     on<GetSensorsForUser>(_onGetSensorsForUser);
     on<AddAction>(_onAddAction);
+
+    on<UpdateUserStatus>(_onUpdateUserStatus);
   }
 
   void _onSubscribeChannel(
@@ -144,6 +146,14 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
     print("In _onAddAction - Bloc");
     sensorLogic.addAction(event.actionClass);
     print("After sensorLogic.addAction(...)");
+  }
+
+  void _onUpdateUserStatus(
+    UpdateUserStatus event,
+    Emitter<PinTunnelState> emit,
+  ) async {
+    sensorLogic.updateUserStatus(event.status, event.email);
+    print("User profile updated with the status of: ${event.status}");
   }
 
   @override

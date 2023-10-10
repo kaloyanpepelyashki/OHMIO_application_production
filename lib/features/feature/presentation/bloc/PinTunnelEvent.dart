@@ -112,3 +112,14 @@ class GetSensorsForUser extends PinTunnelEvent{
   @override
   List<Object> get props => [email];
 }
+
+
+class UpdateUserStatus extends PinTunnelEvent{
+  final String status;
+  final String email;
+
+  const UpdateUserStatus({required this.status,required this.email});
+
+  @override
+  List<Object> get props => [status, email];
+}

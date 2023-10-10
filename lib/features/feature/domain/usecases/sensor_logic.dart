@@ -23,4 +23,8 @@ class SensorLogic{
   void addAction(ActionClass actionClass){
     _repository.addAction(actionClass);
   }
+
+  void updateUserStatus(String status, String email){
+    _repository.updateUserStatus(status, email);
+  }
 }

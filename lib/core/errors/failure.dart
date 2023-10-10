@@ -20,5 +20,8 @@ class APIFailure extends Failure{
 
 class NotFoundFailure extends Failure{
    const NotFoundFailure({required super.message, required super.statusCode});
+}
 
+class UserStatusUpdateFailure extends Failure{
+  const UserStatusUpdateFailure({required super.message, required super.statusCode});
 }

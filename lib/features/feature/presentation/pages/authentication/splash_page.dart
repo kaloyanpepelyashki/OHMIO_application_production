@@ -34,7 +34,7 @@ class _SplashPageState extends State<SplashPage> {
         // if the user has finished the onBoarding, they get navigated to the dashboard page
         debugPrint("Going to dashboard");
         
-
+        BlocProvider.of<PinTunnelBloc>(context).add(UpdateUserStatus(status: "ONLINE", email: _session!.user!.email!));
         GoRouter.of(context).goNamed("dashboard",
             pathParameters: {"email": _session!.user.email!});
       } else if (!_userProfileDB["finishedOnBoarding"]) {
