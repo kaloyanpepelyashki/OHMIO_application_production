@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/dashboard/add_new_device_widget.dart';
 
 import '../../../domain/entities/sensor_class.dart';
 import '../../bloc/PinTunnelBloc.dart';
@@ -84,32 +85,7 @@ class _DashboardSensorWidgetState extends State<DashboardSensorWidget> {
                         latestValue:
                             el.latestValue == null ? 0 : el.latestValue,
                       ),
-                  DottedBorder(
-                    strokeWidth: 1,
-                    padding: EdgeInsets.all(4),
-                    child: Container(
-                      color: const Color(0xFFF1F1F1),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 90,
-                            height: 90,
-                            child: IconButton(
-                              icon: const FaIcon(FontAwesomeIcons.plus,
-                                  size: 90, color: Colors.black),
-                              onPressed: () => {
-                                GoRouter.of(context).push("/chooseSensorPage")
-                              },
-                            ),
-                          ),
-                          SizedBox(height: 20),
-                          const Text("Add New Device",
-                              style: TextStyle(fontSize: 20)),
-                        ],
-                      ),
-                    ),
-                  )
+                  AddNewDeviceWidget()
                 ],
               ),
             )
