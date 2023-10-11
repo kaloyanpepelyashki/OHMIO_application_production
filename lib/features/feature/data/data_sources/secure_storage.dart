@@ -5,9 +5,10 @@ class SecureStorage {
 
   writeSecureData(String key, String value) async {
     await storage.write(key: key, value: value);
+    print("$key successfuly saved");
   }
 
-  readSecureData(String key) async {
+  Future<String> readSecureData(String key) async {
     String value = await storage.read(key: key) ?? 'No data found';
     return value;
   }

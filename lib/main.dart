@@ -44,13 +44,11 @@ Future<void> main() async {
   tz.initializeTimeZones();
 
   await di.init();
-
   //ONESIGNAL NOTIFICATIONS
   OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
 
   OneSignal.initialize("714ca8e6-14af-4778-b0d7-02eb3331cffb");
   OneSignal.Notifications.requestPermission(true);
-
   ///NOTIFICATION SETTINGS
   notificationAppLaunchDetails = !kIsWeb && Platform.isLinux
       ? null
@@ -85,7 +83,6 @@ Future<void> main() async {
     },
     onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
   );
-  WidgetsFlutterBinding.ensureInitialized();
   //Initializing supabase manager
   await Supabase.initialize(
     url: supabaseManager.supabaseUrl,

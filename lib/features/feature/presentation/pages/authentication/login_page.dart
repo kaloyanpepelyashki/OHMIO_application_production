@@ -24,14 +24,28 @@ class _LogInComponentState extends State<LogInPage> {
   final _supabaseManager = supabaseManager;
   final _passwordController = TextEditingController();
   final _emailController = TextEditingController();
-  //String secureStorage email;
-  //String secureStorage password;
+  String secureStorageEmail = '';
+  String secureStoragePassword = '';
 
   @override
   void initState() {
-    SecureStorage().readSecureData('name');
+    readSecureData();
     super.initState();
     //_emailController.text = _supabaseManager.user?.email ?? "kon";
+  }
+
+  void readSecureData() async{
+    String email = await SecureStorage().readSecureData('email');
+    String password = await SecureStorage().readSecureData('password');
+
+    if (email != 'No data found') {
+      _emailController.text = email;
+      secureStorageEmail = email;
+    }
+    if (password!= 'No data found'){
+      _passwordController.text = password;
+      secureStoragePassword = password;
+    }
   }
 
   @override
@@ -112,7 +126,12 @@ class _LogInComponentState extends State<LogInPage> {
                       margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                       child: ElevatedButtonComponent(
                         key: const Key('loginButton'),
-                        onPressed: () {
+                        onPressed: () async{
+                          if (secureStorageEmail == '' ||
+                              secureStoragePassword == '') {
+                            await SecureStorage().writeSecureData('email', _emailController.text.trim());
+                            await SecureStorage().writeSecureData('password', _passwordController.text);
+                          }
                           _handleSignIn(context, _emailController.text.trim(),
                               _passwordController.text);
                         },
