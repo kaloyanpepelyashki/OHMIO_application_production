@@ -33,11 +33,10 @@ class _OnBoardingPersonalDataPageState
     try {
       tz.Location utc = tz.getLocation('UTC');
       await supabaseManager.supabaseClient.from("profiles").update({
-        "email": _session!.user.email,
         "first_name": _nameController.text.trim(),
         "last_name": _lastNameController.text.trim(),
         "updated_at": tz.TZDateTime.from(DateTime.now(), utc).toIso8601String(),
-      }).eq("id", supabaseManager.supabaseSession!.user.id);
+      }).eq("id", _session?.user.id);
       return const Right(null);
     } catch (e) {
       debugPrint(e.toString());
@@ -72,8 +71,7 @@ class _OnBoardingPersonalDataPageState
                   populateUserProfile(),
                   GoRouter.of(context).push("/signup/onboarding-username")
                 });
-      } else if (_nameController.text.isEmpty &&
-          _lastNameController.text.isEmpty) {
+      } else {
         //If the input field haven't been filled out by the user it throws an alert on screen
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text("Please fill out all fields"),
