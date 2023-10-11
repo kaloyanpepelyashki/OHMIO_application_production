@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:pin_tunnel_application_production/features/feature/data/data_sources/secure_storage.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelBloc.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelEvent.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/inputField_with_heading.dart';
@@ -23,9 +24,12 @@ class _LogInComponentState extends State<LogInPage> {
   final _supabaseManager = supabaseManager;
   final _passwordController = TextEditingController();
   final _emailController = TextEditingController();
+  //String secureStorage email;
+  //String secureStorage password;
 
   @override
   void initState() {
+    SecureStorage().readSecureData('name');
     super.initState();
     //_emailController.text = _supabaseManager.user?.email ?? "kon";
   }
