@@ -49,6 +49,7 @@ class _SplashPageState extends State<SplashPage> {
     }
   }
 
+//Checks if valid internet connection is present
   void _checkInternetConnection() async {
     try {
       bool hasConnection = await singletonInstance.checkConnection();

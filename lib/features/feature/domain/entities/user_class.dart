@@ -136,3 +136,24 @@ final userProfile = User_Profile(
     tunnelDevice: null,
     tunnelMACAddress: "",
     tunnelState: "");
+
+class UserData {
+  final String firstName;
+  final String lastName;
+  final String username;
+  final String email;
+
+  UserData(
+      {required this.firstName,
+      required this.lastName,
+      required this.username,
+      required this.email});
+
+  factory UserData.fromMap(Map<String, dynamic> map) {
+    return UserData(
+        firstName: map['firstName'],
+        lastName: map['lastName'],
+        username: map['username'],
+        email: map['email']);
+  }
+}

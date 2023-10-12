@@ -34,7 +34,7 @@ class _LogInComponentState extends State<LogInPage> {
     //_emailController.text = _supabaseManager.user?.email ?? "kon";
   }
 
-  void readSecureData() async{
+  void readSecureData() async {
     String email = await SecureStorage().readSecureData('email');
     String password = await SecureStorage().readSecureData('password');
 
@@ -42,7 +42,7 @@ class _LogInComponentState extends State<LogInPage> {
       _emailController.text = email;
       secureStorageEmail = email;
     }
-    if (password!= 'No data found'){
+    if (password != 'No data found') {
       _passwordController.text = password;
       secureStoragePassword = password;
     }
@@ -62,7 +62,9 @@ class _LogInComponentState extends State<LogInPage> {
 
       signInSession.fold(
           ifRight: (r) async => {
-                await userProfile.fetchFromDatabase(supabaseManager.user?.id),
+                await userProfile.fetchFromDatabase(supabaseManager.user != null
+                    ? supabaseManager.user?.id
+                    : null),
                 print("DATA PARSED"),
                 OneSignal.login(email),
                 OneSignal.User.addEmail(email),
@@ -126,11 +128,13 @@ class _LogInComponentState extends State<LogInPage> {
                       margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                       child: ElevatedButtonComponent(
                         key: const Key('loginButton'),
-                        onPressed: () async{
+                        onPressed: () async {
                           if (secureStorageEmail == '' ||
                               secureStoragePassword == '') {
-                            await SecureStorage().writeSecureData('email', _emailController.text.trim());
-                            await SecureStorage().writeSecureData('password', _passwordController.text);
+                            await SecureStorage().writeSecureData(
+                                'email', _emailController.text.trim());
+                            await SecureStorage().writeSecureData(
+                                'password', _passwordController.text);
                           }
                           _handleSignIn(context, _emailController.text.trim(),
                               _passwordController.text);
