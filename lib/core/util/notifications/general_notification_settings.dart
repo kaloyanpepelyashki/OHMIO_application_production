@@ -82,7 +82,7 @@ Future<void> configureSelectNotificationSubject(BuildContext context) async {
  _session = supabaseManager.supabaseClient.auth.currentSession;
 
   GoRouter.of(context).pushNamed("sensorPage", pathParameters: {
-    "id": "13456789",
+    "id": "114",
   });
   });
 }
@@ -92,7 +92,7 @@ void goToSensorPage(context) {
  _session = supabaseManager.supabaseClient.auth.currentSession;
 
   GoRouter.of(context).pushNamed("sensorPage", pathParameters: {
-    "id": "13456789",
+    "id": "114",
   });
 }
 

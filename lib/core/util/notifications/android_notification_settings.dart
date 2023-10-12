@@ -3,7 +3,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'general_notification_settings.dart';
 
 AndroidInitializationSettings initializationSettingsAndroid =
-    const AndroidInitializationSettings('app_icon');
+    const AndroidInitializationSettings('appstore');
 
 Future<void> showAndroidNotification() async {
   const AndroidNotificationDetails androidNotificationDetails =
@@ -15,7 +15,7 @@ Future<void> showAndroidNotification() async {
   const NotificationDetails notificationDetails =
       NotificationDetails(android: androidNotificationDetails);
   await flutterLocalNotificationsPlugin.show(
-    id++, 'Ebits', 'Temperature sensor above max limit !', notificationDetails,
+    id++, '', 'Temperature sensor above max limit !', notificationDetails,
     //payload: 'item x'
   );
 }

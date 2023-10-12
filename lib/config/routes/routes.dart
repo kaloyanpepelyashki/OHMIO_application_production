@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pin_tunnel_application_production/features/feature/domain/usecases/subscribe_channel_logic.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/authentication/change_password_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/authentication/password_reset_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/authentication/user_onboarding_personal_username.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/dashboard/choose_sensor_page.dart';
@@ -52,6 +53,12 @@ GoRouter router = GoRouter(initialLocation: "/", routes: <GoRoute>[
     path: "/resetPassword",
     builder: (BuildContext context, GoRouterState state) {
       return const ResetPasswordPage();
+    },
+  ),
+  GoRoute(
+    path: "/changePassword",
+    builder: (BuildContext context, GoRouterState state) {
+      return const ChangePasswordPage();
     },
   ),
   GoRoute(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pin_tunnel_application_production/features/feature/domain/entities/chart_data.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -25,9 +26,16 @@ class SplineDefaultState extends State<SplineDefault> {
   ChartSeriesController? _chartSeriesController;
 
   List<ChartData> chartData = [];
+  
 
   @override
   initState() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+    ]);
     // BlocProvider.of<PinTunnelBloc>(context)
     //     .add(const SubscribeMinuteChannel(sensorId: 12345));
     timeFilter = widget.timeFilter;
@@ -131,7 +139,7 @@ class SplineDefaultState extends State<SplineDefault> {
                 primaryXAxis: DateTimeAxis(
                   rangePadding: ChartRangePadding.round,
                   labelAlignment: LabelAlignment.end,
-                  autoScrollingDelta: 10,
+                  autoScrollingDelta: 5,
                   autoScrollingMode: AutoScrollingMode.end,
                   interactiveTooltip: const InteractiveTooltip(
                       // Displays the x-axis tooltip

@@ -45,6 +45,9 @@ class DrawerMenuComponent extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(50, 10, 15, 0),
                   children: [
                     DrawerMenuItemComponent(
+                      text: "Change password", action:()=> GoRouter.of(context).push("/changePassword")
+                    ),
+                    DrawerMenuItemComponent(
                         text: "Log-out", action: handleSignOut)
                   ],
                 ),

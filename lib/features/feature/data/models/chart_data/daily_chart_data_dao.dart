@@ -6,7 +6,7 @@ class DailyChartDataDao extends ChartData {
 
     try{
       return ChartData(
-      dateTime: DateTime(dateTime.year, dateTime.month, dateTime.day, dateTime.hour, dateTime.minute),
+      dateTime: DateTime(dateTime.year, dateTime.month, dateTime.day, dateTime.hour, dateTime.minute, dateTime.second, dateTime.millisecond),
       value: (json['avg'] as num).toDouble() ,
     );
     }catch(e){

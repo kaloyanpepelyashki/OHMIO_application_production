@@ -43,6 +43,7 @@ class _SensorPageState extends State<SensorPage> {
   String selectedFilter = 'day';
 
   double carouselSliderHeight = 400;
+  String? mac_address;
 
   @override
   void initState() {
@@ -50,7 +51,8 @@ class _SensorPageState extends State<SensorPage> {
     rangeArea = RangeArea(
       timeFilter: selectedFilter, /*key: rangeAreaKey*/
     );
-    splineDefault = SplineDefault(timeFilter: selectedFilter, mac_address: widget.mac_address!);
+    mac_address = widget.mac_address;
+    splineDefault = SplineDefault(timeFilter: selectedFilter, mac_address: mac_address!);
     carouselItems = [splineDefault, temperatureSensorWidget];
   }
 
@@ -76,7 +78,7 @@ class _SensorPageState extends State<SensorPage> {
                           ElevatedButton(
                             onPressed: () {
                               selectedFilter = 'day';
-                              changeChartsBasedOnFilter("day",widget.mac_address!);
+                              changeChartsBasedOnFilter("day",mac_address!);
                             },
                             child: Text("Day"),
                             style: selectedFilter == "day"
@@ -96,7 +98,7 @@ class _SensorPageState extends State<SensorPage> {
                           ElevatedButton(
                             onPressed: () {
                               selectedFilter = 'week';
-                              changeChartsBasedOnFilter("week", widget.mac_address!);
+                              changeChartsBasedOnFilter("week", mac_address!);
                             },
                             child: Text("Week"),
                             style: selectedFilter == "week"
@@ -116,7 +118,7 @@ class _SensorPageState extends State<SensorPage> {
                           ElevatedButton(
                             onPressed: () {
                               selectedFilter = 'month';
-                              changeChartsBasedOnFilter("month", widget.mac_address!);
+                              changeChartsBasedOnFilter("month", mac_address!);
                             },
                             child: Text("Month"),
                             style: selectedFilter == "month"
@@ -163,7 +165,7 @@ class _SensorPageState extends State<SensorPage> {
                       ),
                     ],
                   ),
-                  isChartPage
+                 /* isChartPage
                       ? Positioned(
                           top: 50,
                           right: 100,
@@ -226,10 +228,10 @@ class _SensorPageState extends State<SensorPage> {
                             ],
                           ),
                         )
-                      : SizedBox(),
+                      : SizedBox(),*/
                 ],
               ),
-              Row(
+              /*Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
@@ -262,7 +264,7 @@ class _SensorPageState extends State<SensorPage> {
               ),
               SensorActionConfig(
                 context: context,
-              )
+              )*/
             ],
           ),
         ),);
