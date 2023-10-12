@@ -16,7 +16,6 @@ class _UserProfileHeaderState extends State<UserProfileHeader> {
 
   void fetchUserData() async {
     final dataBaseResponse = await supabaseManager.getUserData();
-    debugPrint(_userData.toString());
     dataBaseResponse.fold(
         ifLeft: (l) => {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(

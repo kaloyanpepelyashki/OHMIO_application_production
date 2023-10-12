@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/drawer_user_profile_item.dart';
 
 import '../../data/data_sources/supabase_service.dart';
+import 'drawer_menu_item_component.dart';
 
 class DrawerMenuComponent extends StatelessWidget {
   const DrawerMenuComponent({super.key});
@@ -43,40 +44,8 @@ class DrawerMenuComponent extends StatelessWidget {
                   scrollDirection: Axis.vertical,
                   padding: const EdgeInsets.fromLTRB(50, 10, 15, 0),
                   children: [
-                    Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 5, 0, 15),
-                        child: Row(children: [
-                          InkWell(
-                            child: const Text("Log-out",
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold)),
-                            onTap: () {
-                              handleSignOut();
-                            },
-                          ),
-                          const Spacer(),
-                          const Icon(
-                            Icons.arrow_forward_ios_rounded,
-                            size: 20,
-                          )
-                        ])),
-                    Padding(
-                        padding: EdgeInsets.fromLTRB(0, 5, 0, 15),
-                        child: Row(children: [
-                          InkWell(
-                            child: const Text("Log-out",
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold)),
-                            onTap: () {
-                              handleSignOut();
-                            },
-                          ),
-                          const Spacer(),
-                          const Icon(
-                            Icons.arrow_forward_ios_rounded,
-                            size: 20,
-                          )
-                        ])),
+                    DrawerMenuItemComponent(
+                        text: "Log-out", action: handleSignOut)
                   ],
                 ),
               ),
@@ -92,7 +61,7 @@ class DrawerMenuComponent extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: Padding(
               padding: EdgeInsets.only(bottom: 20.0),
-              child: Text("VERSION: 1.0.0"),
+              child: Text("VERSION: 1.0.0."),
             ),
           ),
         ),

@@ -1,29 +1,31 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class DrawerMenuComponent extends StatelessWidget
+class DrawerMenuItemComponent extends StatelessWidget
     implements PreferredSizeWidget {
-  const DrawerMenuComponent({super.key});
+  final String text;
+  final action;
+  const DrawerMenuItemComponent(
+      {super.key, required this.text, required this.action});
 
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {
-    // return SizedBox(
-    //     height: 40,
-    //     width: 100,
-    //     child: Row(
-    //       children: [
-    //         Flexible(child: InkWell(child: Text("Test"), onTap: () {})),
-    //         const Icon(Icons.arrow_forward, size: 29)
-    //       ],
-    //     ));
-    return SizedBox(
-        height: 40,
-        width: 40,
-        child: Icon(
-          Icons.arrow_forward,
-          size: 42,
-        ));
+    return Padding(
+        padding: EdgeInsets.fromLTRB(0, 5, 0, 15),
+        child: Row(children: [
+          InkWell(
+            child: Text(text,
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            onTap: action,
+          ),
+          const Spacer(),
+          const Icon(
+            Icons.arrow_forward_ios_rounded,
+            size: 20,
+          )
+        ]));
   }
 }
