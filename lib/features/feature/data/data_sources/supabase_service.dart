@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dart_either/dart_either.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -113,6 +115,36 @@ class SupabaseManager {
       return const Either.right(null);
     } on AuthException catch (e) {
       return Either.left(AuthException("$e"));
+    }
+  }
+
+  Future<Either<Exception, List<UserData>>> getUserData() async {
+    try {
+      final _id = supabaseSession?.user.id;
+      debugPrint(_id);
+      final databaseResponse = await supabaseManager.supabaseClient
+          .from("profiles")
+          .select('first_name, last_name, username, email')
+          .eq('id', _id);
+      final parsedData = databaseResponse as List;
+
+      if (databaseResponse.isEmpty) {
+        return Either.left(Exception("Unexpected problem occured"));
+      }
+      return Either.right(parsedData.map((map) {
+        return UserData(
+          firstName: map['first_name'] ?? '',
+          lastName: map['last_name'] ?? '',
+          username: map['username'] ?? '',
+          email: map['email'] ?? '',
+        );
+      }).toList());
+    } on SocketException {
+      return Either.left(Exception("Internet Error"));
+    } on PostgrestException catch (e) {
+      return Either.left(Exception(e.toString()));
+    } catch (e) {
+      return Either.left(Exception("kon: ${e.toString()}"));
     }
   }
 

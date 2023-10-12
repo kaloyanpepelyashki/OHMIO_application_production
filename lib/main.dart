@@ -49,6 +49,7 @@ Future<void> main() async {
 
   OneSignal.initialize("714ca8e6-14af-4778-b0d7-02eb3331cffb");
   OneSignal.Notifications.requestPermission(true);
+
   ///NOTIFICATION SETTINGS
   notificationAppLaunchDetails = !kIsWeb && Platform.isLinux
       ? null
@@ -96,8 +97,9 @@ Future<void> main() async {
   supabaseManager.supabaseSession =
       supabaseManager.supabaseClient.auth.currentSession;
 
-  FlutterError.onError = (FlutterErrorDetails details){
+  FlutterError.onError = (FlutterErrorDetails details) {
     _showError(details.exception.toString());
+    debugPrint(details.exception.toString());
   };
 
   runApp(
@@ -109,14 +111,14 @@ Future<void> main() async {
       child: const MyApp(),
     ),
   );
- // WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
- //   if (Platform.isAndroid) {
+  // WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+  //   if (Platform.isAndroid) {
   //    await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
- //   }
- // });
+  //   }
+  // });
 }
 
-void _showError(String error){
+void _showError(String error) {
   Fluttertoast.showToast(
     msg: error,
     gravity: ToastGravity.BOTTOM,
@@ -136,7 +138,7 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   bool? _jailbroken;
   bool? _developerMode;
 
@@ -153,23 +155,24 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
     super.dispose();
   }
 
-   @override
+  @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     String email = supabaseManager.supabaseSession!.user!.email!;
-    switch(state){
+    switch (state) {
       case AppLifecycleState.paused:
       case AppLifecycleState.inactive:
       case AppLifecycleState.detached:
-           BlocProvider.of<PinTunnelBloc>(context).add(UpdateUserStatus(status: "OFFLINE", email: email));
-           break;
+        BlocProvider.of<PinTunnelBloc>(context)
+            .add(UpdateUserStatus(status: "OFFLINE", email: email));
+        break;
       case AppLifecycleState.resumed:
-           BlocProvider.of<PinTunnelBloc>(context).add(UpdateUserStatus(status: "ONLINE", email: email));
-           break;
+        BlocProvider.of<PinTunnelBloc>(context)
+            .add(UpdateUserStatus(status: "ONLINE", email: email));
+        break;
       default:
-          break;
+        break;
     }
   }
-
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
@@ -199,9 +202,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-      ]);
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return _jailbroken == true
         ? Text("JAILBROKEN DEVICE")
         : MaterialApp.router(

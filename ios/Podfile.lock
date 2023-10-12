@@ -10,6 +10,11 @@ PODS:
     - IOSSecuritySuite
   - flutter_local_notifications (0.0.1):
     - Flutter
+  - flutter_secure_storage (6.0.0):
+    - Flutter
+  - fluttertoast (0.0.2):
+    - Flutter
+    - Toast
   - integration_test (0.0.1):
     - Flutter
   - IOSSecuritySuite (1.9.9)
@@ -66,6 +71,7 @@ PODS:
     - FlutterMacOS
   - sign_in_with_apple (0.0.1):
     - Flutter
+  - Toast (4.0.0)
   - url_launcher_ios (0.0.1):
     - Flutter
   - webview_flutter_wkwebview (0.0.1):
@@ -77,6 +83,8 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_jailbreak_detection (from `.symlinks/plugins/flutter_jailbreak_detection/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
+  - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
+  - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
   - onesignal_flutter (from `.symlinks/plugins/onesignal_flutter/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
@@ -90,6 +98,7 @@ SPEC REPOS:
     - IOSSecuritySuite
     - OneSignalXCFramework
     - ReachabilitySwift
+    - Toast
 
 EXTERNAL SOURCES:
   app_links:
@@ -102,6 +111,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_jailbreak_detection/ios"
   flutter_local_notifications:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
+  flutter_secure_storage:
+    :path: ".symlinks/plugins/flutter_secure_storage/ios"
+  fluttertoast:
+    :path: ".symlinks/plugins/fluttertoast/ios"
   integration_test:
     :path: ".symlinks/plugins/integration_test/ios"
   onesignal_flutter:
@@ -123,6 +136,8 @@ SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_jailbreak_detection: c5bf66ff6c0c4230769b6ba0bd63eb6ac4148a76
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
+  flutter_secure_storage: 23fc622d89d073675f2eaa109381aefbcf5a49be
+  fluttertoast: fafc4fa4d01a6a9e4f772ecd190ffa525e9e2d9c
   integration_test: 13825b8a9334a850581300559b8839134b124670
   IOSSecuritySuite: 72c55371aafe586196c325a8348319c36d385ce4
   onesignal_flutter: 31243b2080ca5b6939bd0ee284af7ad9b35512db
@@ -131,6 +146,7 @@ SPEC CHECKSUMS:
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
   shared_preferences_foundation: 5b919d13b803cadd15ed2dc053125c68730e5126
   sign_in_with_apple: f3bf75217ea4c2c8b91823f225d70230119b8440
+  Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   url_launcher_ios: 08a3dfac5fb39e8759aeb0abbd5d9480f30fc8b4
   webview_flutter_wkwebview: 2e2d318f21a5e036e2c3f26171342e95908bd60a
 
