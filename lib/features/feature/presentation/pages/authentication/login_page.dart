@@ -136,7 +136,13 @@ class _LogInComponentState extends State<LogInPage> {
                               _passwordController.text);
                         },
                         text: "Ok",
-                      ))
+                      )),
+                    GestureDetector(
+                      child: Text("Forgot your password?"),
+                      onTap: (){
+                        GoRouter.of(context).push("/resetPassword");
+                      }
+                    ),
                 ],
               )),
         ));
