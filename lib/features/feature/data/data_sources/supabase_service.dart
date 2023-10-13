@@ -125,7 +125,7 @@ class SupabaseManager {
       final databaseResponse = await supabaseManager.supabaseClient
           .from("profiles")
           .select('first_name, last_name, username, email')
-          .eq('id', _id);
+          .eq("id", _id ?? "");
       final parsedData = databaseResponse as List;
 
       if (databaseResponse.isEmpty) {

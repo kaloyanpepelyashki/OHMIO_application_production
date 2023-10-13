@@ -34,25 +34,24 @@ class _GridItemState extends State<GridItem> {
   @override
   void initState() {
     print("WIDGET.ID IN GRID_ITEM_COMP: ${widget.id}");
-   // BlocProvider.of<PinTunnelBloc>(context)
-     //   .add(SubscribeChannel(sensorId: widget.id!));
+    // BlocProvider.of<PinTunnelBloc>(context)
+    //   .add(SubscribeChannel(sensorId: widget.id!));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<PinTunnelBloc, PinTunnelState>(
-      listener: (context, state) {
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         if (state is LatestDataReceivedState) {
-          for(int i=0; i<state.listOfLatestData.length; i++){
-            if(widget.id == state.listOfLatestData[i].sensorMac){
+          for (int i = 0; i < state.listOfLatestData.length; i++) {
+            if (widget.id == state.listOfLatestData[i].sensorMac) {
               print("Latest value $i: ${state.listOfLatestData[i]}");
               print("SUCCESSFULY ADDED TO sensors");
-                if(state.listOfLatestData[i].value != null){
-                  latestValue = state.listOfLatestData[i].value!;
-                }
+              if (state.listOfLatestData[i].value != null) {
+                latestValue = state.listOfLatestData[i].value!;
+              }
             }
           }
         }
@@ -91,7 +90,8 @@ class _GridItemState extends State<GridItem> {
               ),
             ),
             onTap: () {
-              GoRouter.of(context).pushNamed("sensorPage", pathParameters: {'id':widget.id.toString()});
+              GoRouter.of(context).pushNamed("sensorPage",
+                  pathParameters: {'id': widget.id.toString()});
             });
       },
     );

@@ -157,7 +157,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    String email = supabaseManager.supabaseSession!.user!.email!;
+    final _session = supabaseManager.supabaseSession;
+    String email = _session?.user.email ?? "";
     switch (state) {
       case AppLifecycleState.paused:
       case AppLifecycleState.inactive:
