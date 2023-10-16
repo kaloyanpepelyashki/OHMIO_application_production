@@ -139,8 +139,9 @@ class _LogInComponentState extends State<LogInPage> {
                           _handleSignIn(context, _emailController.text.trim(),
                               _passwordController.text);
                         },
-                        text: "Ok",
+                        text: "SIGN IN",
                       )),
+                    SizedBox(height: 30),
                     GestureDetector(
                       child: Text("Forgot your password?"),
                       onTap: (){
