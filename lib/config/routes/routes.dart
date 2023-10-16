@@ -112,7 +112,9 @@ GoRouter router = GoRouter(initialLocation: "/", routes: <GoRoute>[
       builder: (BuildContext context, GoRouterState state) {
         return BlocProvider.value(
           value: BlocProvider.of<PinTunnelBloc>(context),
-          child: SensorPage(mac_address: state.pathParameters['id'],),
+          child: SensorPage(
+            mac_address: state.pathParameters['id'],
+          ),
         );
       }),
   GoRoute(

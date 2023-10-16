@@ -40,41 +40,33 @@ class _DashboardSensorWidgetState
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<PinTunnelBloc, PinTunnelState>(
-      listener: (context, state) {
-       
-      },
-      builder: (context, state) {
-        return Container(
-          height: 500,
-          width: 500,
-          child: CustomScrollView(primary: false, slivers: [
-            SliverPadding(
-              padding: const EdgeInsets.all(20),
-              sliver: SliverGrid.count(
-                crossAxisCount: 2,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
-                childAspectRatio: 3 / 4,
-                children: [
-                  if (sensorItems.isNotEmpty)
-                    for (final el in sensorItems)
-                      GridItem(
-                        id: int.parse(el.sensorMac!),
-                        isActuator: el.isActuator!,
-                        sensorName: el.sensorName,
-                        sensorImage: el.sensorImage,
-                        sensorDescription: el.sensorDescription!,
-                        latestValue:
-                            el.latestValue == null ? 0 : el.latestValue,
-                      ),
-                  AddNewDeviceWidget(),
-                ],
-              ),
-            )
-          ]),
-        );
-      },
+    return Container(
+      height: 500,
+      width: 500,
+      child: CustomScrollView(primary: false, slivers: [
+        SliverPadding(
+          padding: const EdgeInsets.all(20),
+          sliver: SliverGrid.count(
+            crossAxisCount: 2,
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10,
+            childAspectRatio: 3 / 4,
+            children: [
+              if (sensorItems.isNotEmpty)
+                for (final el in sensorItems)
+                  GridItem(
+                    id: int.parse(el.sensorMac!),
+                    isActuator: el.isActuator!,
+                    sensorName: el.sensorName,
+                    sensorImage: el.sensorImage,
+                    sensorDescription: el.sensorDescription!,
+                    latestValue: el.latestValue == null ? 0 : el.latestValue,
+                  ),
+              AddNewDeviceWidget(),
+            ],
+          ),
+        )
+      ]),
     );
   }
 }

@@ -22,53 +22,55 @@ class DrawerMenuComponent extends StatelessWidget {
     }
 
     return Drawer(
+        width: 240,
         child: Stack(
-      children: [
-        // Other widgets in the Stack
-        Positioned(
-          top: 0,
-          bottom: 0,
-          left: 0,
-          right: 0,
-          child: Column(
-            children: [
-              Container(
-                  padding: const EdgeInsets.fromLTRB(40, 10, 10, 20),
-                  height: 160,
-                  child: const DrawerHeader(
-                      margin: EdgeInsets.only(bottom: 0),
-                      padding: EdgeInsets.fromLTRB(10, 30, 10, 14),
-                      child: UserProfileHeader())),
-              Expanded(
-                child: ListView(
-                  scrollDirection: Axis.vertical,
-                  padding: const EdgeInsets.fromLTRB(50, 10, 15, 0),
-                  children: [
-                    DrawerMenuItemComponent(
-                      text: "Change password", action:()=> GoRouter.of(context).push("/changePassword")
+          children: [
+            // Other widgets in the Stack
+            Positioned(
+              top: 0,
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Column(
+                children: [
+                  Container(
+                      padding: const EdgeInsets.fromLTRB(20, 10, 10, 20),
+                      height: 160,
+                      child: const DrawerHeader(
+                          margin: EdgeInsets.only(bottom: 0),
+                          padding: EdgeInsets.fromLTRB(10, 30, 10, 14),
+                          child: UserProfileHeader())),
+                  Expanded(
+                    child: ListView(
+                      scrollDirection: Axis.vertical,
+                      padding: const EdgeInsets.fromLTRB(30, 10, 15, 0),
+                      children: [
+                        DrawerMenuItemComponent(
+                            text: "Change password",
+                            action: () =>
+                                GoRouter.of(context).push("/changePassword")),
+                        DrawerMenuItemComponent(
+                            text: "Log-out", action: handleSignOut)
+                      ],
                     ),
-                    DrawerMenuItemComponent(
-                        text: "Log-out", action: handleSignOut)
-                  ],
+                  ),
+                ],
+              ),
+            ),
+            const Positioned(
+              height: 40,
+              bottom: 20,
+              left: 0,
+              right: 0,
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 20.0),
+                  child: Text("VERSION: 1.0.3"),
                 ),
               ),
-            ],
-          ),
-        ),
-        const Positioned(
-          height: 40,
-          bottom: 20,
-          left: 0,
-          right: 0,
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: EdgeInsets.only(bottom: 20.0),
-              child: Text("VERSION: 1.0.3"),
             ),
-          ),
-        ),
-      ],
-    ));
+          ],
+        ));
   }
 }

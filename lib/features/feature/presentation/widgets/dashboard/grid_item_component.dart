@@ -57,9 +57,9 @@ class _GridItemState extends State<GridItem> {
             if(widget.id == state.listOfLatestData[i].sensorMac){
               print("Latest value $i: ${state.listOfLatestData[i]}");
               print("SUCCESSFULY ADDED TO sensors");
-                if(state.listOfLatestData[i].value != null){
-                  latestValue = state.listOfLatestData[i].value!;
-                }
+              if (state.listOfLatestData[i].value != null) {
+                latestValue = state.listOfLatestData[i].value!;
+              }
             }
           }
         }*/
@@ -98,7 +98,8 @@ class _GridItemState extends State<GridItem> {
               ),
             ),
             onTap: () {
-              GoRouter.of(context).pushNamed("sensorPage", pathParameters: {'id':widget.id.toString()});
+              GoRouter.of(context).pushNamed("sensorPage",
+                  pathParameters: {'id': widget.id.toString()});
             });
       },
     );

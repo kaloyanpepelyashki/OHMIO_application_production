@@ -46,7 +46,7 @@ class _UserProfileHeaderState extends State<UserProfileHeader> {
         child: Row(
           children: [
             Text(
-              "Hello ${_userData.first.firstName}",
+              "Hello, ${_userData.first.firstName.isEmpty ? ' User' : _userData.first.firstName}",
               style: TextStyle(fontSize: 24),
             )
           ],
