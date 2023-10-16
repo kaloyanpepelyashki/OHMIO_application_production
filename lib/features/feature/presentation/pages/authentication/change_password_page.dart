@@ -24,26 +24,26 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   final _newPasswordController = TextEditingController();
   final _repeatPasswordController = TextEditingController();
 
-  void _handleChangePassword(context, String email, String currentPassword,
+  void _handleChangePassword(context, String currentPassword,
       String newPassword, String repeatPassword) async {
     try {
-      if (_supabaseManager.supabaseClient.auth.currentUser?.email == email) {
-        if (newPassword == repeatPassword) {
-          var userReponse = await _supabaseManager.supabaseClient.auth
-              .updateUser(UserAttributes(password: newPassword));
-          if (userReponse.user != null) {
-            await SecureStorage()
-                .writeSecureData('email', email);
-            await SecureStorage()
-                .writeSecureData('password', newPassword);
-            GoRouter.of(context)
-                .goNamed("dashboard", pathParameters: {"email": email});
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text("User is null"),
-              backgroundColor: Color.fromARGB(156, 255, 1, 1),
-            ));
-          }
+      if (newPassword == repeatPassword) {
+        var session = supabaseManager.supabaseSession;
+        session = supabaseManager.supabaseClient.auth.currentSession;
+        var email = session!.user.email;
+
+        var userReponse = await _supabaseManager.supabaseClient.auth
+            .updateUser(UserAttributes(password: newPassword));
+        if (userReponse.user != null) {
+          await SecureStorage().writeSecureData('email', email!);
+          await SecureStorage().writeSecureData('password', newPassword);
+          GoRouter.of(context)
+              .goNamed("dashboard", pathParameters: {"email": email});
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("User is null"),
+            backgroundColor: Color.fromARGB(156, 255, 1, 1),
+          ));
         }
       }
     } on AuthException catch (e) {
@@ -89,13 +89,6 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                             Container(
                                 margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                                 child: InputFieldWithHeading(
-                                  controller: _emailController,
-                                  placeHolder: "Email",
-                                  obscureText: false,
-                                )),
-                            Container(
-                                margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                                child: InputFieldWithHeading(
                                     controller: _currentPasswordController,
                                     placeHolder: "* Current Password",
                                     obscureText: true)),
@@ -122,7 +115,6 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                               onPressed: () {
                                 _handleChangePassword(
                                     context,
-                                    _emailController.text,
                                     _currentPasswordController.text,
                                     _newPasswordController.text,
                                     _repeatPasswordController.text);
