@@ -50,6 +50,17 @@ class _GridItemState extends State<GridItem> {
             latestValue = double.parse(state.payload['sensor_data']);
           }
         }
+        if (state is LatestDataReceivedState) {
+          for(int i=0; i<state.listOfLatestData.length; i++){
+            if(widget.id == state.listOfLatestData[i].sensorMac){
+              print("Latest value $i: ${state.listOfLatestData[i]}");
+              print("SUCCESSFULY ADDED TO sensors");
+                if(state.listOfLatestData[i].value != null){
+                  latestValue = state.listOfLatestData[i].value!;
+                }
+            }
+          }
+      }
       },
       builder: (context, state) {
         /*if (state is LatestDataReceivedState) {

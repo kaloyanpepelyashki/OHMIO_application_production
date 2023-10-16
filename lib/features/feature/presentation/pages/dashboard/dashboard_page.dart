@@ -51,7 +51,6 @@ class DashBoardPageState extends State<DashBoardPage> {
 
   @override
   void initState() {
-    super.initState();
     _checkNotificationPermissions();
     configureDidReceiveLocalNotificationSubject(context);
     configureSelectNotificationSubject(context);
@@ -59,7 +58,7 @@ class DashBoardPageState extends State<DashBoardPage> {
 
     BlocProvider.of<PinTunnelBloc>(context)
         .add(GetSensorsForUser(email: widget.email!));
-
+    super.initState();
   }
 
   Future<void> _checkNotificationPermissions() async {
@@ -84,15 +83,25 @@ class DashBoardPageState extends State<DashBoardPage> {
   Widget build(BuildContext context) {
     return BlocConsumer<PinTunnelBloc, PinTunnelState>(
       listener: (context, state) {
-        if (state is SensorsForUserReceivedState) {
-          if (state.sensorList.isNotEmpty) {
-            state.sensorList.forEach((i) {
-              sensorsActuatorsElements.add(i);
-            });
-          }
-        }
+        
       },
       builder: (context, state) {
+        if (state is SensorsForUserReceivedState) {
+          if (state.sensorList.isNotEmpty) {
+            //  List<int> listOfMacs = [];
+            state.sensorList.forEach((i) {
+              if(!sensorsActuatorsElements.contains(i)){
+                sensorsActuatorsElements.add(i);
+              }
+            });
+            print("Sensors added");
+            //BlocProvider.of<PinTunnelBloc>(context)
+            //   .add(GetLatestData(listOfMacs: listOfMacs));
+          } else {
+            print("Sensor list is empty");
+          }
+        }
+
         return Scaffold(
           appBar: const DashboardTopBarBurgerMenu(),
           backgroundColor: Theme.of(context).colorScheme.background,
@@ -102,7 +111,8 @@ class DashBoardPageState extends State<DashBoardPage> {
             children: [
               Column(
                 children: [
-                  DashboardSensorsActuatorsWidget(sensorsActuatorsElements: sensorsActuatorsElements),
+                  DashboardSensorsActuatorsWidget(
+                      sensorsActuatorsElements: sensorsActuatorsElements),
                 ],
               ),
               const Positioned(

@@ -50,7 +50,7 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
     Emitter<PinTunnelState> emit,
   ) async {
     subscribeChannelLogic.subscribeToChannel(event.sensorId, (payload) {
-      if(payload != []){
+      if (payload != []) {
         print("change received: ${payload}");
         payloadController.sink.add(payload);
       }
@@ -63,10 +63,11 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
   ) async {
     final data = await subscribeChannelLogic.getLatestData(event.listOfMacs);
     data.fold(
-      ifLeft: (value)=>print(value),
-      ifRight: (value)=>{
-        print("Latest data received state $value"),
-        emit(LatestDataReceivedState(value))});
+        ifLeft: (value) => print(value),
+        ifRight: (value) => {
+              print("Latest data received state $value"),
+              emit(LatestDataReceivedState(value))
+            });
   }
 
   void _onGetDailyData(
@@ -75,10 +76,11 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
   ) async {
     final data = await subscribeChannelLogic.getDailyData(event.sensorId);
     data.fold(
-      ifLeft: (value)=>print(value),
-      ifRight: (value)=>{
-        print("DAILY DATA RCEIVED STATE $value"),
-        emit(DailyDataReceivedState(value))});
+        ifLeft: (value) => print(value),
+        ifRight: (value) => {
+              print("DAILY DATA RCEIVED STATE $value"),
+              emit(DailyDataReceivedState(value))
+            });
   }
 
   void _onGetWeeklyData(
@@ -87,10 +89,11 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
   ) async {
     final data = await subscribeChannelLogic.getWeeklyData(event.sensorId);
     data.fold(
-      ifLeft: (value)=>print(value),
-      ifRight: (value)=>{
-        print("WEEKLY DATA RECEIVED STATE $value"),
-        emit(WeeklyDataReceivedState(value))});
+        ifLeft: (value) => print(value),
+        ifRight: (value) => {
+              print("WEEKLY DATA RECEIVED STATE $value"),
+              emit(WeeklyDataReceivedState(value))
+            });
   }
 
   void _onGetMonthlyData(
@@ -99,8 +102,8 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
   ) async {
     final data = await subscribeChannelLogic.getMonthlyData(event.sensorId);
     data.fold(
-      ifLeft: (value)=> print(value),
-      ifRight: (value)=>{ emit(MonthlyDataReceivedState(value))},
+      ifLeft: (value) => print(value),
+      ifRight: (value) => {emit(MonthlyDataReceivedState(value))},
     );
   }
 
@@ -108,7 +111,7 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
     PayloadReceived event,
     Emitter<PinTunnelState> emit,
   ) {
-    if(event.payload!=[]){
+    if (event.payload != []) {
       print("EVENT.PAYLOAD ${event.payload}");
       emit(PayloadReceivedState(event.payload));
     }
@@ -134,7 +137,13 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
     result.fold(
       ifLeft: (value) => print(value),
       ifRight: (value) => {
-        if (value.isNotEmpty) {emit(SensorsForUserReceivedState(value))}
+        if (value.isNotEmpty)
+          {
+            emit(
+              SensorsForUserReceivedState(value)
+            ),
+            print("SensorsForUserReceivedState emmited"),
+          }
       },
     );
   }
