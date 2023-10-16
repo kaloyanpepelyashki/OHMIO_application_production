@@ -34,6 +34,8 @@ class _GridItemState extends State<GridItem> {
   @override
   void initState() {
     print("WIDGET.ID IN GRID_ITEM_COMP: ${widget.id}");
+    BlocProvider.of<PinTunnelBloc>(context)
+          .add(SubscribeChannel(sensorId: widget.id!));
    // BlocProvider.of<PinTunnelBloc>(context)
      //   .add(SubscribeChannel(sensorId: widget.id!));
     super.initState();
@@ -43,9 +45,14 @@ class _GridItemState extends State<GridItem> {
   Widget build(BuildContext context) {
     return BlocConsumer<PinTunnelBloc, PinTunnelState>(
       listener: (context, state) {
+         if(state is PayloadReceivedState){
+          if(state.payload['sensor_mac'] == widget.id){
+            latestValue = double.parse(state.payload['sensor_data']);
+          }
+        }
       },
       builder: (context, state) {
-        if (state is LatestDataReceivedState) {
+        /*if (state is LatestDataReceivedState) {
           for(int i=0; i<state.listOfLatestData.length; i++){
             if(widget.id == state.listOfLatestData[i].sensorMac){
               print("Latest value $i: ${state.listOfLatestData[i]}");
@@ -55,7 +62,7 @@ class _GridItemState extends State<GridItem> {
                 }
             }
           }
-        }
+        }*/
         return GestureDetector(
             child: Container(
               decoration: BoxDecoration(

@@ -51,7 +51,7 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
   ) async {
     subscribeChannelLogic.subscribeToChannel(event.sensorId, (payload) {
       if(payload != []){
-        print("change received: ${jsonEncode(payload)[0]}");
+        print("change received: ${payload}");
         payloadController.sink.add(payload);
       }
     });
@@ -109,7 +109,7 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
     Emitter<PinTunnelState> emit,
   ) {
     if(event.payload!=[]){
-      print("EVENT.PAYLOAD ${event.payload[0]}");
+      print("EVENT.PAYLOAD ${event.payload}");
       emit(PayloadReceivedState(event.payload));
     }
     // print('payloadReceived emmited $event.payload');

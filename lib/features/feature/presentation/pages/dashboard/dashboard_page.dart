@@ -86,13 +86,9 @@ class DashBoardPageState extends State<DashBoardPage> {
       listener: (context, state) {
         if (state is SensorsForUserReceivedState) {
           if (state.sensorList.isNotEmpty) {
-            List<int> listOfMacs = [];
             state.sensorList.forEach((i) {
-              listOfMacs.add(int.parse(i.sensorMac!));
               sensorsActuatorsElements.add(i);
             });
-            BlocProvider.of<PinTunnelBloc>(context)
-                .add(GetLatestData(listOfMacs: listOfMacs));
           }
         }
       },

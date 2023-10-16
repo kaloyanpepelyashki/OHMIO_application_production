@@ -39,10 +39,11 @@ class PinTunnelRepository implements IPinTunnelRepository {
             event: '*',
             schema: '*',
             table: 'pintunnel_data',
-            filter: 'sensor_id=eq.$sensorId'),
+            filter: 'sensor_mac=eq.$sensorId'),
         (payload, [ref]) {
           //print('Change received: ${payload.toString()}');
-          onReceived(payload);
+          print(payload);
+          onReceived({'sensor_data': payload['new']['data'], 'sensor_mac': payload['new']['sensor_mac']});
         },
       ).subscribe();
     } catch (e) {
