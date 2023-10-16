@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelEvent.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/dashboard/add_new_device_widget.dart';
 
 import '../../../domain/entities/sensor_class.dart';
@@ -18,10 +19,12 @@ class DashboardSensorsActuatorsWidget extends StatefulWidget {
       {required this.sensorsActuatorsElements, super.key});
 
   @override
-  State<DashboardSensorsActuatorsWidget> createState() => _DashboardSensorWidgetState();
+  State<DashboardSensorsActuatorsWidget> createState() =>
+      _DashboardSensorWidgetState();
 }
 
-class _DashboardSensorWidgetState extends State<DashboardSensorsActuatorsWidget> {
+class _DashboardSensorWidgetState
+    extends State<DashboardSensorsActuatorsWidget> {
   List<SensorClass> sensorItems = [];
 
   @override
@@ -37,7 +40,12 @@ class _DashboardSensorWidgetState extends State<DashboardSensorsActuatorsWidget>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return BlocConsumer<PinTunnelBloc, PinTunnelState>(
+      listener: (context, state) {
+       
+      },
+      builder: (context, state) {
+        return Container(
           height: 500,
           width: 500,
           child: CustomScrollView(primary: false, slivers: [
@@ -66,5 +74,7 @@ class _DashboardSensorWidgetState extends State<DashboardSensorsActuatorsWidget>
             )
           ]),
         );
+      },
+    );
   }
 }

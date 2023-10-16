@@ -30,12 +30,6 @@ class SplineDefaultState extends State<SplineDefault> {
 
   @override
   initState() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-      DeviceOrientation.landscapeRight,
-      DeviceOrientation.landscapeLeft,
-    ]);
     // BlocProvider.of<PinTunnelBloc>(context)
     //     .add(const SubscribeMinuteChannel(sensorId: 12345));
     timeFilter = widget.timeFilter;
@@ -171,10 +165,6 @@ class SplineDefaultState extends State<SplineDefault> {
                         shape: DataMarkerType.diamond,
                         borderColor: Colors.black,
                       ),
-                      dataLabelSettings: const DataLabelSettings(
-                          showCumulativeValues: true,
-                          isVisible: true,
-                          color: Colors.blue),
                       xValueMapper: (ChartData data, _) => data.dateTime,
                       yValueMapper: (ChartData data, _) => data.value),
                   //animationDuration: 1000
