@@ -51,10 +51,10 @@ class DashBoardPageState extends State<DashBoardPage> {
 
   @override
   void initState() {
-    _checkNotificationPermissions();
-    configureDidReceiveLocalNotificationSubject(context);
-    configureSelectNotificationSubject(context);
-    _showNotification();
+    //_checkNotificationPermissions();
+    //configureDidReceiveLocalNotificationSubject(context);
+    //configureSelectNotificationSubject(context);
+    //_showNotification();
 
     BlocProvider.of<PinTunnelBloc>(context)
         .add(GetSensorsForUser(email: widget.email!));
