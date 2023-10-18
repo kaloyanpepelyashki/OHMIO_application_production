@@ -115,9 +115,9 @@ class DashBoardPageState extends State<DashBoardPage> {
                       sensorsActuatorsElements: sensorsActuatorsElements),
                 ],
               ),
-              const Positioned(
-                child: HelpWidget(),
-              )
+              //const Positioned(
+             //   child: HelpWidget(),
+             // )
             ],
           ),
         );
