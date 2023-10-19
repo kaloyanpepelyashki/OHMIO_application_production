@@ -90,3 +90,12 @@ class AddActionState extends PinTunnelState{
   @override
   List<Object> get props =>[actionClass];
 }
+
+class UpdateSuccessState extends PinTunnelState{
+  final String message;
+  
+  const UpdateSuccessState(this.message);
+
+  @override
+  List<Object> get props =>[message];
+}

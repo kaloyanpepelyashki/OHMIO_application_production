@@ -25,3 +25,7 @@ class NotFoundFailure extends Failure{
 class UserStatusUpdateFailure extends Failure{
   const UserStatusUpdateFailure({required super.message, required super.statusCode});
 }
+
+class DatabaseUpdateError extends Failure{
+  const DatabaseUpdateError({required super.message, required super.statusCode});
+}

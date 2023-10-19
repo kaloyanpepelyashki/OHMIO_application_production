@@ -18,4 +18,5 @@ abstract class IPinTunnelRepository{
   Future<Either<Failure, List<SensorClass>>> getSensorsForUser(String email);
   void addAction(ActionClass actionClass);
   void updateUserStatus(String status, String email);
+  Future<Either<Failure, String>> saveSensorCustomization(String iconName, String nickname, int sensorId, String sensorPlacement);
 }

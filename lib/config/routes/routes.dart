@@ -5,6 +5,7 @@ import 'package:pin_tunnel_application_production/features/feature/domain/usecas
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/authentication/change_password_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/authentication/password_reset_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/authentication/user_onboarding_personal_username.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/customize_sensor_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/dashboard/choose_sensor_page.dart';
 //Importing page components
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/dashboard/dashboard_page.dart';
@@ -105,6 +106,13 @@ GoRouter router = GoRouter(initialLocation: "/", routes: <GoRoute>[
           child: DashBoardPage(
               state.pathParameters['email'], notificationAppLaunchDetails),
         );
+      }),
+  GoRoute(
+      path: "/customizeSensor/:sensorId",
+      name: "customizeSensor",
+      builder: (BuildContext context, GoRouterState state) {
+        final sensorId = state.pathParameters['sensorId'];
+        return CustomizeSensorPage(sensorId: sensorId!);
       }),
   GoRoute(
       path: "/sensorPage/:id",

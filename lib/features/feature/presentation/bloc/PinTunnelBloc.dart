@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pin_tunnel_application_production/core/errors/failure.dart';
 
 import '../../domain/usecases/sensor_logic.dart';
 import '../../domain/usecases/subscribe_channel_logic.dart';
@@ -43,6 +44,8 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
     on<AddAction>(_onAddAction);
 
     on<UpdateUserStatus>(_onUpdateUserStatus);
+
+    on<SaveSensorCustomization>(_onSaveSensorCustomization);
   }
 
   void _onSubscribeChannel(
@@ -139,9 +142,7 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
       ifRight: (value) => {
         if (value.isNotEmpty)
           {
-            emit(
-              SensorsForUserReceivedState(value)
-            ),
+            emit(SensorsForUserReceivedState(value)),
             print("SensorsForUserReceivedState emmited"),
           }
       },
@@ -163,6 +164,22 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
   ) async {
     sensorLogic.updateUserStatus(event.status, event.email);
     print("User profile updated with the status of: ${event.status}");
+  }
+
+  void _onSaveSensorCustomization(
+    SaveSensorCustomization event,
+    Emitter<PinTunnelState> emit,
+  ) async {
+    final result = await sensorLogic.saveSensorCustomization(
+        event.iconName, event.nickname, event.sensorId, event.sensorPlacement);
+    result.fold(
+      ifLeft: (Failure value) {
+        print(value);
+      },
+      ifRight: (String value) {
+        emit(UpdateSuccessState(value));
+      },
+    );
   }
 
   @override

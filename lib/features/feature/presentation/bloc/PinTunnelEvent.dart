@@ -123,3 +123,12 @@ class UpdateUserStatus extends PinTunnelEvent{
   @override
   List<Object> get props => [status, email];
 }
+
+class SaveSensorCustomization extends PinTunnelEvent{
+  final int sensorId;
+  final String nickname;
+  final String sensorPlacement;
+  final String iconName;
+
+  const SaveSensorCustomization({required this.sensorId, required this.nickname, required this.sensorPlacement, required this.iconName});
+}
