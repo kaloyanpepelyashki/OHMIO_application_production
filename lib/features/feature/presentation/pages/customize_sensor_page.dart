@@ -5,6 +5,7 @@ import 'package:pin_tunnel_application_production/features/feature/data/data_sou
 import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelBloc.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelEvent.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelState.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/inputField_with_heading.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_back_action.dart';
 
 class CustomizeSensorPage extends StatefulWidget {
@@ -31,26 +32,65 @@ class _CustomizeSensorPageState extends State<CustomizeSensorPage> {
     return BlocConsumer<PinTunnelBloc, PinTunnelState>(
       listener: (context, state) {},
       builder: (context, state) {
-        
         return Scaffold(
           appBar: TopBarBackAction(),
           backgroundColor: Theme.of(context).colorScheme.background,
           body: Column(
             children: [
-              Text("Customize your sensor"),
-              Text("Nickname"),
-              TextField(controller: nicknameController),
-              Text("Where you would like to place your sensor"),
-              TextField(controller: placementController),
-              Text("Select an icon for your sensor"),
-              SizedBox(height: 100),
-              ElevatedButton(
-                child: Text("Save"),
-                onPressed: () {
-                  saveCustomization();
-                },
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Customize your sensor",
+                      style: TextStyle(
+                        fontSize: 32,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      "Nickname",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    InputFieldWithHeading(
+                      controller: nicknameController!,
+                      placeHolder: 'Nickname',
+                      obscureText: false,
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      "Where you would like to place your sensor",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    InputFieldWithHeading(
+                      controller: placementController!,
+                      placeHolder: 'Living Room',
+                      obscureText: false,
+                    ),
+                    SizedBox(height: 10),
+                    Text("Select an icon for your sensor"),
+                    SizedBox(height: 100),
+                  ],
+                ),
               ),
-              Text("Skip")
+              Container(
+                width: 248,
+                height: 44,
+                child: ElevatedButton(
+                  child: Text("Save", style: TextStyle(fontSize: 29)),
+                  onPressed: () {
+                    saveCustomization();
+                  },
+                ),
+              ),
+              SizedBox(height: 15),
+              GestureDetector(
+                child: Text(
+                  "Skip",
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
             ],
           ),
         );

@@ -291,6 +291,9 @@ class PinTunnelRepository implements IPinTunnelRepository {
   Future<Either<Failure, String>> saveSensorCustomization(String iconName,
       String nickname, int sensorId, String sensorPlacement) async {
     try {
+      print("nickname: $nickname");
+      print("sensorId: $sensorId");
+      print("sensorPlacement: $sensorPlacement");
       final result = await supabaseManager.supabaseClient
           .from('sensor')
           .update({
@@ -298,6 +301,7 @@ class PinTunnelRepository implements IPinTunnelRepository {
         'placement': sensorPlacement,
         'icon': iconName
       }).match({'sensor_mac': sensorId});
+      print("saveSensorCustomization result $result");
       return Right('Update successful');
     } catch (e) {
       print(e);
