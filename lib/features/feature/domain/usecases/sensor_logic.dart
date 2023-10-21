@@ -27,4 +27,8 @@ class SensorLogic{
   void updateUserStatus(String status, String email){
     _repository.updateUserStatus(status, email);
   }
+
+  Future<Either<Failure, String>> saveSensorCustomization(String iconName, String nickname, int sensorId, String sensorPlacement){
+    return _repository.saveSensorCustomization(iconName, nickname, sensorId, sensorPlacement);
+  }
 }

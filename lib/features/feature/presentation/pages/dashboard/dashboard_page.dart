@@ -51,10 +51,10 @@ class DashBoardPageState extends State<DashBoardPage> {
 
   @override
   void initState() {
-    _checkNotificationPermissions();
-    configureDidReceiveLocalNotificationSubject(context);
-    configureSelectNotificationSubject(context);
-    _showNotification();
+    //_checkNotificationPermissions();
+    //configureDidReceiveLocalNotificationSubject(context);
+    //configureSelectNotificationSubject(context);
+    //_showNotification();
 
     BlocProvider.of<PinTunnelBloc>(context)
         .add(GetSensorsForUser(email: widget.email!));
@@ -83,14 +83,16 @@ class DashBoardPageState extends State<DashBoardPage> {
   Widget build(BuildContext context) {
     return BlocConsumer<PinTunnelBloc, PinTunnelState>(
       listener: (context, state) {
-        
+        if (state is UpdateSuccessState) {
+          print("successfuly updated sensor configuration");
+        }
       },
       builder: (context, state) {
         if (state is SensorsForUserReceivedState) {
           if (state.sensorList.isNotEmpty) {
             //  List<int> listOfMacs = [];
             state.sensorList.forEach((i) {
-              if(!sensorsActuatorsElements.contains(i)){
+              if (!sensorsActuatorsElements.contains(i)) {
                 sensorsActuatorsElements.add(i);
               }
             });
@@ -115,9 +117,9 @@ class DashBoardPageState extends State<DashBoardPage> {
                       sensorsActuatorsElements: sensorsActuatorsElements),
                 ],
               ),
-              const Positioned(
-                child: HelpWidget(),
-              )
+              //const Positioned(
+              //   child: HelpWidget(),
+              // )
             ],
           ),
         );

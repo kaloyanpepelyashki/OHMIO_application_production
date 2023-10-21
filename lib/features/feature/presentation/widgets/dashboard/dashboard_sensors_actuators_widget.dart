@@ -26,6 +26,7 @@ class DashboardSensorsActuatorsWidget extends StatefulWidget {
 class _DashboardSensorWidgetState
     extends State<DashboardSensorsActuatorsWidget> {
   List<SensorClass> sensorItems = [];
+  final List<String> themeColors = ['card1', 'card2', 'card3', 'card4'];
 
   @override
   void initState() {
@@ -53,14 +54,15 @@ class _DashboardSensorWidgetState
             childAspectRatio: 3 / 4,
             children: [
               if (sensorItems.isNotEmpty)
-                for (final el in sensorItems)
+                for (int i=0; i<sensorItems.length; i++)
                   GridItem(
-                    id: int.parse(el.sensorMac!),
-                    isActuator: el.isActuator!,
-                    sensorName: el.sensorName,
-                    sensorImage: el.sensorImage,
-                    sensorDescription: el.sensorDescription!,
-                    latestValue: el.latestValue == null ? 0 : el.latestValue,
+                    id: int.parse(sensorItems[i].sensorMac!),
+                    isActuator: sensorItems[i].isActuator!,
+                    sensorName: sensorItems[i].sensorName,
+                    sensorImage: sensorItems[i].sensorImage,
+                    sensorDescription: sensorItems[i].sensorDescription!,
+                    latestValue: sensorItems[i].latestValue == null ? 0 : sensorItems[i].latestValue,
+                    themeColor: themeColors[i%4],
                   ),
               AddNewDeviceWidget(),
             ],

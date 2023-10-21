@@ -43,7 +43,10 @@ class PinTunnelRepository implements IPinTunnelRepository {
         (payload, [ref]) {
           //print('Change received: ${payload.toString()}');
           print(payload);
-          onReceived({'sensor_data': payload['new']['data'], 'sensor_mac': payload['new']['sensor_mac']});
+          onReceived({
+            'sensor_data': payload['new']['data'],
+            'sensor_mac': payload['new']['sensor_mac']
+          });
         },
       ).subscribe();
     } catch (e) {
@@ -52,37 +55,36 @@ class PinTunnelRepository implements IPinTunnelRepository {
   }
 
   @override
-  Future<Either<Failure, List<LatestData>>> getLatestData(List<int> listOfMacs) async {
+  Future<Either<Failure, List<LatestData>>> getLatestData(
+      List<int> listOfMacs) async {
     print(listOfMacs);
     try {
-
       final List<LatestData> listOfLatestData = [];
-      for(int i=0; i<listOfMacs.length; i++){
+      for (int i = 0; i < listOfMacs.length; i++) {
         final response = await supabaseManager.supabaseClient
-          .from('daily_data')
-          .select('''created_at, avg, sensor_id''')
-          .eq('sensor_id', listOfMacs[i])
-          .order('created_at', ascending: false)
-          .limit(1);
+            .from('daily_data')
+            .select('''created_at, avg, sensor_id''')
+            .eq('sensor_id', listOfMacs[i])
+            .order('created_at', ascending: false)
+            .limit(1);
 
         final latestData = LatestDataDao.fromJSON(response[0]);
         listOfLatestData.add(latestData);
       }
-      if(listOfLatestData.isNotEmpty){
+      if (listOfLatestData.isNotEmpty) {
         return Right(listOfLatestData);
-      }else{
+      } else {
         return Left(
-          NotFoundFailure(message: "Daily data not found", statusCode: 404));
+            NotFoundFailure(message: "Daily data not found", statusCode: 404));
       }
     } catch (e) {
-      return Left(
-          NotFoundFailure(message: "Exception ${e.toString()}", statusCode: 404));
+      return Left(NotFoundFailure(
+          message: "Exception ${e.toString()}", statusCode: 404));
     }
   }
 
   @override
   Future<Either<Failure, List<ChartData>>> getDailyData(int sensorMac) async {
-
     try {
       final response = await supabaseManager.supabaseClient
           .from('daily_data')
@@ -138,7 +140,6 @@ class PinTunnelRepository implements IPinTunnelRepository {
 
   @override
   Future<Either<Failure, List<ChartData>>> getMonthlyData(int sensorMac) async {
-
     final response = await supabaseManager.supabaseClient
         .from('monthly_data')
         .select('''created_at, avg''')
@@ -161,7 +162,6 @@ class PinTunnelRepository implements IPinTunnelRepository {
   @override
   Future<Either<Failure, SensorRangeDAO>> getRangeForSensor(
       int sensorId) async {
-
     try {
       final data = await supabaseManager.supabaseClient.from('range').select('''
     min_value,
@@ -180,9 +180,9 @@ class PinTunnelRepository implements IPinTunnelRepository {
   @override
   Future<Either<Failure, List<SensorClass>>> getSensorsForUser(
       String email) async {
-
     try {
-      final clientId = (await supabaseManager.supabaseClient.from('profiles').select('''
+      final clientId =
+          (await supabaseManager.supabaseClient.from('profiles').select('''
     id
   ''').eq('email', email));
       print("CLIENT ID IN pintunnel_repository: $clientId");
@@ -215,7 +215,8 @@ class PinTunnelRepository implements IPinTunnelRepository {
 
       final sensorData = (await supabaseManager.supabaseClient
           .from('sensor')
-          .select('''cfg_code, sensor_mac''').eq('mac_address', pintunnelData[0]['mac_address']));
+          .select('''cfg_code, sensor_mac''').eq(
+              'mac_address', pintunnelData[0]['mac_address']));
       print("SENSOR DATA $sensorData");
       if (sensorData.isEmpty || sensorData == null) {
         return Left(
@@ -247,24 +248,21 @@ class PinTunnelRepository implements IPinTunnelRepository {
     }
   }
 
-  void updateUserStatus(String status, String email) async{
-    if(status.toUpperCase() == "ONLINE" ){
-       final response = await supabaseManager.supabaseClient
-        .from('profiles')
-        .update({'status': "ONLINE"})
-        .match({'email': email});
+  void updateUserStatus(String status, String email) async {
+    if (status.toUpperCase() == "ONLINE") {
+      final response = await supabaseManager.supabaseClient
+          .from('profiles')
+          .update({'status': "ONLINE"}).match({'email': email});
     }
-    if(status.toUpperCase() == "OFFLINE"){
-       final response = await supabaseManager.supabaseClient
-        .from('profiles')
-        .update({'status': 'OFFLINE'})
-        .match({'email': email});
+    if (status.toUpperCase() == "OFFLINE") {
+      final response = await supabaseManager.supabaseClient
+          .from('profiles')
+          .update({'status': 'OFFLINE'}).match({'email': email});
     }
   }
 
   @override
   void addAction(ActionClass actionClass) async {
-
     print("In repository addAction");
     print(actionClass.action);
     print(actionClass.condition);
@@ -286,6 +284,29 @@ class PinTunnelRepository implements IPinTunnelRepository {
       });
     } catch (e) {
       print('Error inserting data: $e');
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> saveSensorCustomization(String iconName,
+      String nickname, int sensorId, String sensorPlacement) async {
+    try {
+      print("nickname: $nickname");
+      print("sensorId: $sensorId");
+      print("sensorPlacement: $sensorPlacement");
+      final result = await supabaseManager.supabaseClient
+          .from('sensor')
+          .update({
+        'nickname': nickname,
+        'placement': sensorPlacement,
+        'icon': iconName
+      }).match({'sensor_mac': sensorId});
+      print("saveSensorCustomization result $result");
+      return Right('Update successful');
+    } catch (e) {
+      print(e);
+      return Left(DatabaseUpdateError(
+          message: 'Error updating sensor configurations', statusCode: 500));
     }
   }
 }
