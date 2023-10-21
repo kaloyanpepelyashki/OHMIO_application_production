@@ -12,6 +12,8 @@ import 'package:pin_tunnel_application_production/features/feature/presentation/
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/dashboard/sensor_connect_first_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/dashboard/sensor_connect_second_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/dashboard/sensor_detail_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/mqtt_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/mqtt_test.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/sensor_connect_guide/pintunnel_tutorial_first_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/sensor_connect_guide/pintunnel_tutorial_second_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/sensor_page/chart_full_screen_page.dart';
@@ -20,6 +22,8 @@ import 'package:pin_tunnel_application_production/features/feature/presentation/
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/sensor_page/sensor_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/authentication/signup_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/authentication/user_onboarding_personal.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/supabase_channels_test.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/supabase_realtime_test.dart';
 
 import '../../features/feature/data/repository/pin_tunnel_repository.dart';
 import '../../features/feature/domain/entities/sensor_class.dart';
@@ -170,6 +174,28 @@ GoRouter router = GoRouter(initialLocation: "/", routes: <GoRoute>[
       builder: (BuildContext context, GoRouterState state) {
         return const DependencyConditionPage();
       }),
+
+  ///To be deleted TEST ROUTES
+  // GoRoute(
+  //     path: "/mqtttest",
+  //     builder: (BuildContext context, GoRouterState state) {
+  //       return MQTTTEST();
+  //     }),
+  GoRoute(
+      path: "/supabaseRealtimeTest",
+      builder: (BuildContext context, GoRouterState state) {
+        return SupabaseRealTimeTest();
+      }),
+  GoRoute(
+      path: '/supabaseChannelsTest',
+      builder: (BuildContext context, GoRouterState state) {
+        return SupabaseChannelsTest();
+      }),
+  GoRoute(
+      path: "/mqttPage",
+      builder: (BuildContext context, GoRouterState state) {
+        return MqttPage();
+      })
 ]);
 
 void clearNavigationStack(context, String path) {

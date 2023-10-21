@@ -50,7 +50,19 @@ class DrawerMenuComponent extends StatelessWidget {
                             action: () =>
                                 GoRouter.of(context).push("/changePassword")),
                         DrawerMenuItemComponent(
-                            text: "Log-out", action: handleSignOut)
+                            text: "Log-out", action: handleSignOut),
+                        DrawerMenuItemComponent(
+                          text: "MQTT stream",
+                          action: () => GoRouter.of(context).push('/mqttPage'),
+                        ),
+                        DrawerMenuItemComponent(
+                            text: "SupabaseRealtime",
+                            action: () => GoRouter.of(context)
+                                .push("/supabaseRealtimeTest")),
+                        DrawerMenuItemComponent(
+                            text: "SupabaseChannels",
+                            action: () => GoRouter.of(context)
+                                .push("/supabaseChannelsTest"))
                       ],
                     ),
                   ),
