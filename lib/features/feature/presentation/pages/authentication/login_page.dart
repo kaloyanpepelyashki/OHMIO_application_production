@@ -129,6 +129,7 @@ class _LogInComponentState extends State<LogInPage> {
                       child: ElevatedButtonComponent(
                         key: const Key('loginButton'),
                         onPressed: () async {
+                          FocusScope.of(context).unfocus();
                           if (secureStorageEmail == '' ||
                               secureStoragePassword == '') {
                             await SecureStorage().writeSecureData(

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pin_tunnel_application_production/features/feature/domain/usecases/subscribe_channel_logic.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/authentication/change_password_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/authentication/password_reset_confirmation_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/authentication/password_reset_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/authentication/user_onboarding_personal_username.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/customize_sensor_page.dart';
@@ -203,7 +204,13 @@ GoRouter router = GoRouter(initialLocation: "/", routes: <GoRoute>[
       path: "/mqttPage",
       builder: (BuildContext context, GoRouterState state) {
         return MqttPage();
-      })
+      }),
+  GoRoute(
+    path: "/passwordResetConfirmationPage",
+    builder: (BuildContext context, GoRouterState state){
+      return PasswordResetConfirmationPage();
+    }
+  )
 ]);
 
 void clearNavigationStack(context, String path) {

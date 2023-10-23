@@ -50,9 +50,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       child: ElevatedButtonComponent(
                         key: const Key('resetButton'),
                         onPressed: () async{
-                         supabaseManager.supabaseClient.auth.resetPasswordForEmail(_emailController.text.trim());
+                          supabaseManager.supabaseClient.auth.resetPasswordForEmail(_emailController.text.trim(), redirectTo: 'http://ohmio.org/index.html');
                         },
-                        text: "Ok",
+                        text: "OK",
                       )),
                   
                 ],

@@ -17,6 +17,7 @@ import 'package:pin_tunnel_application_production/features/feature/presentation/
 import "package:provider/provider.dart";
 import 'package:supabase_flutter/supabase_flutter.dart';
 import "package:timezone/data/latest.dart" as tz;
+import 'package:uni_links/uni_links.dart';
 import 'core/util/notifications/android_notification_settings.dart';
 import 'core/util/notifications/general_notification_settings.dart';
 import 'core/util/notifications/ios_notification_settings.dart';
@@ -138,16 +139,44 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
+
+
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   bool? _jailbroken;
   bool? _developerMode;
+
+  late StreamSubscription _sub;
 
   @override
   void initState() {
     super.initState();
     initPlatformState();
     WidgetsBinding.instance.addObserver(this);
+    _sub = linkStream.listen((String? link) {
+      if (link != null) {
+        _handleDeepLink(link);
+      }
+    }, onError: (err) {
+    });
+
+    initUniLinks();
   }
+
+  void initUniLinks() async {
+    final String? initialLink = await getInitialLink();
+    if (initialLink != null) {
+        _handleDeepLink(initialLink);
+    }
+}
+
+void _handleDeepLink(String link) {
+  Uri uri = Uri.parse(link);
+  String? path = uri.path;
+
+  if (path == '/passwordResetConfirmationPage') {
+    router.go('/passwordResetConfirmationPage');
+  }
+}
 
   @override
   void dispose() {
