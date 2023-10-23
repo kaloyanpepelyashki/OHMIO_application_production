@@ -40,7 +40,9 @@ class _UserProfileHeaderState extends State<UserProfileHeader> {
   Widget build(BuildContext context) {
     if (_userData.isEmpty) {
       return CircularProgressIndicator(
-        strokeWidth: 3,
+        strokeWidth: 7.0,
+        color: Theme.of(context).colorScheme.secondary,
+        backgroundColor: Color.fromARGB(97, 255, 255, 255),
       );
     }
     return SizedBox(
@@ -48,7 +50,7 @@ class _UserProfileHeaderState extends State<UserProfileHeader> {
         child: Row(
           children: [
             Text(
-              "Hello, ${_userData.first.firstName.isEmpty ? ' User' : _userData.first.firstName}",
+              "Hello, ${_userData.first.firstName.isEmpty ? 'User' : _userData.first.firstName}",
               style: TextStyle(fontSize: 24),
             )
           ],
