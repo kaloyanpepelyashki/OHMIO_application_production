@@ -37,6 +37,7 @@ class SplineDefaultState extends State<SplineDefault> {
     _zoomPanBehavior = ZoomPanBehavior(
       enablePanning: true,
       enablePinching: true,
+      zoomMode: ZoomMode.y,
     );
     chartData.clear();
     // if(timeFilter.toUpperCase() == "LIVE"){

@@ -42,7 +42,7 @@ class _DashboardSensorWidgetState
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 500,
+      height: MediaQuery.of(context).size.height - 150,
       width: 500,
       child: CustomScrollView(primary: false, slivers: [
         SliverPadding(
