@@ -10,16 +10,17 @@ class BackActionBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        width: 90.0,
+        width: 80.0,
         child: TextButton.icon(
             onPressed: onPressed,
-            icon: const Icon(
-              Icons.arrow_back,
-              size: 22.0,
-              color: Color.fromARGB(255, 18, 18, 18),
+            icon: Icon(
+              Icons.arrow_back_ios,
+              size: 21.0,
+              color: Theme.of(context).colorScheme.primary,
             ),
-            label: const Text("Back",
+            label: Text("Back",
                 style: TextStyle(
-                    color: Color.fromARGB(255, 18, 18, 18), fontSize: 18.0))));
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 18.0))));
   }
 }

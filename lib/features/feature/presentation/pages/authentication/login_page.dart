@@ -11,6 +11,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../data/data_sources/supabase_service.dart';
 import '../../../domain/entities/user_class.dart';
 import '../../widgets/elevated_button_component.dart';
+import '../../widgets/text_button_component.dart';
 import '../../widgets/top_bar_back_action.dart';
 
 class LogInPage extends StatefulWidget {
@@ -139,15 +140,18 @@ class _LogInComponentState extends State<LogInPage> {
                           _handleSignIn(context, _emailController.text.trim(),
                               _passwordController.text);
                         },
-                        text: "SIGN IN",
+                        text: "Sign in",
                       )),
-                    SizedBox(height: 30),
-                    GestureDetector(
-                      child: Text("Forgot your password?"),
-                      onTap: (){
-                        GoRouter.of(context).push("/resetPassword");
-                      }
-                    ),
+                  SizedBox(height: 16),
+                  // GestureDetector(
+                  //     child: Text("Forgot your password?"),
+                  //     onTap: () {
+                  //       GoRouter.of(context).push("/resetPassword");
+                  //     }),
+                  TextButtonComponent(
+                      text: "Forgot password?",
+                      onPressed: () =>
+                          GoRouter.of(context).push("/resetPassword")),
                 ],
               )),
         ));

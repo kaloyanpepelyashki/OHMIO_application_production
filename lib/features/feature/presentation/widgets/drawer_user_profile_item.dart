@@ -39,10 +39,12 @@ class _UserProfileHeaderState extends State<UserProfileHeader> {
   @override
   Widget build(BuildContext context) {
     if (_userData.isEmpty) {
-      return CircularProgressIndicator();
+      return CircularProgressIndicator(
+        strokeWidth: 3,
+      );
     }
     return SizedBox(
-        height: 50,
+        height: 60,
         child: Row(
           children: [
             Text(

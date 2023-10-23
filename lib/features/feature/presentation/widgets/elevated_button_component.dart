@@ -12,9 +12,11 @@ class ElevatedButtonComponent extends StatelessWidget {
         style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(6.0)),
-            minimumSize: const Size(199, 44)),
+            minimumSize: const Size(199, 44),
+            backgroundColor: Theme.of(context).colorScheme.secondary),
         onPressed: onPressed,
         child: Text(text,
-            style: const TextStyle(fontSize: 29, color: Color(0xFFFFFFFF))));
+            style: TextStyle(
+                fontSize: 29, color: Theme.of(context).colorScheme.primary)));
   }
 }

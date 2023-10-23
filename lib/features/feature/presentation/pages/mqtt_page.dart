@@ -9,6 +9,7 @@ class MqttPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background,
         appBar: TopBarBackAction(),
         body: CustomScrollView(primary: false, slivers: [
           SliverPadding(

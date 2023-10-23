@@ -11,12 +11,12 @@ class DashboardTopBarBurgerMenu extends StatelessWidget
   Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: false,
-      title: const Text(
+      title: Text(
         "My system",
         style: TextStyle(
           fontSize: 26,
           fontWeight: FontWeight.bold,
-          color: Colors.black,
+          color: Theme.of(context).colorScheme.primary,
         ),
       ),
       actions: [
@@ -24,7 +24,10 @@ class DashboardTopBarBurgerMenu extends StatelessWidget
           onPressed: () {
             Scaffold.of(context).openEndDrawer();
           },
-          icon: const Icon(color: Colors.black, size: 50.0, Icons.menu_rounded),
+          icon: Icon(
+              color: Theme.of(context).colorScheme.primary,
+              size: 50.0,
+              Icons.menu_rounded),
           padding: const EdgeInsets.fromLTRB(0, 5, 40.0, 0),
         )
       ],

@@ -30,6 +30,7 @@ class _ConfirmEmailPageState extends State<ConfirmEmailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background,
         appBar: const TopBarBlank(),
         body: Center(
             child: FractionallySizedBox(
