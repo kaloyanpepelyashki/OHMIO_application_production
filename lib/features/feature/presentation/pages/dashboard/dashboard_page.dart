@@ -91,6 +91,7 @@ class DashBoardPageState extends State<DashBoardPage> {
         if (state is SensorsForUserReceivedState) {
           if (state.sensorList.isNotEmpty) {
             //  List<int> listOfMacs = [];
+            sensorsActuatorsElements.clear();
             state.sensorList.forEach((i) {
               if (!sensorsActuatorsElements.contains(i)) {
                 sensorsActuatorsElements.add(i);
