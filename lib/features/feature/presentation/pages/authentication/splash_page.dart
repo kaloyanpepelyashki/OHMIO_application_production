@@ -105,6 +105,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Center(
         child: Stack(
           alignment: Alignment.center,
@@ -120,7 +121,11 @@ class _SplashPageState extends State<SplashPage> {
                       ),
                       margin: EdgeInsets.fromLTRB(0, 0, 0, 40),
                     ),
-                    CircularProgressIndicator(),
+                    CircularProgressIndicator(
+                      strokeWidth: 7.0,
+                      color: Theme.of(context).colorScheme.secondary,
+                      backgroundColor: Color.fromARGB(97, 255, 255, 255),
+                    ),
                   ],
                 )),
           ],

@@ -58,11 +58,17 @@ class _LoginSplashPageState extends State<LoginSplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       appBar: TopBarBlank(),
       body: Center(
           heightFactor: 1.0,
-          child: Column(children: [CircularProgressIndicator()])),
+          child: Column(children: [
+            CircularProgressIndicator(
+              strokeWidth: 7.0,
+              color: Theme.of(context).colorScheme.secondary,
+              backgroundColor: const Color.fromARGB(97, 255, 255, 255),
+            ),
+          ])),
     );
   }
 }

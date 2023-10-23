@@ -43,7 +43,7 @@ class DrawerMenuComponent extends StatelessWidget {
                   Expanded(
                     child: ListView(
                       scrollDirection: Axis.vertical,
-                      padding: const EdgeInsets.fromLTRB(30, 10, 15, 0),
+                      padding: const EdgeInsets.fromLTRB(25, 10, 12, 0),
                       children: [
                         DrawerMenuItemComponent(
                             text: "Change password",

@@ -16,7 +16,10 @@ class TopBarBurgerMenu extends StatelessWidget implements PreferredSizeWidget {
             //Opens the drawer menu/burger menu programtically
             Scaffold.of(context).openEndDrawer();
           },
-          icon: const Icon(color: Colors.black, size: 50.0, Icons.menu_rounded),
+          icon: Icon(
+              color: Theme.of(context).colorScheme.primary,
+              size: 50.0,
+              Icons.menu_rounded),
           padding: const EdgeInsets.fromLTRB(0, 5, 40.0, 0),
         )
       ],
