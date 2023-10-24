@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pin_tunnel_application_production/core/errors/failure.dart';
+import 'package:pin_tunnel_application_production/features/feature/domain/entities/sensor_class.dart';
 
 import '../../domain/usecases/sensor_logic.dart';
 import '../../domain/usecases/subscribe_channel_logic.dart';
@@ -46,6 +47,7 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
     on<UpdateUserStatus>(_onUpdateUserStatus);
 
     on<SaveSensorCustomization>(_onSaveSensorCustomization);
+    on<GetHistoricalData>(_onGetHistoricalData);
   }
 
   void _onSubscribeChannel(
@@ -179,6 +181,22 @@ class PinTunnelBloc extends Bloc<PinTunnelEvent, PinTunnelState> {
       ifRight: (String value) {
         emit(UpdateSuccessState(value));
       },
+    );
+  }
+
+  void _onGetHistoricalData(
+    GetHistoricalData event,
+    Emitter<PinTunnelState> emit,
+  ) async{
+    final result = await sensorLogic.getHistoricalData(event.email);
+    print("HISTORICAL DATA: $result");
+    result.fold(
+      ifLeft: (Failure value){
+        print(value);
+      },
+      ifRight: (List<SensorClass> listOfSensors){
+        emit(HistoricalDataReceivedState(listOfSensors));
+      }
     );
   }
 

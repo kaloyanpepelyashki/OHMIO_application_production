@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pin_tunnel_application_production/config/themes/custom_theme.dart';
+import 'package:pin_tunnel_application_production/core/util/get_color_from_theme_color.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelBloc.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelEvent.dart';
 
@@ -45,21 +46,6 @@ class _GridItemState extends State<GridItem> {
     super.initState();
   }
 
-  Color getColorFromThemeColor() {
-    switch (widget.themeColor!) {
-      case 'card1':
-        return Theme.of(context).customTheme.card1;
-      case 'card2':
-        return Theme.of(context).customTheme.card2;
-      case 'card3':
-        return Theme.of(context).customTheme.card3;
-      case 'card4':
-        return Theme.of(context).customTheme.card4;
-      default:
-        return Colors.transparent; // or any default color
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<PinTunnelBloc, PinTunnelState>(
@@ -97,7 +83,7 @@ class _GridItemState extends State<GridItem> {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: getColorFromThemeColor(),
+                color: getColorFromThemeColor(widget.themeColor!, context),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,

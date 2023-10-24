@@ -194,14 +194,6 @@ class PinTunnelRepository implements IPinTunnelRepository {
 
       print(clientId[0]['id']);
 
-      final session = supabaseManager.supabaseClient.auth.currentSession;
-
-      if (session != null) {
-        print('User is authenticated with user id: ${session.user.id}');
-      } else {
-        print('User is anonymous (not authenticated)');
-      }
-
       final pintunnelData = await supabaseManager.supabaseClient
           .from('pintunnel')
           .select('mac_address')
@@ -307,6 +299,81 @@ class PinTunnelRepository implements IPinTunnelRepository {
       print(e);
       return Left(DatabaseUpdateError(
           message: 'Error updating sensor configurations', statusCode: 500));
+    }
+  }
+  
+  @override
+  Future<Either<Failure, List<SensorClass>>> getHistoricalData(String email) async{
+    try{
+      final clientId =
+          (await supabaseManager.supabaseClient.from('profiles').select('''
+    id
+  ''').eq('email', email));
+      print("CLIENT ID IN pintunnel_repository: $clientId");
+
+      if (clientId.isEmpty || clientId == null) {
+        return Left(NotFoundFailure(
+            message: "ClientId not found for given email", statusCode: 404));
+      }
+
+      print(clientId[0]['id']);
+
+
+      final pintunnelData = await supabaseManager.supabaseClient
+          .from('pintunnel')
+          .select('mac_address')
+          .eq('user_id', clientId[0]['id']);
+
+      print("PINTUNNEL DATA IN pintunnel_repository: $pintunnelData");
+      if (pintunnelData.isEmpty) {
+        return Left(NotFoundFailure(
+            message: "Pintunnel not found for given email", statusCode: 404));
+      }
+      
+
+      final sensorData = (await supabaseManager.supabaseClient
+          .from('sensor')
+          .select('''cfg_code, sensor_mac''').eq(
+              'mac_address', pintunnelData[0]['mac_address']));
+      print("SENSOR DATA $sensorData");
+      if (sensorData.isEmpty || sensorData == null) {
+        return Left(
+            NotFoundFailure(message: "Sensor data is null", statusCode: 404));
+      }
+
+      List<dynamic> sensor_macs =
+          sensorData.map((data) => data['sensor_mac'] as int).toList();
+
+      final missingSensors = await supabaseManager.supabaseClient
+      .from('missing_sensors')
+      .select('sensor_id')
+      .in_('sensor_id', sensor_macs);
+
+
+      List<SensorClass> sensorClassList = [];
+      for (int index = 0; index < missingSensors.length; index++) {
+        final sensorConfig = await supabaseManager.supabaseClient.from('sensor_config').select('''description, isActuator, unit, version,
+         min_value, max_value, image, name''').eq('cfg_code', sensorData[index]['cfg_code']);
+        print("sensor config: $sensorConfig");
+        final sensor = SensorDAO.fromJSON(missingSensors[index] as Map<String, dynamic>);
+        sensor.sensorMac = sensorData[index]['sensor_mac'].toString();
+        sensor.sensorDescription = sensorConfig[0]['description'].toString();
+        sensor.isActuator = sensorConfig[0]['isActuator'];
+        sensor.unit = sensorConfig[0]['unit'].toString();
+        sensor.version = sensorConfig[0]['version'].toString();
+        sensor.minValue = sensorConfig[0]['min_value'].toString();
+        sensor.maxValue = sensorConfig[0]['max_value'].toString();
+        sensor.sensorImage = sensorConfig[0]['image'].toString();
+        sensor.sensorName = sensorConfig[0]['name'].toString();
+        sensorClassList.add(sensor);
+      }
+      if (sensorClassList.isNotEmpty) {
+        return Right(sensorClassList);
+      }
+      return Left(
+          NotFoundFailure(message: "Sensors not found", statusCode: 404));
+    }on APIException catch (e) {
+      return Left(APIFailure.fromException(e));
     }
   }
 }

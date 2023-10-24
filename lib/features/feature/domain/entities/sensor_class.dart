@@ -1,16 +1,16 @@
 import 'package:equatable/equatable.dart';
 
 class SensorClass extends Equatable {
-  final String? tunnelMacAddress;
-  final String? sensorName;
-  final bool? isConnected;
-  final String? sensorImage;
-  final String? sensorDescription;
-  final bool? isActuator;
-  final String? unit;
-  final String? version;
-  final String? minValue;
-  final String? maxValue;
+  String? tunnelMacAddress;
+  String? sensorName;
+  bool? isConnected;
+  String? sensorImage;
+  String? sensorDescription;
+  bool? isActuator;
+  String? unit;
+  String? version;
+  String? minValue;
+  String? maxValue;
   String? sensorMac;
   double? latestValue;
 

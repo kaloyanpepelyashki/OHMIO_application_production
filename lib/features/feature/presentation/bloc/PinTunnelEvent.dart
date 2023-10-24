@@ -132,3 +132,9 @@ class SaveSensorCustomization extends PinTunnelEvent{
 
   const SaveSensorCustomization({required this.sensorId, required this.nickname, required this.sensorPlacement, required this.iconName});
 }
+
+class GetHistoricalData extends PinTunnelEvent{
+  final String email;
+
+  const GetHistoricalData({required this.email});
+}

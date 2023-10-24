@@ -14,6 +14,7 @@ import 'package:pin_tunnel_application_production/features/feature/presentation/
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/dashboard/sensor_connect_first_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/dashboard/sensor_connect_second_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/dashboard/sensor_detail_page.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/pages/historical_data/historical_data_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/mqtt_page.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/mqtt_test.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/pages/sensor_connect_guide/pintunnel_tutorial_first_page.dart';
@@ -209,6 +210,12 @@ GoRouter router = GoRouter(initialLocation: "/", routes: <GoRoute>[
     path: "/passwordResetConfirmationPage",
     builder: (BuildContext context, GoRouterState state){
       return PasswordResetConfirmationPage();
+    }
+  ),
+  GoRoute(
+    path: "/historicalData",
+    builder: (BuildContext context, GoRouterState state){
+      return HistoricalDataPage();
     }
   )
 ]);

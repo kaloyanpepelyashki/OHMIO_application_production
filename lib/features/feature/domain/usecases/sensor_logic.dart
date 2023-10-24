@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dart_either/dart_either.dart';
 import 'package:pin_tunnel_application_production/features/feature/domain/entities/sensor_range.dart';
 
@@ -30,5 +32,9 @@ class SensorLogic{
 
   Future<Either<Failure, String>> saveSensorCustomization(String iconName, String nickname, int sensorId, String sensorPlacement){
     return _repository.saveSensorCustomization(iconName, nickname, sensorId, sensorPlacement);
+  }
+
+  Future<Either<Failure, List<SensorClass>>> getHistoricalData(String email){
+    return _repository.getHistoricalData(email);
   }
 }

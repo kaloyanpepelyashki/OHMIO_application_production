@@ -99,3 +99,13 @@ class UpdateSuccessState extends PinTunnelState{
   @override
   List<Object> get props =>[message];
 }
+
+class HistoricalDataReceivedState extends PinTunnelState{
+  
+  final List<SensorClass> listOfSensors;
+
+  const HistoricalDataReceivedState(this.listOfSensors);
+
+  @override
+  List<Object> get props =>[listOfSensors];
+}

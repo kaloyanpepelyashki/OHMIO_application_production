@@ -62,7 +62,9 @@ class DrawerMenuComponent extends StatelessWidget {
                         DrawerMenuItemComponent(
                             text: "SupabaseChannels",
                             action: () => GoRouter.of(context)
-                                .push("/supabaseChannelsTest"))
+                                .push("/supabaseChannelsTest")),
+                        DrawerMenuItemComponent(text: "Historical data", action: ()=>
+                        GoRouter.of(context).push("/historicalData"))
                       ],
                     ),
                   ),
