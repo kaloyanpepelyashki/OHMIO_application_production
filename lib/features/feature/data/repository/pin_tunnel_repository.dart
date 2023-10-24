@@ -346,7 +346,7 @@ class PinTunnelRepository implements IPinTunnelRepository {
 
       final missingSensors = await supabaseManager.supabaseClient
       .from('missing_sensors')
-      .select('sensor_id')
+      .select('sensor_id, missing_day')
       .in_('sensor_id', sensor_macs);
 
 
@@ -365,6 +365,7 @@ class PinTunnelRepository implements IPinTunnelRepository {
         sensor.maxValue = sensorConfig[0]['max_value'].toString();
         sensor.sensorImage = sensorConfig[0]['image'].toString();
         sensor.sensorName = sensorConfig[0]['name'].toString();
+        sensor.missingDay = missingSensors[index]['missing_day'].toString();
         sensorClassList.add(sensor);
       }
       if (sensorClassList.isNotEmpty) {
