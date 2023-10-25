@@ -28,11 +28,18 @@ class InputFieldWithHeading extends StatelessWidget {
                       style:
                           const TextStyle(fontSize: 15, letterSpacing: 1.5))),
           TextField(
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary, fontSize: 19),
               controller: controller,
               obscureText: obscureText,
               decoration: InputDecoration(
+                  hintStyle: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontSize: 20),
                   hintText: placeHolder,
-                  enabledBorder: const OutlineInputBorder()))
+                  enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.primary))))
         ]));
   }
 }
