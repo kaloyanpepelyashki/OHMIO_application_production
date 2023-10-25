@@ -10,27 +10,35 @@ class AddNewDeviceWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DottedBorder(
-      strokeWidth: 1,
+      strokeWidth: 0.2,
       padding: EdgeInsets.all(4),
       child: Container(
-        color: const Color(0xFFF1F1F1),
+        color: Theme.of(context).colorScheme.background,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
+              color: Theme.of(context).colorScheme.background,
               width: 90,
               height: 90,
               child: IconButton(
-                icon: const FaIcon(FontAwesomeIcons.plus,
-                    size: 70, color: Colors.black),
+                icon: FaIcon(
+                  FontAwesomeIcons.plus,
+                  size: 70,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
                 onPressed: () =>
                     {GoRouter.of(context).push("/chooseSensorPage")},
               ),
             ),
             SizedBox(height: 20),
             Padding(
-              padding: const EdgeInsets.fromLTRB(8.0,0,8.0,0),
-              child: const Text("Add New Device", style: TextStyle(fontSize: 18)),
+              padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+              child: Text("Add New Device",
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Theme.of(context).colorScheme.primary,
+                  )),
             ),
           ],
         ),

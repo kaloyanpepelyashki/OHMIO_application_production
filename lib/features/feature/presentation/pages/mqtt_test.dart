@@ -76,6 +76,8 @@ class _MQTTTESTState extends State<MQTTTEST> {
       if (mqttClient.published != null) {
         mqttClient.published!.listen((MqttPublishMessage message) {
           debugPrint("message:: $message");
+          debugPrint("messgae:: ${message.payload}");
+          debugPrint("message HEADER:: ${message.payload.header}");
           final String newMessage =
               String.fromCharCodes(message.payload.message);
           messageNotifier.value = newMessage;

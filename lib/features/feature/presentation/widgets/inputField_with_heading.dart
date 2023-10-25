@@ -25,8 +25,11 @@ class InputFieldWithHeading extends StatelessWidget {
                   margin: const EdgeInsets.fromLTRB(0, 0, 0, 17),
                   child: Text(heading ?? " ",
                       textAlign: TextAlign.left,
-                      style:
-                          const TextStyle(fontSize: 15, letterSpacing: 1.5))),
+                      style: TextStyle(
+                        fontSize: 16,
+                        letterSpacing: 1.5,
+                        color: Theme.of(context).colorScheme.primary,
+                      ))),
           TextField(
               style: TextStyle(
                   color: Theme.of(context).colorScheme.primary, fontSize: 19),

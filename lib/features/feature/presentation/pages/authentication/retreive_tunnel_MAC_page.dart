@@ -28,8 +28,8 @@ class _RetreiveTunnelMACPageState extends State<RetreiveTunnelMACPage> {
     try {
       final databaseResponse = await supabaseManager.supabaseClient
           .from("pintunnel")
-          .select('''mac_address''')
-          .eq("mac_address", _macAddressController.text);
+          .select('''mac_address''').eq(
+              "mac_address", _macAddressController.text);
 
       print(_macAddressController.text);
       print("DATABASE RESPONSE $databaseResponse");
@@ -88,6 +88,7 @@ class _RetreiveTunnelMACPageState extends State<RetreiveTunnelMACPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background,
         appBar: const TopBarBackAction(),
         body: Center(
             child: FractionallySizedBox(

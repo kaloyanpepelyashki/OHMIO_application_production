@@ -65,6 +65,7 @@ class _OnBoardingUsernamePageState extends State<OnBoardingUsernamePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background,
         appBar: const TopBarBackAction(),
         body: Center(
             child: FractionallySizedBox(
