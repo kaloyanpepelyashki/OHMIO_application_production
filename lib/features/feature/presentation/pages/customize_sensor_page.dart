@@ -5,6 +5,7 @@ import 'package:pin_tunnel_application_production/features/feature/data/data_sou
 import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelBloc.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelEvent.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/bloc/PinTunnelState.dart';
+import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/elevated_button_component.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/inputField_with_heading.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_back_action.dart';
 
@@ -46,30 +47,44 @@ class _CustomizeSensorPageState extends State<CustomizeSensorPage> {
                       "Customize your sensor",
                       style: TextStyle(
                         fontSize: 32,
+                        color: Colors.white,
                       ),
                     ),
                     SizedBox(height: 10),
                     Text(
                       "Nickname",
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
                     ),
-                    InputFieldWithHeading(
-                      controller: nicknameController!,
-                      placeHolder: 'Nickname',
-                      obscureText: false,
+                    Container(
+                      color: Colors.white,
+                      child: InputFieldWithHeading(
+                        controller: nicknameController!,
+                        placeHolder: 'Nickname',
+                        obscureText: false,
+                      ),
                     ),
                     SizedBox(height: 10),
                     Text(
                       "Where you would like to place your sensor",
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
                     ),
-                    InputFieldWithHeading(
-                      controller: placementController!,
-                      placeHolder: 'Living Room',
-                      obscureText: false,
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      child: InputFieldWithHeading(
+                        controller: placementController!,
+                        placeHolder: 'Living Room',
+                        obscureText: false,
+                      ),
                     ),
                     SizedBox(height: 10),
-                    Text("Select an icon for your sensor"),
                     SizedBox(height: 100),
                   ],
                 ),
@@ -77,8 +92,9 @@ class _CustomizeSensorPageState extends State<CustomizeSensorPage> {
               Container(
                 width: 248,
                 height: 44,
-                child: ElevatedButton(
-                  child: Text("Save", style: TextStyle(fontSize: 29)),
+                child: ElevatedButtonComponent(
+                  text: "Save",
+                 
                   onPressed: () {
                     saveCustomization();
                   },
@@ -88,7 +104,10 @@ class _CustomizeSensorPageState extends State<CustomizeSensorPage> {
               GestureDetector(
                 child: Text(
                   "Skip",
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ],

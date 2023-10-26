@@ -4,6 +4,7 @@ import 'package:pin_tunnel_application_production/features/feature/data/data_sou
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/elevated_button_component.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/inputField_with_heading.dart';
 import 'package:pin_tunnel_application_production/features/feature/presentation/widgets/top_bar_back_action.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   const ResetPasswordPage({super.key});
@@ -13,7 +14,6 @@ class ResetPasswordPage extends StatefulWidget {
 }
 
 class _ResetPasswordPageState extends State<ResetPasswordPage> {
-
   final _emailController = TextEditingController();
 
   @override
@@ -37,6 +37,10 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       margin: const EdgeInsets.fromLTRB(0, 70, 0, 10),
                       child: Column(children: [
                         Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(5)
+                            ),
                             margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                             child: InputFieldWithHeading(
                               key: Key("emailField"),
@@ -49,14 +53,34 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                       child: ElevatedButtonComponent(
                         key: const Key('resetButton'),
-                        onPressed: () async{
-                          supabaseManager.supabaseClient.auth.resetPasswordForEmail(_emailController.text.trim(), redirectTo: 'http://ohmio.org/index.html');
+                        onPressed: () async {
+                          supabaseManager.supabaseClient.auth
+                              .resetPasswordForEmail(
+                                  _emailController.text.trim(),
+                                  redirectTo: 'http://ohmio.org/index.html');
                         },
                         text: "OK",
                       )),
-                  
                 ],
               )),
         ));
+  }
+
+  void signup() {
+    try {
+      supabaseManager.supabaseClient.auth.resetPasswordForEmail(
+          _emailController.text.trim(),
+          redirectTo: 'http://ohmio.org/index.html');
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Email sent to your mailbox'),
+        backgroundColor: Colors.green,
+      ));
+    } catch (e) {
+      final snackbar = SnackBar(
+        content: Text("$e"),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+    }
   }
 }

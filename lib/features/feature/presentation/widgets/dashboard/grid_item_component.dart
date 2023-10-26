@@ -17,6 +17,7 @@ class GridItem extends StatefulWidget {
   final String? sensorDescription;
   final double? latestValue;
   final String? themeColor;
+  final String? nickname;
 
   const GridItem(
       {super.key,
@@ -26,7 +27,8 @@ class GridItem extends StatefulWidget {
       this.sensorImage,
       this.sensorDescription,
       this.latestValue,
-      this.themeColor});
+      this.themeColor,
+      this.nickname});
 
   @override
   State<GridItem> createState() => _GridItemState();
@@ -115,8 +117,10 @@ class _GridItemState extends State<GridItem> {
                   ),
                   SizedBox(height: 15),
                   Text(
-                    widget.sensorName == null ? "" : widget.sensorName!,
+                    widget.sensorName == null ? "" : widget.sensorName![0].toUpperCase() + widget.sensorName!.substring(1),
                   ),
+                  SizedBox(height: 15),
+                  Text(widget.nickname!),
                 ],
               ),
             ),

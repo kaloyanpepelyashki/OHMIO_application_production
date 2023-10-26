@@ -45,6 +45,7 @@ class _ConfirmEmailPageState extends State<ConfirmEmailPage> {
                         style: TextStyle(
                           fontSize: 19,
                           fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
                         textWidthBasis: TextWidthBasis.parent,
                       )),

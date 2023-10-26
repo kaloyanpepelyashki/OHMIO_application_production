@@ -88,18 +88,30 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                             //<=== | Text fields | ===>
                             Container(
                                 margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(5)
+                                ),
                                 child: InputFieldWithHeading(
                                     controller: _currentPasswordController,
                                     placeHolder: "* Current Password",
                                     obscureText: true)),
                             Container(
                                 margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(5)
+                                ),
                                 child: InputFieldWithHeading(
                                     controller: _newPasswordController,
                                     placeHolder: "* New Password",
                                     obscureText: true)),
                             Container(
                                 margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(5)
+                                ),
                                 child: InputFieldWithHeading(
                                   controller: _repeatPasswordController,
                                   placeHolder: "* Repeat password",
@@ -119,7 +131,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                     _newPasswordController.text,
                                     _repeatPasswordController.text);
                               },
-                              text: "Ok"),
+                              text: "OK"),
                           TextButtonComponent(
                               onPressed: () {
                                 GoRouter.of(context).go("/onboarding");

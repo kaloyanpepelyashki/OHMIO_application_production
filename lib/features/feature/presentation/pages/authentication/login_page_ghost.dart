@@ -77,16 +77,25 @@ class _LogInPageGhostState extends State<LogInPageGhost> {
                   Container(
                       margin: const EdgeInsets.fromLTRB(0, 40, 0, 10),
                       child: Column(children: [
+                        Text("Let's log you in",
+                        style: TextStyle(fontSize: 18, color: Theme.of(context).colorScheme.primary,)),
                         Container(
                             margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(5)
+                            ),
                             child: InputFieldWithHeading(
                               controller: _emailController,
-                              heading: "Let's log you in",
                               placeHolder: "Email",
                               obscureText: false,
                             )),
                         Container(
                             margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(5)
+                            ),
                             child: TextField(
                                 controller: _passwordController,
                                 obscureText: true,
@@ -102,7 +111,7 @@ class _LogInPageGhostState extends State<LogInPageGhost> {
                             _handleSignIn(context, _emailController.text.trim(),
                                 _passwordController.text);
                           },
-                          text: "Ok",
+                          text: "OK",
                         ),
                         TextButtonComponent(
                             onPressed: () {

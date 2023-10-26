@@ -86,6 +86,10 @@ class _SignUpComponentState extends State<SignUpPage> {
                           children: [
                             //<=== | Text fields | ===>
                             Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5)
+                              ),
                                 margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                                 child: InputFieldWithHeading(
                                   controller: _emailController,
@@ -93,12 +97,21 @@ class _SignUpComponentState extends State<SignUpPage> {
                                   obscureText: false,
                                 )),
                             Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5)
+                              ),
                                 margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                                 child: InputFieldWithHeading(
                                     controller: _passwordController,
                                     placeHolder: "* Password",
                                     obscureText: true)),
                             Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5),
+                                
+                              ),
                                 margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                                 child: InputFieldWithHeading(
                                   controller: _repeatPasswordController,
@@ -119,7 +132,7 @@ class _SignUpComponentState extends State<SignUpPage> {
                                     _passwordController.text,
                                     _repeatPasswordController.text);
                               },
-                              text: "Ok"),
+                              text: "OK"),
                           TextButtonComponent(
                               onPressed: () {
                                 GoRouter.of(context).go("/onboarding");

@@ -150,18 +150,21 @@ class _SensorPageState extends State<SensorPage> {
                                   Text(sensorName.toUpperCase(),
                                       style: TextStyle(
                                           fontSize: 25,
-                                          fontWeight: FontWeight.bold)),
+                                          fontWeight: FontWeight.bold,
+                                          color:Colors.white)),
                                   Text("Living Room",
-                                      style: TextStyle(fontSize: 18)),
+                                      style: TextStyle(fontSize: 20,
+                                      color: Color(0xFF5D467D),
+                                      fontWeight: FontWeight.bold)),
                                 ],
                               ),
                             ),
                           ),
                     Text(sensorValue.toString() + '°C',
-                        style: TextStyle(fontSize: 55)),
+                        style: TextStyle(fontSize: 55, color: Colors.white)),
                     SizedBox(height: 10),
                     Divider(
-                      color: Colors.black,
+                      color: Colors.white,
                       height: 10,
                       thickness: 2,
                       indent: 30,
@@ -192,7 +195,7 @@ class _SensorPageState extends State<SensorPage> {
                                               ? const ButtonStyle(
                                                   backgroundColor:
                                                       MaterialStatePropertyAll(
-                                                          Color(0xFFDD6E42)),
+                                                          Color(0xFF892AE7)),
                                                   foregroundColor:
                                                       MaterialStatePropertyAll(
                                                           Colors.white),
@@ -217,7 +220,7 @@ class _SensorPageState extends State<SensorPage> {
                                               ? const ButtonStyle(
                                                   backgroundColor:
                                                       MaterialStatePropertyAll(
-                                                          Color(0xFFDD6E42)),
+                                                          Color(0xFF892AE7)),
                                                   foregroundColor:
                                                       MaterialStatePropertyAll(
                                                           Colors.white),
@@ -242,7 +245,7 @@ class _SensorPageState extends State<SensorPage> {
                                               ? const ButtonStyle(
                                                   backgroundColor:
                                                       MaterialStatePropertyAll(
-                                                          Color(0xFFDD6E42)),
+                                                          Color(0xFF892AE7)),
                                                   foregroundColor:
                                                       MaterialStatePropertyAll(
                                                           Colors.white),

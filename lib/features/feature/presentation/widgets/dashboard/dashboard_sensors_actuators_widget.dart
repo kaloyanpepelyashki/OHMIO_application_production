@@ -61,10 +61,10 @@ class _DashboardSensorWidgetState
                     sensorName: sensorItems[i].sensorName,
                     sensorImage: sensorItems[i].sensorImage,
                     sensorDescription: sensorItems[i].sensorDescription!,
-                    latestValue: sensorItems[i].latestValue == null ? 0 : sensorItems[i].latestValue,
+                    latestValue: sensorItems[i].latestValue ?? 0,
                     themeColor: themeColors[i%4],
+                    nickname: sensorItems[i].nickname ?? "",
                   ),
-              AddNewDeviceWidget(),
             ],
           ),
         )

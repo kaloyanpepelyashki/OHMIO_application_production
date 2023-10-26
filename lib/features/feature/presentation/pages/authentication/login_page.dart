@@ -110,6 +110,9 @@ class _LogInComponentState extends State<LogInPage> {
                       margin: const EdgeInsets.fromLTRB(0, 70, 0, 10),
                       child: Column(children: [
                         Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5)),
                             margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                             child: InputFieldWithHeading(
                               key: Key("emailField"),
@@ -118,6 +121,9 @@ class _LogInComponentState extends State<LogInPage> {
                               obscureText: false,
                             )),
                         Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5)),
                             margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                             child: InputFieldWithHeading(
                                 key: Key("passwordField"),
@@ -126,23 +132,24 @@ class _LogInComponentState extends State<LogInPage> {
                                 obscureText: true))
                       ])),
                   Container(
-                      margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                      child: ElevatedButtonComponent(
-                        key: const Key('loginButton'),
-                        onPressed: () async {
-                          FocusScope.of(context).unfocus();
-                          if (secureStorageEmail == '' ||
-                              secureStoragePassword == '') {
-                            await SecureStorage().writeSecureData(
-                                'email', _emailController.text.trim());
-                            await SecureStorage().writeSecureData(
-                                'password', _passwordController.text);
-                          }
-                          _handleSignIn(context, _emailController.text.trim(),
-                              _passwordController.text);
-                        },
-                        text: "Sign in",
-                      )),
+                    margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    child: ElevatedButtonComponent(
+                      key: const Key('loginButton'),
+                      onPressed: () async {
+                        FocusScope.of(context).unfocus();
+                        if (secureStorageEmail == '' ||
+                            secureStoragePassword == '') {
+                          await SecureStorage().writeSecureData(
+                              'email', _emailController.text.trim());
+                          await SecureStorage().writeSecureData(
+                              'password', _passwordController.text);
+                        }
+                        _handleSignIn(context, _emailController.text.trim(),
+                            _passwordController.text);
+                      },
+                      text: "Sign in",
+                    ),
+                  ),
                   SizedBox(height: 16),
                   // GestureDetector(
                   //     child: Text("Forgot your password?"),
