@@ -99,6 +99,7 @@ class _OnBoardingPersonalDataPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background,
         appBar: const TopBarBlank(),
         body: Center(
             child: FractionallySizedBox(
@@ -124,11 +125,11 @@ class _OnBoardingPersonalDataPageState
                               )),
                           Container(
                               margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                              child: TextField(
-                                  controller: _lastNameController,
-                                  decoration: const InputDecoration(
-                                      hintText: "Last name",
-                                      enabledBorder: OutlineInputBorder())))
+                              child: InputFieldWithHeading(
+                                controller: _lastNameController,
+                                placeHolder: "Last name",
+                                obscureText: false,
+                              ))
                         ])),
                     Container(
                         margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
