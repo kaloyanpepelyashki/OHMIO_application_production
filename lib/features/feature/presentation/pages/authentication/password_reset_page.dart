@@ -42,10 +42,12 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                               borderRadius: BorderRadius.circular(5)
                             ),
                             margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                            child: InputFieldWithHeading(
+                            child: TextField(
                               key: Key("emailField"),
                               controller: _emailController,
-                              placeHolder: "Email",
+                              decoration: InputDecoration(
+                                    hintText: 'Email',
+                                    hintStyle: TextStyle(fontSize: 18)),
                               obscureText: false,
                             )),
                       ])),
@@ -54,10 +56,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       child: ElevatedButtonComponent(
                         key: const Key('resetButton'),
                         onPressed: () async {
-                          supabaseManager.supabaseClient.auth
-                              .resetPasswordForEmail(
-                                  _emailController.text.trim(),
-                                  redirectTo: 'http://ohmio.org/index.html');
+                        FocusScope.of(context).unfocus();
+                         signup();
                         },
                         text: "OK",
                       )),

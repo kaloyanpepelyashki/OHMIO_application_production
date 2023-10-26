@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -114,10 +115,13 @@ class _LogInComponentState extends State<LogInPage> {
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(5)),
                             margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                            child: InputFieldWithHeading(
+                            child: TextField(
                               key: Key("emailField"),
                               controller: _emailController,
-                              placeHolder: "Email",
+                              cursorColor: Colors.black,
+                              decoration: InputDecoration(
+                                    hintText: 'Email',
+                                    hintStyle: TextStyle(fontSize: 18)),
                               obscureText: false,
                             )),
                         Container(
@@ -125,10 +129,13 @@ class _LogInComponentState extends State<LogInPage> {
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(5)),
                             margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                            child: InputFieldWithHeading(
+                            child: TextField(
                                 key: Key("passwordField"),
                                 controller: _passwordController,
-                                placeHolder: "Password",
+                                cursorColor: Colors.black,
+                                decoration: InputDecoration(
+                                    hintText: 'Password',
+                                    hintStyle: TextStyle(fontSize: 18)),
                                 obscureText: true))
                       ])),
                   Container(

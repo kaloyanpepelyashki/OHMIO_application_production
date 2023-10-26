@@ -91,9 +91,11 @@ class _SignUpComponentState extends State<SignUpPage> {
                                 borderRadius: BorderRadius.circular(5)
                               ),
                                 margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                                child: InputFieldWithHeading(
+                                child: TextField(
                                   controller: _emailController,
-                                  placeHolder: "Email",
+                                  decoration: InputDecoration(
+                                    hintText: 'Email',
+                                    hintStyle: TextStyle(fontSize: 18)),
                                   obscureText: false,
                                 )),
                             Container(
@@ -102,9 +104,11 @@ class _SignUpComponentState extends State<SignUpPage> {
                                 borderRadius: BorderRadius.circular(5)
                               ),
                                 margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                                child: InputFieldWithHeading(
+                                child: TextField(
                                     controller: _passwordController,
-                                    placeHolder: "* Password",
+                                    decoration: InputDecoration(
+                                    hintText: '* Password',
+                                    hintStyle: TextStyle(fontSize: 18)),
                                     obscureText: true)),
                             Container(
                               decoration: BoxDecoration(
@@ -113,9 +117,11 @@ class _SignUpComponentState extends State<SignUpPage> {
                                 
                               ),
                                 margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                                child: InputFieldWithHeading(
+                                child: TextField(
                                   controller: _repeatPasswordController,
-                                  placeHolder: "* Repeat password",
+                                  decoration: InputDecoration(
+                                    hintText: '* Repeat Password',
+                                    hintStyle: TextStyle(fontSize: 18)),
                                   obscureText: true,
                                 ))
                           ],

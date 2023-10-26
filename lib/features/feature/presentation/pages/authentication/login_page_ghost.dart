@@ -85,9 +85,11 @@ class _LogInPageGhostState extends State<LogInPageGhost> {
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(5)
                             ),
-                            child: InputFieldWithHeading(
+                            child: TextField(
                               controller: _emailController,
-                              placeHolder: "Email",
+                              decoration: const InputDecoration(
+                                    hintText: "Email",
+                                    enabledBorder: OutlineInputBorder()),
                               obscureText: false,
                             )),
                         Container(

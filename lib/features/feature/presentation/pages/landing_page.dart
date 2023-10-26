@@ -38,7 +38,7 @@ class InitialLandingPage extends StatelessWidget {
                       ),
                       TextButtonComponent(
                           onPressed: () {
-                            GoRouter.of(context).go("/signup");
+                            GoRouter.of(context).push("/signup");
                           },
                           text: "Sign up"),
                     ]))
