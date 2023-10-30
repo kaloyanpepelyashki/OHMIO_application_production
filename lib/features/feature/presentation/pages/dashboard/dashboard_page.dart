@@ -89,6 +89,7 @@ class DashBoardPageState extends State<DashBoardPage> {
       },
       builder: (context, state) {
         if (state is SensorsForUserReceivedState) {
+          print("STATES sensorList ${state.sensorList}");
           if (state.sensorList.isNotEmpty) {
             //  List<int> listOfMacs = [];
             sensorsActuatorsElements.clear();

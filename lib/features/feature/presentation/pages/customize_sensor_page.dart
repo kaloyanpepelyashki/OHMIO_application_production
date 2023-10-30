@@ -25,6 +25,7 @@ class _CustomizeSensorPageState extends State<CustomizeSensorPage> {
   void initState() {
     nicknameController = TextEditingController();
     placementController = TextEditingController();
+    print("SENSOR ID: ${widget.sensorId}");
     super.initState();
   }
 
@@ -59,13 +60,23 @@ class _CustomizeSensorPageState extends State<CustomizeSensorPage> {
                       ),
                     ),
                     Container(
-                      color: Colors.white,
-                      child: InputFieldWithHeading(
-                        controller: nicknameController!,
-                        placeHolder: 'Nickname',
-                        obscureText: false,
-                      ),
-                    ),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5)),
+                            margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                            child: TextField(
+                              key: Key("emailField"),
+                              controller: nicknameController!,
+                              cursorColor: Colors.black,
+                              decoration: InputDecoration(
+                                focusColor: Colors.transparent,
+                                    hoverColor: Colors.transparent,
+                                    border: InputBorder.none,
+                                  contentPadding: EdgeInsets.all(16.0),
+                                  hintText: 'Nickname',
+                                  hintStyle: TextStyle(fontSize: 18)),
+                              obscureText: false,
+                            )),
                     SizedBox(height: 10),
                     Text(
                       "Where you would like to place your sensor",
@@ -75,15 +86,22 @@ class _CustomizeSensorPageState extends State<CustomizeSensorPage> {
                       ),
                     ),
                     Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                      ),
-                      child: InputFieldWithHeading(
-                        controller: placementController!,
-                        placeHolder: 'Living Room',
-                        obscureText: false,
-                      ),
-                    ),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5)),
+                            margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                            child: TextField(
+                              controller: placementController!,
+                              cursorColor: Colors.black,
+                              decoration: InputDecoration(
+                                focusColor: Colors.transparent,
+                                    hoverColor: Colors.transparent,
+                                    border: InputBorder.none,
+                                  contentPadding: EdgeInsets.all(16.0),
+                                  hintText: 'Living Room',
+                                  hintStyle: TextStyle(fontSize: 18)),
+                              obscureText: false,
+                            )),
                     SizedBox(height: 10),
                     SizedBox(height: 100),
                   ],

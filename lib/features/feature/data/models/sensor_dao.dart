@@ -12,6 +12,7 @@ class SensorDAO extends SensorClass{
       maxValue: json['max_value']?.toString() ?? "",
       sensorImage: json['image']?.toString() ?? "",
       sensorName: json['name']?.toString() ?? "",
+      nickname: json['nickname']?.toString()??"",
     );
   }
 }

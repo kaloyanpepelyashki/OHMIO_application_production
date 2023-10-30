@@ -12,4 +12,9 @@ final ThemeData mainTheme = ThemeData(
 
       // background: const Color(0xFFFAFAFA),
     ),
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: Colors.red,
+      selectionColor: Colors.blue,
+      selectionHandleColor: Colors.black,
+    ),
     typography: Typography());

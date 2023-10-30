@@ -120,8 +120,12 @@ class _LogInComponentState extends State<LogInPage> {
                               controller: _emailController,
                               cursorColor: Colors.black,
                               decoration: InputDecoration(
-                                    hintText: 'Email',
-                                    hintStyle: TextStyle(fontSize: 18)),
+                                focusColor: Colors.transparent,
+                                    hoverColor: Colors.transparent,
+                                    border: InputBorder.none,
+                                  contentPadding: EdgeInsets.all(16.0),
+                                  hintText: 'Email',
+                                  hintStyle: TextStyle(fontSize: 18)),
                               obscureText: false,
                             )),
                         Container(
@@ -134,6 +138,10 @@ class _LogInComponentState extends State<LogInPage> {
                                 controller: _passwordController,
                                 cursorColor: Colors.black,
                                 decoration: InputDecoration(
+                                    focusColor: Colors.transparent,
+                                    hoverColor: Colors.transparent,
+                                    border: InputBorder.none,
+                                    contentPadding: EdgeInsets.all(16.0),
                                     hintText: 'Password',
                                     hintStyle: TextStyle(fontSize: 18)),
                                 obscureText: true))

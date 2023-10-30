@@ -209,27 +209,54 @@ class PinTunnelRepository implements IPinTunnelRepository {
           .from('sensor')
           .select('''cfg_code, sensor_mac, nickname''').eq(
               'mac_address', pintunnelData[0]['mac_address']));
-      print("SENSOR DATA $sensorData");
+
       if (sensorData.isEmpty || sensorData == null) {
         return Left(
             NotFoundFailure(message: "Sensor data is null", statusCode: 404));
       }
 
-      List<dynamic> cfgCodes =
+      final missingSensors = await supabaseManager.supabaseClient.
+      from('missing_sensors').select('sensor_id');
+      print("MISSING_SENSORS: ${missingSensors}");
+
+      List<dynamic> missingSensorsMacs = missingSensors.map((item)=>item['sensor_id'].toString()).toList();
+      print("MISSING SENSORS MACS: $missingSensorsMacs");
+      List<SensorClass> sensorClassList = [];
+
+      for (var sensor in sensorData) {
+        if(missingSensorsMacs.contains(sensor['sensor_mac'].toString())){
+          continue;
+        }
+        final sensorConfig = await supabaseManager.supabaseClient
+            .from('sensor_config')
+            .select('''description, isActuator, unit, version, min_value, max_value, image, name''').eq(
+                'cfg_code', sensor['cfg_code']);
+        if (sensorConfig.isNotEmpty) {
+          sensor['description'] = sensorConfig[0]['description'];
+          sensor['isActuator'] = sensorConfig[0]['isActuator'];
+          sensor['unit'] = sensorConfig[0]['unit'];
+          sensor['version'] = sensorConfig[0]['version'];
+          sensor['min_value'] = sensorConfig[0]['min_value'];
+          sensor['max_value'] = sensorConfig[0]['max_value'];
+          sensor['image'] = sensorConfig[0]['image'];
+          sensor['name'] = sensorConfig[0]['name'];
+          final sensorClass = SensorDAO.fromJSON(sensor as Map<String, dynamic>);
+        sensorClassList.add(sensorClass);
+        }
+      }
+
+      print("SENSOR DATA $sensorData");
+
+      /*  List<dynamic> cfgCodes =
           sensorData.map((data) => data['cfg_code'] as int).toList();
 
       final data = await supabaseManager.supabaseClient
           .from('sensor_config')
           .select('''description, isActuator, unit, version, min_value, max_value, image, name''').in_(
               'cfg_code', cfgCodes);
+      print("DATA $data");*/
 
-      List<SensorClass> sensorClassList = [];
-      for (int index = 0; index < data.length; index++) {
-        final sensor = SensorDAO.fromJSON(data[index] as Map<String, dynamic>);
-        sensor.sensorMac = sensorData[index]['sensor_mac'].toString();
-        sensor.nickname = sensorData[index]['nickname'].toString();
-        sensorClassList.add(sensor);
-      }
+      
       if (sensorClassList.isNotEmpty) {
         return Right(sensorClassList);
       }
@@ -302,10 +329,11 @@ class PinTunnelRepository implements IPinTunnelRepository {
           message: 'Error updating sensor configurations', statusCode: 500));
     }
   }
-  
+
   @override
-  Future<Either<Failure, List<SensorClass>>> getHistoricalData(String email) async{
-    try{
+  Future<Either<Failure, List<SensorClass>>> getHistoricalData(
+      String email) async {
+    try {
       final clientId =
           (await supabaseManager.supabaseClient.from('profiles').select('''
     id
@@ -319,7 +347,6 @@ class PinTunnelRepository implements IPinTunnelRepository {
 
       print(clientId[0]['id']);
 
-
       final pintunnelData = await supabaseManager.supabaseClient
           .from('pintunnel')
           .select('mac_address')
@@ -330,7 +357,6 @@ class PinTunnelRepository implements IPinTunnelRepository {
         return Left(NotFoundFailure(
             message: "Pintunnel not found for given email", statusCode: 404));
       }
-      
 
       final sensorData = (await supabaseManager.supabaseClient
           .from('sensor')
@@ -346,17 +372,19 @@ class PinTunnelRepository implements IPinTunnelRepository {
           sensorData.map((data) => data['sensor_mac'] as int).toList();
 
       final missingSensors = await supabaseManager.supabaseClient
-      .from('missing_sensors')
-      .select('sensor_id, missing_day')
-      .in_('sensor_id', sensor_macs);
-
+          .from('missing_sensors')
+          .select('sensor_id, missing_day')
+          .in_('sensor_id', sensor_macs);
 
       List<SensorClass> sensorClassList = [];
       for (int index = 0; index < missingSensors.length; index++) {
-        final sensorConfig = await supabaseManager.supabaseClient.from('sensor_config').select('''description, isActuator, unit, version,
+        final sensorConfig = await supabaseManager.supabaseClient
+            .from('sensor_config')
+            .select('''description, isActuator, unit, version,
          min_value, max_value, image, name''').eq('cfg_code', sensorData[index]['cfg_code']);
         print("sensor config: $sensorConfig");
-        final sensor = SensorDAO.fromJSON(missingSensors[index] as Map<String, dynamic>);
+        final sensor =
+            SensorDAO.fromJSON(missingSensors[index] as Map<String, dynamic>);
         sensor.sensorMac = sensorData[index]['sensor_mac'].toString();
         sensor.sensorDescription = sensorConfig[0]['description'].toString();
         sensor.isActuator = sensorConfig[0]['isActuator'];
@@ -374,7 +402,7 @@ class PinTunnelRepository implements IPinTunnelRepository {
       }
       return Left(
           NotFoundFailure(message: "Sensors not found", statusCode: 404));
-    }on APIException catch (e) {
+    } on APIException catch (e) {
       return Left(APIFailure.fromException(e));
     }
   }
