@@ -49,10 +49,11 @@ class _HistoricalDataPageState extends State<HistoricalDataPage> {
               SliverPadding(
                 padding: const EdgeInsets.all(20),
                 sliver: SliverGrid.count(
-                  crossAxisCount: 1,
+                  crossAxisCount: 2,
                   mainAxisSpacing: 10,
                   crossAxisSpacing: 10,
-                  childAspectRatio: 3,
+                  //the bigger childAspecRation the smaller height
+                  childAspectRatio: 1.5,
                   children: [
                     if (listOfSensors.isNotEmpty)
                       for (int i = 0; i < listOfSensors.length; i++)
@@ -63,6 +64,7 @@ class _HistoricalDataPageState extends State<HistoricalDataPage> {
                           sensorDescription:
                               listOfSensors[i].sensorDescription!,
                           missingDay: listOfSensors[i].missingDay,
+                          sensorPlacement: listOfSensors[i].placement,
                           themeColor: themeColors[i % 4],
                         ),
                   ],

@@ -64,6 +64,8 @@ class _DashboardSensorWidgetState
                     latestValue: sensorItems[i].latestValue ?? 0,
                     themeColor: themeColors[i%4],
                     nickname: sensorItems[i].nickname ?? "",
+                    unit: sensorItems[i].unit,
+                    placement: sensorItems[i].placement,
                   ),
             ],
           ),

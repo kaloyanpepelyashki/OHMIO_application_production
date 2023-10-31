@@ -20,9 +20,15 @@ import '../../widgets/top_bar_back_action.dart';
 
 class SensorPage extends StatefulWidget {
   final String? sensor_mac;
+  final String? sensorName;
+  final String? sensorPlacement;
+  final String? unit;
 
   const SensorPage({
     required this.sensor_mac,
+    required this.sensorName,
+    required this.sensorPlacement,
+    required this.unit,
     Key? key,
   }) : super(key: key);
 
@@ -147,30 +153,36 @@ class _SensorPageState extends State<SensorPage> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(sensorName.toUpperCase(),
-                                      style: TextStyle(
+                                  Text(widget.sensorName??"SENSOR",
+                                      style: const TextStyle(
                                           fontSize: 25,
                                           fontWeight: FontWeight.bold,
-                                          color:Colors.white)),
-                                  Text("Living Room",
-                                      style: TextStyle(fontSize: 20,
-                                      color: Color(0xFF5D467D),
-                                      fontWeight: FontWeight.bold)),
+                                          color: Colors.white)),
+                                  Text(widget.sensorPlacement=="placement" ? "": widget.sensorPlacement!,
+                                      style: const TextStyle(
+                                          fontSize: 20,
+                                          color: Color(0xFF5D467D),
+                                          fontWeight: FontWeight.bold)),
                                 ],
                               ),
                             ),
                           ),
-                    Text(sensorValue.toString() + '°C',
-                        style: TextStyle(fontSize: 55, color: Colors.white)),
-                    SizedBox(height: 10),
-                    Divider(
+                    Text(
+                      sensorValue.toString() + (widget.unit?? ""),
+                      style: const TextStyle(
+                        fontSize: 55,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    const Divider(
                       color: Colors.white,
                       height: 10,
                       thickness: 2,
                       indent: 30,
                       endIndent: 30,
                     ),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15,),
                     Stack(
                       children: [
                         Column(

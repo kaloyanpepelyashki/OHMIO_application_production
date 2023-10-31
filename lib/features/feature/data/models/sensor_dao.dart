@@ -13,6 +13,7 @@ class SensorDAO extends SensorClass{
       sensorImage: json['image']?.toString() ?? "",
       sensorName: json['name']?.toString() ?? "",
       nickname: json['nickname']?.toString()??"",
+      placement: json['placement']?.toString()??"",
     );
   }
 }

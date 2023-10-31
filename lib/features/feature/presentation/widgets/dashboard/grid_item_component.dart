@@ -18,6 +18,8 @@ class GridItem extends StatefulWidget {
   final double? latestValue;
   final String? themeColor;
   final String? nickname;
+  final String? unit;
+  final String? placement;
 
   const GridItem(
       {super.key,
@@ -28,7 +30,9 @@ class GridItem extends StatefulWidget {
       this.sensorDescription,
       this.latestValue,
       this.themeColor,
-      this.nickname});
+      this.nickname,
+      this.unit,
+      this.placement});
 
   @override
   State<GridItem> createState() => _GridItemState();
@@ -89,60 +93,98 @@ class _GridItemState extends State<GridItem> {
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.fromLTRB(16,16,8,16),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         GestureDetector(
-                            child: FaIcon(FontAwesomeIcons.penToSquare),
+                            child: FaIcon(FontAwesomeIcons.penToSquare, color: Color(0xFF5D467D),),
                             onTap: () {
-                              GoRouter.of(context).pushNamed("customizeSensor", pathParameters: {"sensorId": widget.id.toString()});
+                              GoRouter.of(context).pushNamed("customizeSensor",
+                                  pathParameters: {
+                                    "sensorId": widget.id.toString()
+                                  });
                             }),
                       ],
                     ),
                   ),
-                  SizedBox(height: 10),
-                  Wrap(
-                    //mainAxisAlignment: MainAxisAlignment.center,
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text(
-                        latestValue.toString(),
-                        style: const TextStyle(
-                            fontSize: 35, fontWeight: FontWeight.bold),
+                      Container(
+                        width: 60,
+                        height: 70,
+                        child: widget.sensorName!
+                                .toUpperCase()
+                                .contains("TEMPERATURE")
+                            ? Image.asset('assets/temp_vector.png')
+                            : SizedBox(),
                       ),
-                      determineSymbol(),
+                      Flexible(
+                        child: Column(
+                          children: [
+                            Wrap(
+                              //mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  latestValue.toString(),
+                                  style: const TextStyle(
+                                      fontSize: 35,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFF5D467D)),
+                                ),
+                                Text(
+                                  widget.unit ?? "",
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                    color: Color(0xFF5D467D)
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              widget.sensorName == null
+                                  ? ""
+                                  : widget.sensorName![0].toUpperCase() +
+                                      widget.sensorName!.substring(1),
+                              style: TextStyle(color:Color(0xFF5D467D)),
+                            ),
+                          ],
+                        ),
+                      )
                     ],
                   ),
                   SizedBox(height: 15),
-                  Text(
-                    widget.sensorName == null ? "" : widget.sensorName![0].toUpperCase() + widget.sensorName!.substring(1),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(14.0,0,0,0),
+                    child: Column(
+                      children: [
+                        Text(widget.nickname!, style: TextStyle(color: Color(0xFF5D467D)),),
+                        Text(widget.placement ?? "", style: TextStyle(color: Color(0xFF5D467D)),),
+                      ],
+                    ),
                   ),
-                  SizedBox(height: 15),
-                  Text(widget.nickname!),
                 ],
               ),
             ),
             onTap: () {
-              GoRouter.of(context).pushNamed("sensorPage",
-                  pathParameters: {'id': widget.id.toString()});
+              GoRouter.of(context).pushNamed(
+                "sensorPage",
+                pathParameters: {
+                  'id': widget.id.toString(),
+                  'sensorName': widget.sensorName.toString(),
+                  'sensorPlacement':
+                      widget.placement == "" ? 'placement' : widget.placement!,
+                  'unit': widget.unit.toString()
+                },
+              );
             });
       },
     );
-  }
-
-  Widget determineSymbol() {
-    if (widget.sensorName?.toUpperCase() == "TEMPERATURE SENSOR") {
-      return Text(
-        symbolList[0],
-        style: TextStyle(fontSize: 30),
-      );
-    } else {
-      return Text(
-        symbolList[1],
-        style: TextStyle(fontSize: 30),
-      );
-    }
   }
 }

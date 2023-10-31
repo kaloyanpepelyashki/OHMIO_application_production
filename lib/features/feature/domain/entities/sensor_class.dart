@@ -15,6 +15,7 @@ class SensorClass extends Equatable {
   double? latestValue;
   String? missingDay;
   String? nickname;
+  String? placement;
 
   SensorClass({
     this.tunnelMacAddress,
@@ -30,7 +31,8 @@ class SensorClass extends Equatable {
     this.sensorMac,
     this.latestValue,
     this.missingDay,
-    this.nickname
+    this.nickname,
+    this.placement
   });
 
   @override

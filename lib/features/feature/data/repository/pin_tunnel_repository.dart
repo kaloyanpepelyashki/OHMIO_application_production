@@ -207,7 +207,7 @@ class PinTunnelRepository implements IPinTunnelRepository {
 
       final sensorData = (await supabaseManager.supabaseClient
           .from('sensor')
-          .select('''cfg_code, sensor_mac, nickname''').eq(
+          .select('''cfg_code, sensor_mac, nickname, placement''').eq(
               'mac_address', pintunnelData[0]['mac_address']));
 
       if (sensorData.isEmpty || sensorData == null) {
@@ -360,7 +360,7 @@ class PinTunnelRepository implements IPinTunnelRepository {
 
       final sensorData = (await supabaseManager.supabaseClient
           .from('sensor')
-          .select('''cfg_code, sensor_mac''').eq(
+          .select('''cfg_code, sensor_mac, placement''').eq(
               'mac_address', pintunnelData[0]['mac_address']));
       print("SENSOR DATA $sensorData");
       if (sensorData.isEmpty || sensorData == null) {
@@ -386,6 +386,7 @@ class PinTunnelRepository implements IPinTunnelRepository {
         final sensor =
             SensorDAO.fromJSON(missingSensors[index] as Map<String, dynamic>);
         sensor.sensorMac = sensorData[index]['sensor_mac'].toString();
+        sensor.placement = sensorData[index]['placement'].toString();
         sensor.sensorDescription = sensorConfig[0]['description'].toString();
         sensor.isActuator = sensorConfig[0]['isActuator'];
         sensor.unit = sensorConfig[0]['unit'].toString();

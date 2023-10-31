@@ -121,13 +121,16 @@ GoRouter router = GoRouter(initialLocation: "/", routes: <GoRoute>[
         return CustomizeSensorPage(sensorId: sensorId!);
       }),
   GoRoute(
-      path: "/sensorPage/:id",
+      path: "/sensorPage/:id/:sensorName/:sensorPlacement/:unit",
       name: "sensorPage",
       builder: (BuildContext context, GoRouterState state) {
         return BlocProvider.value(
           value: BlocProvider.of<PinTunnelBloc>(context),
           child: SensorPage(
             sensor_mac: state.pathParameters['id'],
+            sensorName: state.pathParameters['sensorName'],
+            sensorPlacement: state.pathParameters['sensorPlacement'],
+            unit: state.pathParameters['unit'],
           ),
         );
       }),
