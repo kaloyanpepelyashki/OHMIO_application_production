@@ -80,7 +80,7 @@ class DrawerMenuComponent extends StatelessWidget {
                 alignment: Alignment.bottomCenter,
                 child: Padding(
                   padding: EdgeInsets.only(bottom: 20.0),
-                  child: Text("VERSION: 1.0.5"),
+                  child: Text("VERSION: 1.0.6"),
                 ),
               ),
             ),

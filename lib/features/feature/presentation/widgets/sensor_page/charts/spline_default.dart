@@ -26,7 +26,8 @@ class SplineDefaultState extends State<SplineDefault> {
   ChartSeriesController? _chartSeriesController;
 
   List<ChartData> chartData = [];
-  
+
+  bool isDataPresent = false;
 
   @override
   initState() {
@@ -100,6 +101,7 @@ class SplineDefaultState extends State<SplineDefault> {
             timeFilter.toUpperCase() == "DAY" &&
             state.data.isNotEmpty) {
           print("SPLINE_DEFAULT: DAILY PAYLOAD ");
+          isDataPresent = true;
           for (var record in state.data) {
             chartData.add(record);
           }
@@ -109,6 +111,7 @@ class SplineDefaultState extends State<SplineDefault> {
         if (state is WeeklyDataReceivedState &&
             timeFilter.toUpperCase() == "WEEK" &&
             state.data.isNotEmpty) {
+          isDataPresent = true;
           for (var record in state.data) {
             print("WEEKLY RECORD: ${record.dateTime}");
             chartData.add(record);
@@ -119,6 +122,7 @@ class SplineDefaultState extends State<SplineDefault> {
         if (state is MonthlyDataReceivedState &&
             timeFilter.toUpperCase() == "MONTH" &&
             state.data.isNotEmpty) {
+          isDataPresent = true;
           for (var record in state.data) {
             chartData.add(record);
           }
@@ -126,51 +130,59 @@ class SplineDefaultState extends State<SplineDefault> {
         }
         return Scaffold(
           body: Center(
-            child: Container(
-              child: SfCartesianChart(
-                zoomPanBehavior: _zoomPanBehavior,
-                tooltipBehavior: _tooltipBehavior,
-                primaryXAxis: DateTimeAxis(
-                  rangePadding: ChartRangePadding.round,
-                  labelAlignment: LabelAlignment.end,
-                  autoScrollingDelta: 5,
-                  autoScrollingMode: AutoScrollingMode.end,
-                  interactiveTooltip: const InteractiveTooltip(
-                      // Displays the x-axis tooltip
-                      enable: true,
-                      borderColor: Colors.red,
-                      borderWidth: 2),
-                ),
-                primaryYAxis: NumericAxis(
-                  labelFormat: '{value}°C',
-                  minimum: 0.0,
-                  maximum: 100.0,
-                  decimalPlaces: 2,
-                  labelAlignment: LabelAlignment.center,
-                ),
-                series: <ChartSeries>[
-                  // Renders spline chart
-                  //Use SplineAreaSeries if you want to color area below spline
-                  SplineSeries<ChartData, DateTime>(
-                      onRendererCreated: (ChartSeriesController controller) {
-                        _chartSeriesController = controller;
-                      },
-                      //color - provide color for area
-                      dataSource: chartData,
-                      enableTooltip: true,
-                      splineType: SplineType.natural,
-                      cardinalSplineTension: 0.5,
-                      markerSettings: const MarkerSettings(
-                        isVisible: true,
-                        shape: DataMarkerType.diamond,
-                        borderColor: Colors.black,
+            child: isDataPresent
+                ? Container(
+                    child: SfCartesianChart(
+                      zoomPanBehavior: _zoomPanBehavior,
+                      tooltipBehavior: _tooltipBehavior,
+                      primaryXAxis: DateTimeAxis(
+                        rangePadding: ChartRangePadding.round,
+                        labelAlignment: LabelAlignment.end,
+                        autoScrollingDelta: 5,
+                        autoScrollingMode: AutoScrollingMode.end,
+                        interactiveTooltip: const InteractiveTooltip(
+                            // Displays the x-axis tooltip
+                            enable: true,
+                            borderColor: Colors.red,
+                            borderWidth: 2),
                       ),
-                      xValueMapper: (ChartData data, _) => data.dateTime,
-                      yValueMapper: (ChartData data, _) => data.value),
-                  //animationDuration: 1000
-                ],
-              ),
-            ),
+                      primaryYAxis: NumericAxis(
+                        labelFormat: '{value}°C',
+                        minimum: 0.0,
+                        maximum: 100.0,
+                        decimalPlaces: 2,
+                        labelAlignment: LabelAlignment.center,
+                      ),
+                      series: <ChartSeries>[
+                        // Renders spline chart
+                        //Use SplineAreaSeries if you want to color area below spline
+                        SplineSeries<ChartData, DateTime>(
+                            onRendererCreated:
+                                (ChartSeriesController controller) {
+                              _chartSeriesController = controller;
+                            },
+                            //color - provide color for area
+                            dataSource: chartData,
+                            enableTooltip: true,
+                            splineType: SplineType.natural,
+                            cardinalSplineTension: 0.5,
+                            markerSettings: const MarkerSettings(
+                              isVisible: true,
+                              shape: DataMarkerType.diamond,
+                              borderColor: Colors.black,
+                            ),
+                            xValueMapper: (ChartData data, _) => data.dateTime,
+                            yValueMapper: (ChartData data, _) => data.value),
+                        //animationDuration: 1000
+                      ],
+                    ),
+                  )
+                : const Text(
+                    'Data not available',
+                    style: TextStyle(
+                      fontSize: 22,
+                    ),
+                  ),
           ),
         );
       },

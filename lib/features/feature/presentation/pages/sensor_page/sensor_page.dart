@@ -23,11 +23,13 @@ class SensorPage extends StatefulWidget {
   final String? sensorName;
   final String? sensorPlacement;
   final String? unit;
+  final String? isHistoricalData;
 
   const SensorPage({
     required this.sensor_mac,
     required this.sensorName,
     required this.sensorPlacement,
+    this.isHistoricalData,
     required this.unit,
     Key? key,
   }) : super(key: key);
@@ -153,12 +155,15 @@ class _SensorPageState extends State<SensorPage> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(widget.sensorName??"SENSOR",
+                                  Text(widget.sensorName ?? "SENSOR",
                                       style: const TextStyle(
                                           fontSize: 25,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white)),
-                                  Text(widget.sensorPlacement=="placement" ? "": widget.sensorPlacement!,
+                                  Text(
+                                      widget.sensorPlacement == "placement"
+                                          ? ""
+                                          : widget.sensorPlacement!,
                                       style: const TextStyle(
                                           fontSize: 20,
                                           color: Color(0xFF5D467D),
@@ -167,22 +172,30 @@ class _SensorPageState extends State<SensorPage> {
                               ),
                             ),
                           ),
-                    Text(
-                      sensorValue.toString() + (widget.unit?? ""),
-                      style: const TextStyle(
-                        fontSize: 55,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    const Divider(
-                      color: Colors.white,
-                      height: 10,
-                      thickness: 2,
-                      indent: 30,
-                      endIndent: 30,
-                    ),
-                    const SizedBox(height: 15,),
+                    widget.isHistoricalData!.toUpperCase() == "TRUE"
+                        ? SizedBox()
+                        : Column(
+                            children: [
+                              Text(
+                                sensorValue.toString() + (widget.unit ?? ""),
+                                style: const TextStyle(
+                                  fontSize: 55,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              const Divider(
+                                color: Colors.white,
+                                height: 10,
+                                thickness: 2,
+                                indent: 30,
+                                endIndent: 30,
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                            ],
+                          ),
                     Stack(
                       children: [
                         Column(

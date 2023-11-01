@@ -65,6 +65,7 @@ class _HistoricalDataPageState extends State<HistoricalDataPage> {
                               listOfSensors[i].sensorDescription!,
                           missingDay: listOfSensors[i].missingDay,
                           sensorPlacement: listOfSensors[i].placement,
+                          sensorUnit: listOfSensors[i].unit,
                           themeColor: themeColors[i % 4],
                         ),
                   ],

@@ -81,6 +81,7 @@ class DashBoardPageState extends State<DashBoardPage> {
   @override
   //Widget presentation
   Widget build(BuildContext context) {
+    
     return BlocConsumer<PinTunnelBloc, PinTunnelState>(
       listener: (context, state) {
         if (state is UpdateSuccessState) {
@@ -110,6 +111,7 @@ class DashBoardPageState extends State<DashBoardPage> {
           appBar: const DashboardTopBarBurgerMenu(),
           backgroundColor: Theme.of(context).colorScheme.background,
           endDrawer: const DrawerMenuComponent(),
+          resizeToAvoidBottomInset: false,
           body: Stack(
             fit: StackFit.expand,
             children: [

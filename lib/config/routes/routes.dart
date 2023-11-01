@@ -121,7 +121,7 @@ GoRouter router = GoRouter(initialLocation: "/", routes: <GoRoute>[
         return CustomizeSensorPage(sensorId: sensorId!);
       }),
   GoRoute(
-      path: "/sensorPage/:id/:sensorName/:sensorPlacement/:unit",
+      path: "/sensorPage/:id/:sensorName/:sensorPlacement/:unit/:isHistoricalData",
       name: "sensorPage",
       builder: (BuildContext context, GoRouterState state) {
         return BlocProvider.value(
@@ -131,6 +131,7 @@ GoRouter router = GoRouter(initialLocation: "/", routes: <GoRoute>[
             sensorName: state.pathParameters['sensorName'],
             sensorPlacement: state.pathParameters['sensorPlacement'],
             unit: state.pathParameters['unit'],
+            isHistoricalData: state.pathParameters['isHistoricalData'],
           ),
         );
       }),

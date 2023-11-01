@@ -11,6 +11,7 @@ class HistoricalDataItem extends StatefulWidget {
   final String sensorDescription;
   final String? missingDay;
   final String? sensorPlacement;
+  final String? sensorUnit;
   final String themeColor;
 
   const HistoricalDataItem({
@@ -21,6 +22,7 @@ class HistoricalDataItem extends StatefulWidget {
     required this.sensorDescription,
     this.missingDay,
     this.sensorPlacement,
+    this.sensorUnit,
     required this.themeColor,
   });
 
@@ -58,17 +60,17 @@ class _HistoricalDataItemState extends State<HistoricalDataItem> {
   Widget build(BuildContext context) {
     return GestureDetector(
         child: Container(
-          height: 20,
-          width: 20,
           decoration: BoxDecoration(
             color: getColorFromThemeColor(widget.themeColor!, context),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(0,5,5,0),
+            padding: const EdgeInsets.fromLTRB(0, 5, 5, 0),
             child: Column(
               children: [
-                SizedBox(height: 5,),
+                SizedBox(
+                  height: 5,
+                ),
                 Row(
                   children: [
                     Container(
@@ -79,24 +81,46 @@ class _HistoricalDataItemState extends State<HistoricalDataItem> {
                     Expanded(
                       child: Column(
                         children: [
-                          Text(widget.sensorName == null
-                              ? ""
-                              : widget.sensorName!,style: TextStyle(fontSize: 16, color: Color(0xff5D467D))),
-                          Text(widget.sensorPlacement!, style: TextStyle(fontSize: 12, color: Color(0xff5D467D)),)
+                          Text(
+                              widget.sensorName == null
+                                  ? ""
+                                  : widget.sensorName!,
+                              style: TextStyle(
+                                  fontSize: 16, color: Color(0xff5D467D))),
+                          Text(
+                            widget.sensorPlacement!,
+                            style: TextStyle(
+                                fontSize: 12, color: Color(0xff5D467D)),
+                          )
                         ],
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 10,),
-                Text(missingDay != null ? ("Last active: ${missingDay.day}/${missingDay.month}") : "", style: TextStyle(fontSize: 14, color: Color(0xff5D467D)))
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                    missingDay != null
+                        ? ("Last active: ${missingDay.day}/${missingDay.month}")
+                        : "",
+                    style: TextStyle(fontSize: 14, color: Color(0xff5D467D)))
               ],
             ),
           ),
         ),
         onTap: () {
-          GoRouter.of(context).pushNamed("sensorPage",
-              pathParameters: {'id': widget.id.toString()});
+          GoRouter.of(context).pushNamed(
+            "sensorPage",
+            pathParameters: {
+              'id': widget.id.toString(),
+              'sensorName': widget.sensorName == "" ? "name" : widget.sensorName!,
+              'sensorPlacement':
+                      widget.sensorPlacement == "" ? 'placement' : widget.sensorPlacement!,
+              'unit': widget.sensorUnit??"unit",
+              'isHistoricalData': 'true'
+            },
+          );
         });
   }
 }

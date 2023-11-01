@@ -32,7 +32,9 @@ class GridItem extends StatefulWidget {
       this.themeColor,
       this.nickname,
       this.unit,
-      this.placement});
+      this.placement,
+      }
+  );
 
   @override
   State<GridItem> createState() => _GridItemState();
@@ -111,53 +113,56 @@ class _GridItemState extends State<GridItem> {
                       ],
                     ),
                   ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Container(
-                        width: 60,
-                        height: 70,
-                        child: widget.sensorName!
-                                .toUpperCase()
-                                .contains("TEMPERATURE")
-                            ? Image.asset('assets/temp_vector.png')
-                            : SizedBox(),
-                      ),
-                      Flexible(
-                        child: Column(
-                          children: [
-                            Wrap(
-                              //mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  latestValue.toString(),
-                                  style: const TextStyle(
-                                      fontSize: 35,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xFF5D467D)),
-                                ),
-                                Text(
-                                  widget.unit ?? "",
-                                  style: TextStyle(
-                                    fontSize: 30,
-                                    color: Color(0xFF5D467D)
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              widget.sensorName == null
-                                  ? ""
-                                  : widget.sensorName![0].toUpperCase() +
-                                      widget.sensorName!.substring(1),
-                              style: TextStyle(color:Color(0xFF5D467D)),
-                            ),
-                          ],
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0,0,8,0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                          width: 60,
+                          height: 70,
+                          child: widget.sensorName!
+                                  .toUpperCase()
+                                  .contains("TEMPERATURE")
+                              ? Image.asset('assets/temp_vector.png')
+                              : SizedBox(),
                         ),
-                      )
-                    ],
+                        Flexible(
+                          child: Column(
+                            children: [
+                              Wrap(
+                                //mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    latestValue.toString(),
+                                    style: const TextStyle(
+                                        fontSize: 35,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xFF5D467D)),
+                                  ),
+                                  Text(
+                                    widget.unit ?? "",
+                                    style: TextStyle(
+                                      fontSize: 30,
+                                      color: Color(0xFF5D467D)
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                widget.sensorName == null
+                                    ? ""
+                                    : widget.sensorName![0].toUpperCase() +
+                                        widget.sensorName!.substring(1),
+                                style: TextStyle(color:Color(0xFF5D467D)),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                   SizedBox(height: 15),
                   Padding(
@@ -180,7 +185,8 @@ class _GridItemState extends State<GridItem> {
                   'sensorName': widget.sensorName.toString(),
                   'sensorPlacement':
                       widget.placement == "" ? 'placement' : widget.placement!,
-                  'unit': widget.unit.toString()
+                  'unit': widget.unit.toString(),
+                  'isHistoricalData': 'false'
                 },
               );
             });

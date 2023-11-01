@@ -77,6 +77,7 @@ class _DashboardActuatorWidgetState extends State<DashboardActuatorWidget> {
                         sensorName: el.sensorName,
                         latestValue:
                             el.latestValue == null ? 0 : el.latestValue,
+                          
                       ),
                   AddNewDeviceWidget(),
                 ],
