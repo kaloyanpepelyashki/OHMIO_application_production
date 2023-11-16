@@ -28,10 +28,10 @@ class MQTTTEST extends StatefulWidget {
 }
 
 class _MQTTTESTState extends State<MQTTTEST> {
-  late String brokerUrl;
+  // late String brokerUrl;
   late String topic;
-  late int port;
-  late String clientIdentifier;
+  // late int port;
+  // late String clientIdentifier;
 
   late String authUser;
   late String authPassword;
@@ -47,19 +47,19 @@ class _MQTTTESTState extends State<MQTTTEST> {
   @override
   void initState() {
     super.initState();
-    brokerUrl = widget.brokerUrl;
+    // brokerUrl = widget.brokerUrl;
     topic = widget.topic;
-    port = widget.port;
-    clientIdentifier = widget.clientIdentifier;
+    // port = widget.port;
+    // clientIdentifier = widget.clientIdentifier;
     authUser = widget.authUser;
     authPassword = widget.authPass;
 
-    mqttManager = MqttManager(
-        brokerUrl: brokerUrl,
-        port: port,
-        clientIdentifier: clientIdentifier,
-        topic: topic,
-        listenForChanges: listenForMessages);
+    // mqttManager = MqttManager(
+    //     brokerUrl: brokerUrl,
+    //     port: port,
+    //     clientIdentifier: clientIdentifier,
+    //     topic: topic,
+    //     listenForChanges: listenForMessages);
 
     mqttManager.establishConnection(
         authUser: authUser, authPassword: authPassword);
